@@ -36,7 +36,7 @@
                                    name="email" placeholder="Email" value="{{ old('email') }}" required
                                    autocomplete="email">
                             <div class="input-group-append custom">
-                                <span class="input-group-text"><i class="icon-copy dw dw-user1"></i></span>
+                                <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
                             </div>
                             @error('email')
                             <span class="invalid-feedback" role="alert">

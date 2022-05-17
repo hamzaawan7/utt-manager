@@ -16,7 +16,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="input-group custom">
-                            <input type="email" id="email" name="email" value="{{ old('email') }}"
+                            <input type="email" id="email" name="email" value="{{ old('email')}}"
                                    class="form-control @error('email') is-invalid @enderror form-control-lg"
                                    placeholder="Email" autocomplete="email" autofocus>
                             @error('email')
