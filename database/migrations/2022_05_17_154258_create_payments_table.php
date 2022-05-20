@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Enums\Breakdown;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Enum\Breakdown;
 
-class CreatePaymentDetailsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreatePaymentDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_details', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->string('total_price');
             $table->enum('price_breakdown', [
@@ -47,6 +47,6 @@ class CreatePaymentDetailsTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_details');
+        Schema::dropIfExists('payments');
     }
 }

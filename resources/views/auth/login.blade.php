@@ -12,7 +12,7 @@
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="brand-logo">
             <a href="{{route('login')}}">
-                <img src="{{asset('vendors/images/favicon-32x32.png')}}" alt="">
+                <img src="{{asset('admin-dashboard-layout/images/favicon-32x32.png')}}" alt="">
             </a>
         </div>
     </div>
@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 col-lg-7">
-                <img src="{{asset('vendors/images/login-page-img.png')}}" alt="">
+                <img src="{{asset('admin-dashboard-layout/images/login-page-img.png')}}" alt="">
             </div>
             <div class="col-md-6 col-lg-5">
                 <div class="login-box bg-white box-shadow border-radius-10">

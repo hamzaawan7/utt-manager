@@ -1,10 +1,9 @@
 @role('super-admin')
-@else
 <div class="left-side-bar">
     <div class="brand-logo">
         <a href="index.html">
             <img src="{{asset('vendors/images/favicon-32x32.png')}}" alt="" class="dark-logo">
-            <img src="{{asset('vendors/images/favicon-32x32.png')}}" alt="" class="light-logo">UTT-MANAGER
+            <img src="{{asset('admin-dashboard-layout/images/favicon-32x32.png')}}" alt="" class="light-logo">UTT-MANAGER
         </a>
         <div class="close-sidebar" data-toggle="left-sidebar-close">
             <i class="ion-close-round"></i>
@@ -49,7 +48,7 @@
                     </a>
                     <ul class="submenu">
                         <li><a href="basic-table.html">Properties Manager</a></li>
-                        <li><a href="datatable.html">Categories</a></li>
+                        <li><a href="{{route('propert-category-list')}}">Categories</a></li>
                         <li><a href="datatable.html">FEATURES</a></li>
                         <li><a href="datatable.html">REVIEWS MANAGER</a></li>
                     </ul>

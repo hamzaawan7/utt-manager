@@ -7,6 +7,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Booking;
+
+/**
+ * Class User
+ * @package App\Models
+ * @property string name
+ * @property string last_name
+ * @property string email
+ * @property string password
+ * @property string phone
+ * @property string address
+ * @property string city
+ * @property string post_code
+ * @property string country
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory,HasRoles, Notifiable;
@@ -18,8 +34,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'phone',
+        'address',
+        'city',
+        'post_code',
+        'country',
     ];
 
     /**
@@ -40,4 +62,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return mixed
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

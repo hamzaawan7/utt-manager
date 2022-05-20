@@ -8,6 +8,6 @@ class Breakdown
     const BOOKING_FEE   = 300;
     const BOOKING       = 200;
     const PROTECT_FEE   = 250;
-    const CHARITY       = 100;
+    const CHARITY       = 150;
     const DONATIONS     = 100;
 }

@@ -16,11 +16,9 @@ class CreatePriceCategoriesTable extends Migration
         Schema::create('price_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category');
-            $table->foreignId('price_id')->nullable();
 
             $table->timestamps();
-
-            $table->foreign('price_id')->references('id')->on('prices');
+            
         });
     }
 

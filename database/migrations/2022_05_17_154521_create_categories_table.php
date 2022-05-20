@@ -16,11 +16,8 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');
-            $table->foreignId('property_id')->nullable();
 
             $table->timestamps();
-
-            $table->foreign('property_id')->references('id')->on('properties');
         });
     }
 

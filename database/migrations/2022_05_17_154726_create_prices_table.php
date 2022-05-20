@@ -15,11 +15,17 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->string('range');
             $table->foreignId('property_id')->nullable();
+            $table->foreignId('category_id')->nullable();
+            $table->foreignId('season_id')->nullable();
+            $table->string('range');
+            $table->string('price');
+
             $table->timestamps();
 
             $table->foreign('property_id')->references('id')->on('properties');
+            $table->foreign('category_id')->references('id')->on('price_categories');
+            $table->foreign('season_id')->references('id')->on('price_seasons');
         });
     }
 

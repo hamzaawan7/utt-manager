@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 class CreatePropertiesTable extends Migration
 {
     /**
@@ -23,7 +24,11 @@ class CreatePropertiesTable extends Migration
             $table->string('nearby');
             $table->string('main_image');
             $table->string('image_gallery');
+            $table->foreignId('category_id')->nullable();
+
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

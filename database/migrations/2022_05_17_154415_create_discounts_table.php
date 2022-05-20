@@ -20,8 +20,8 @@ class CreateDiscountsTable extends Migration
             $table->string('notice');
             $table->string('code');
             $table->string('code_type');
-            $table->timestamp('to_date');
             $table->timestamp('from_date');
+            $table->timestamp('to_date');
             $table->string('reason_for_creating');
             $table->foreignId('property_id')->nullable();
 
