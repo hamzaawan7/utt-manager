@@ -1,6 +1,5 @@
 <?php
 namespace App\Repositories;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Interface PropertyCategoryRepositoryInterface
@@ -19,7 +18,7 @@ interface PropertyCategoryRepositoryInterface
      * @return mixed
      */
     public function edit(int $id);
-
+    
     /**
      * @return mixed
      */

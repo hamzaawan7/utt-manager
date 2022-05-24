@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PropertyCategorySaveRequest extends FormRequest
+class PriceSeasonSaveRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,12 +15,9 @@ class PropertyCategorySaveRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'standard_guests' => 'required',
-            'minimum_guest' => 'required',
-            'room_layouts' => 'required',
-            'childs' => 'required',
-            'infants' => 'required',
-            'pets' => 'required',
+            'type' => 'required',
+            'from_date' => 'required',
+            'to_date' => 'required',
         ];
     }
 }

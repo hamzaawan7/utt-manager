@@ -36,8 +36,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        /*$user = Auth::user();
-        $permissions = $user->getAllPermissions();*/
+        $user = Auth::user();
+        $permissions = $user->getAllPermissions();
 
         return view('dashboard');
     }

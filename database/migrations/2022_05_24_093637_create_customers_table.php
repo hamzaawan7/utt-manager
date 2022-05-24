@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-
-class CreatePropertiesTable extends Migration
+class CreateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +13,20 @@ class CreatePropertiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('properties', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->nullable();
-            $table->string('name');
-            $table->string('short_code');
+            $table->string('username');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email');
             $table->string('phone');
             $table->string('address');
             $table->string('post_code');
-            $table->string('special_category');
-            $table->string('utt_star_rating');
-            $table->string('is_visible');
+            $table->string('city');
+            $table->string('country');
 
             $table->timestamps();
 
-            $table->foreign('owner_id')->references('id')->on('owners');
         });
     }
 
@@ -39,6 +37,6 @@ class CreatePropertiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('customers');
     }
 }

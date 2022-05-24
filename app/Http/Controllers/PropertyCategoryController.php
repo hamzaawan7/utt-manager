@@ -9,9 +9,13 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 
-
+/**
+ * Class PropertyCategoryController
+ * @package App\Http\Controllers
+ */
 class PropertyCategoryController extends Controller
 {
     /** @var PropertyCategoryRepositoryInterface $propertyCategoryRepository */
@@ -29,8 +33,9 @@ class PropertyCategoryController extends Controller
     {   
         $categoryList = $this->propertyCategoryRepository->all();
 
-        return view('property-category.property_category_list',compact('categoryList'));
+        return view('property.category_list',compact('categoryList'));
     }
+
     /**
      * @param PropertyCategorySaveRequest $request
      * @return JsonResponse
@@ -42,7 +47,7 @@ class PropertyCategoryController extends Controller
             return response()->json($category);
         }
 
-        return response()->json("Some Error Your Request");
+        return response()->json("Error Your Request");
     }
 
     /**
@@ -54,17 +59,32 @@ class PropertyCategoryController extends Controller
         $category = $this->propertyCategoryRepository->edit($id);
 
         return response()->json($category);
+
+    }
+
+    /**
+     * @param PropertyCategorySaveRequest $request
+     * @return RedirectResponse
+     */
+    public function update(PropertyCategorySaveRequest $request): RedirectResponse
+    {
+       $response = $this->propertyCategoryRepository->update($request->input());
+        if ($response) {
+            return redirect()->route('propert-category-list')->with('message','Data Updated Successfully');
+        }
+
+        return redirect()->route('propert-category-list')->with('error','Error While Update Data');
     }
 
     /**
      * @param $id
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function delete($id): JsonResponse
+    public function delete($id): RedirectResponse
     {
-       $this->propertyCategoryRepository->delete($id);
+        $this->propertyCategoryRepository->delete($id);
 
-       return response()->json("Data Deleeted Successfully");
+        return redirect()->route('propert-category-list')->with('message','Data Deleted Successfully');
     }
 
 }

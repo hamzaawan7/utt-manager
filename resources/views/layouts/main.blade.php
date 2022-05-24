@@ -71,7 +71,10 @@
 <script src="{{asset('admin-dashboard-layout/scripts/steps-setting.js')}}"></script>
 <script src="{{asset('admin-dashboard-layout/scripts/layout-settings.js')}}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{--<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>--}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="{{asset('src/js/script.js')}}"></script>
+@include('flash_message')
 
 </body>
 </html>

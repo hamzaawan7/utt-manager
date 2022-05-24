@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Property;
 
 /**
- * Class Property
+ * Class Category
  * @package App\Models
  * @property string category_name
+ * @property string standard_guests
+ * @property string minimum_guest
+ * @property string room_layout
+ * @property string childs
+ * @property string infants
+ * @property string pets
  */
 class Category extends Model
 {
@@ -20,7 +26,13 @@ class Category extends Model
      * @var string[]
      */
     protected $fillable = [
-        'category_name',
+        'name',
+        'standard_guests',
+        'minimum_guest',
+        'room_layout',
+        'childs',
+        'infants',
+        'pets',
     ];
 
     /**

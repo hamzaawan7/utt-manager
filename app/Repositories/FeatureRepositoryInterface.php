@@ -2,17 +2,13 @@
 
 namespace App\Repositories;
 
-/**
- * Interface UserRepositoryInterface
- * @package App\Repositories
- */
-interface UserRepositoryInterface
+interface FeatureRepositoryInterface
 {
-
     /**
-     * @return mixed
+     * @param $data
+     * @return string
      */
-    public function save($data);
+    public function save($data): string;
 
     /**
      * @param int $id
@@ -21,12 +17,12 @@ interface UserRepositoryInterface
     public function edit(int $id);
 
     /**
-     * @return void
+     * @return mixed
      */
     public function all();
 
     /**
-     * @return void
+     * @return mixed
      */
     public function get();
 
@@ -35,4 +31,5 @@ interface UserRepositoryInterface
      * @return mixed
      */
     public function delete(int $id);
+
 }

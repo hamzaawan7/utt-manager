@@ -15,8 +15,6 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
-            $table->foreignId('property_id')->nullable();
             $table->string('number');
             $table->timestamp('from_date');
             $table->timestamp('to_date');
@@ -31,8 +29,6 @@ class CreateBookingsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('property_id')->references('id')->on('properties');
         });
 
     }

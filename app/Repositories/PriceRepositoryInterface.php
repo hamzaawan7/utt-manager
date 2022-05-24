@@ -2,13 +2,8 @@
 
 namespace App\Repositories;
 
-/**
- * Interface UserRepositoryInterface
- * @package App\Repositories
- */
-interface UserRepositoryInterface
+interface PriceRepositoryInterface
 {
-
     /**
      * @return mixed
      */
@@ -19,6 +14,12 @@ interface UserRepositoryInterface
      * @return mixed
      */
     public function edit(int $id);
+
+    /**
+     * @param $data
+     * @return string
+     */
+    public function update($data): string;
 
     /**
      * @return void
@@ -32,7 +33,7 @@ interface UserRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id);
+    public function delete(int $id): string;
 }

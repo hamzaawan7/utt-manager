@@ -15,11 +15,11 @@ class CreatePropertyFeaturesTable extends Migration
     {
         Schema::create('property_features', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('property_id')->nullable();
+            $table->foreignId('feature_id');
 
             $table->timestamps();
-            $table->foreign('property_id')->references('id')->on('properties');
+            
+            $table->foreign('feature_id')->references('id')->on('features');
         });
     }
 

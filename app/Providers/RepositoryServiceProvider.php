@@ -7,6 +7,14 @@ use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\Eloquent\PropertyCategoryRepository;
 use App\Repositories\UserRepositoryInterface;
 use App\Repositories\Eloquent\UserRepository;
+use App\Repositories\Eloquent\PriceCategoryRepository;
+use App\Repositories\PriceCategoryRepositoryInterface;
+use App\Repositories\PriceSeasonRepositoryInterface;
+use App\Repositories\Eloquent\PriceSeasonRepository;
+use App\Repositories\PriceRepositoryInterface;
+use App\Repositories\Eloquent\PriceRepository;
+use App\Repositories\FeatureRepositoryInterface;
+use App\Repositories\Eloquent\FeatureRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -19,6 +27,10 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(PropertyCategoryRepositoryInterface::class, PropertyCategoryRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(PriceCategoryRepositoryInterface::class, PriceCategoryRepository::class);
+        $this->app->bind(PriceSeasonRepositoryInterface::class, PriceSeasonRepository::class);
+        $this->app->bind(PriceRepositoryInterface::class, PriceRepository::class);
+        $this->app->bind(FeatureRepositoryInterface::class, FeatureRepository::class);
     }
 
     /**
