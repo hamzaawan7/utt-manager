@@ -24,7 +24,7 @@ class CreatePropertiesTable extends Migration
             $table->string('post_code');
             $table->string('special_category');
             $table->string('utt_star_rating');
-            $table->string('is_visible');
+            $table->integer('is_visible');
 
             $table->timestamps();
 

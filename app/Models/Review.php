@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Property;
 
 /**
- * Class Property
+ * Class Review
  * @package App\Models
- * @property string user_email
- * @property string comments
- * @property string publish
- * @property integer property_id
+ * @property string review_id
+ * @property string comment
+ * @property string star_rating
+ * @property string is_accept
+ * @property string is_show
  */
 class Review extends Model
 {
@@ -23,17 +24,11 @@ class Review extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_email',
-        'comments',
-        'publish',
-        'property_id',
+        'review_id',
+        'comment',
+        'star_rating',
+        'is_accept',
+        'is_show',
         ];
 
-    /**
-     * @return BelongsTo
-     */
-    public function property(): BelongsTo
-    {
-        return $this->belongsTo(Property::class);
-    }
 }

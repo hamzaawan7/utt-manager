@@ -8,23 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Category;
-use App\Models\Review;
-use App\Models\PropertyFeature;
-use App\Models\Price;
-use App\Models\PriceCategory;
+use App\Models\Feature;
+use App\Models\PropertyImage;
+use App\Models\NearbyProperty;
 
 /**
  * Class Property
  * @package App\Models
- * @property string property_name
+ * @property string name
  * @property string short_code
  * @property string phone
- * @property integer address
- * @property integer post_code
- * @property string nearby
- * @property integer main_image
- * @property integer image_gallery
- * @property integer category_id
+ * @property string address
+ * @property string post_code
+ * @property string special_category
+ * @property string utt_star_rating
+ * @property integer is_visible
  */
 class Property extends Model
 {
@@ -34,79 +32,46 @@ class Property extends Model
      * @var string[]
      */
     protected $fillable = [
-        'property_name',
-        'category_id',
+        'owner_id',
+        'name',
         'short_code',
         'phone',
         'address',
         'post_code',
-        'nearby',
-        'main_image',
-        'image_gallery',
+        'special_category',
+        'utt_star_rating',
+        'is_visible',
     ];
 
     /**
-     * @return HasOne
+     * @return mixed
      */
-    public function bookings(): HasOne
+    public function categories()
     {
-        return $this->hasOne(Booking::class);
+        return $this->belongsToMany(Category::class);
     }
 
     /**
-     * @return HasOne
+     * @return mixed
      */
-    public function priceCategory(): HasOne
+    public function features()
     {
-        return $this->hasOne(PriceCategory::class);
+        return $this->belongsToMany(Feature::class);
     }
 
     /**
-     * @return BelongsTo
+     * @return mixed
      */
-    public function discount(): BelongsTo
+    public function images()
     {
-        return $this->belongsTo(Discount::class);
+        return $this->hasMany(PropertyImage::class);
     }
 
     /**
-     * @return HasMany
+     * @return mixed
      */
-    public function category(): HasMany
+    public function nearbyProperties()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(NearbyProperty::class);
     }
-
-    /**
-     * @return HasMany
-     */
-    public function features(): HasMany
-    {
-        return $this->hasMany(PropertyFeature::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function reviews(): HasMany
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function prices(): HasMany
-    {
-        return $this->hasMany(Price::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function priceCategories(): HasMany
-    {
-        return $this->hasMany(Price::class);
-    }
-
 }

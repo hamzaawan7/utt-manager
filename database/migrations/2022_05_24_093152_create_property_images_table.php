@@ -16,8 +16,7 @@ class CreatePropertyImagesTable extends Migration
         Schema::create('property_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id');
-            $table->string('image');
-            $table->string('is_main');
+            $table->string('images');
 
             $table->timestamps();
 

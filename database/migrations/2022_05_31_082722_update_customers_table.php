@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePropertyFeaturesTable extends Migration
+class UpdateCustomersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreatePropertyFeaturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_features', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('feature_id');
+        Schema::table('customers', function (Blueprint $table) {
+            $table->foreignId('user_id')->nullable()->after('id');
 
-            $table->timestamps();
-            
-            $table->foreign('feature_id')->references('id')->on('features');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -30,6 +27,8 @@ class CreatePropertyFeaturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_features');
+        Schema::table('customers', function (Blueprint $table) {
+            //
+        });
     }
 }

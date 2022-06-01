@@ -24,12 +24,5 @@ class PropertyFeature extends Model
         'name',
         'property_id',
     ];
-    /**
-     * @return BelongsTo
-     */
-    public function property(): BelongsTo
-    {
-        return $this->belongsTo(Property::class);
-    }
 
 }

@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PropertyImages extends Model
+class FeatureProperty extends Model
 {
     use HasFactory;
+
+    protected $table = 'feature_property';
 }

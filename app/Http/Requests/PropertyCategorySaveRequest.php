@@ -3,25 +3,41 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 
 class PropertyCategorySaveRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'category_name' => 'required',
             'standard_guests' => 'required',
             'minimum_guest' => 'required',
             'room_layouts' => 'required',
             'childs' => 'required',
             'infants' => 'required',
             'pets' => 'required',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'category_name.required' => 'This field is reuired',
+            'standard_guests.required' => 'This field is reuired',
+            'minimum_guest.required' => 'This field is reuired',
+            'room_layouts.required' => 'This field is reuired',
+            'childs.required' => 'This field is reuired',
+            'infants.required' => 'This field is reuired',
+            'pets.required' => 'This field is reuired',
         ];
     }
 }

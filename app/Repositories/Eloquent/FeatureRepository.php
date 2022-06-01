@@ -4,6 +4,8 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Models\Feature;
 use Illuminate\Support\Carbon;
+use DataTables;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class FeatureRepository
@@ -25,14 +27,14 @@ class FeatureRepository implements FeatureRepositoryInterface
     {
         if(!is_null($data['feature_id'])) {
             try {
-                $category                 = $this->feature::find($data['feature_id']);
-                $category->feature_name   = $data['feature_name'];
+                $feature                 = $this->feature::find($data['feature_id']);
+                $feature->feature_name   = $data['feature_name'];
                 $checkIn                  = Carbon::parse($data['check_in_time']);
                 $checkOut                 = Carbon::parse($data['check_out_time']);
-                $category->check_in_time  = $checkIn->format('Y-m-d H:i:s');
-                $category->check_out_time = $checkOut->format('Y-m-d H:i:s');
-                $category->minimum_nights = $data['minimum_nights'];
-                $category->update();
+                $feature->check_in_time  = $checkIn->format('Y-m-d H:i:s');
+                $feature->check_out_time = $checkOut->format('Y-m-d H:i:s');
+                $feature->minimum_nights = $data['minimum_nights'];
+                $feature->update();
 
                 return 'Data update successfully.';
             } catch (\Exception $e){
@@ -41,14 +43,15 @@ class FeatureRepository implements FeatureRepositoryInterface
 
         }else{
             try{
-                $category                 = new $this->feature;
-                $category->feature_name   = $data['feature_name'];
-                $checkIn                  =  Carbon::parse($data['check_in_time']);
-                $checkOut                 = Carbon::parse($data['check_out_time']);
-                $category->check_in_time  = $checkIn->format('Y-m-d H:i:s');
-                $category->check_out_time = $checkOut->format('Y-m-d H:i:s');
-                $category->minimum_nights = $data['minimum_nights'];
-                $category->save();
+                $feature                 = new $this->feature;
+                $feature->feature_name   = $data['feature_name'];
+                $checkIn                  = date('Y-m-d H:i:s',strtotime($data['check_in_time']));
+                $checkOut                 = date('Y-m-d H:i:s',strtotime($data['check_out_time']));
+                $feature->check_in_time  = $checkIn;
+                $feature->check_out_time = $checkOut;
+                $feature->minimum_nights = $data['minimum_nights'];
+                $feature->save();
+
                 return "Data Save Successfully";
             }catch (\Exception $e){
                 return $e->getMessage();
@@ -62,7 +65,7 @@ class FeatureRepository implements FeatureRepositoryInterface
      */
     public function edit(int $id)
     {
-        return $this->feature::where('id', $id)->first();
+      return $this->feature::select("*",DB::raw("DATE_FORMAT(check_in_time, '%d-%b-%Y') as checkInTime"),DB::raw("DATE_FORMAT(check_out_time, '%d-%b-%Y') as checkOutTime"))->where('id', $id)->first();
     }
 
     /**
@@ -88,7 +91,7 @@ class FeatureRepository implements FeatureRepositoryInterface
     public function delete(int $id)
     {
         try {
-            $this->feature::where('id',$id)->delete();
+            $this->feature->find($id)->delete();
 
             return "Data Deleted Successfully";
         }catch (\Exception $e){

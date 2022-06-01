@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class NearbyProperty extends Model
 {
     use HasFactory;
+    
+    
 }

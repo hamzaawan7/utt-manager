@@ -24,10 +24,10 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      */
     public function save($data): string
     {
-        if(!is_null($data['cat_id'])) {
+        if(!is_null($data['general_id'])) {
             try {
-                $category = $this->propertyCategory::find($data['cat_id']);
-                $category->name = $data['name'];
+                $category = $this->propertyCategory::find($data['general_id']);
+                $category->category_name = $data['category_name'];
                 $category->standard_guests = $data['standard_guests'];
                 $category->minimum_guest = $data['minimum_guest'];
                 $category->room_layouts = $data['room_layouts'];
@@ -35,8 +35,7 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
                 $category->infants = $data['infants'];
                 $category->pets = $data['pets'];
                 $category->update();
-
-                return 'Data update successfully.';
+                return "Data Update Successfully";
             } catch (\Exception $e){
                 return $e->getMessage();
             }
@@ -44,7 +43,7 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
         }else{
             try{
                 $category = new $this->propertyCategory;
-                $category->name = $data['name'];
+                $category->category_name = $data['category_name'];
                 $category->standard_guests = $data['standard_guests'];
                 $category->minimum_guest = $data['minimum_guest'];
                 $category->room_layouts = $data['room_layouts'];
@@ -66,23 +65,6 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     public function edit(int $id)
     {
         return $this->propertyCategory::where('id', $id)->first();
-    }
-
-    /**
-     * @param $data
-     * @return string
-     */
-    public function update($data): string
-    {
-        try{
-            $category = $this->propertyCategory::where('id', intval($data['category_id']))->first();
-            $category->category_name = $data['category_name'];
-            $category->update();
-
-            return $category;
-        }catch (\Exception $e){
-            return $e->getMessage();
-        }
     }
 
     /**
@@ -108,7 +90,9 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     public function delete(int $id)
     {
         try {
-            return $this->propertyCategory::where('id',$id)->delete();
+             $this->propertyCategory::where('id',$id)->delete();
+
+             return "Data Deleted Successfully";
         }catch (\Exception $e){
             return $e->getMessage();
         }

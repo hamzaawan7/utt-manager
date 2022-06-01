@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('category_name');
             $table->string('standard_guests');
             $table->string('minimum_guest');
             $table->enum('room_layouts', [

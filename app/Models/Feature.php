@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Property;
 
 /**
  * Class Feature
@@ -30,4 +31,12 @@ class Feature extends Model
         'check_in_time' => 'date:hh:mm',
         'check_out_time' => 'date:hh:mm'
     ];
+
+    /**
+     * @return mixed
+     */
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class);
+    }
 }

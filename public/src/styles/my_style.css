@@ -1,0 +1,22 @@
+span.close_icon {
+    color: red;
+}
+
+span.close_icon {
+    color: red;
+    position: absolute;
+    left: 43%;
+    top: 30%;
+    opacity: 0;
+}
+.multi_images_main {
+    display: flex;
+    margin-bottom: 20px;
+}
+.image_div {
+    position: relative;
+    padding: 3px;
+}
+.image_div.col-lg-2:hover .close_icon {
+    opacity: 1 !important;
+}

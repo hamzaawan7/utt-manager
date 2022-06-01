@@ -18,16 +18,16 @@
                             <span class="micon dw dw-house-1"></span><span class="mtext">Dashbord</span>
                         </a>
                     </li>
-                    @role('admin')
+                    @role('owner')
                     @else
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
                                 <span class="micon dw dw-edit2"></span><span class="mtext">User Manager</span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="form-basic.html">Role</a></li>
-                                <li><a href="advanced-components.html">Permission</a></li>
+                                <li><a href="{{route('owner-list')}}">Owner List</a></li>
                                 <li><a href="{{route('user-list')}}">User List</a></li>
+                                <li><a href="{{route('customer-list')}}">Customer List</a></li>
                             </ul>
                         </li>
                         @endrole
@@ -48,10 +48,10 @@
                                 <span class="micon dw dw-library"></span><span class="mtext">Properties</span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="#">Properties Manager</a></li>
+                                <li><a href="{{route('property-list')}}">Properties Manager</a></li>
                                 <li><a href="{{route('propert-category-list')}}">Categories</a></li>
                                 <li><a href="{{route('feature-list')}}">FEATURES</a></li>
-                                <li><a href="datatable.html">REVIEWS MANAGER</a></li>
+                                <li><a href="{{route('review-list')}}">REVIEWS MANAGER</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

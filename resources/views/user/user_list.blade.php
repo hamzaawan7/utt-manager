@@ -16,9 +16,6 @@
             <div class="col-md-4 col-sm-4>
                     <div class=" modal-dialog modal-dialog-centered modal-dialog-scrollable
             ">
-            <a href="#" class="btn-block" data-toggle="modal" data-target="#category" type="button">
-                <button class="btn btn-info">Add User</button>
-            </a>
         </div>
 
         <div class="col-md-4 col-sm-4>
@@ -35,7 +32,9 @@
 
 <div class="card-box mb-30">
     <div class="pd-20">
-        <h3 class="text-black h3">User List</h3>
+        <a href="#" data-toggle="modal" data-target="#user-modal" class="reset_user">
+            <button class="btn btn-info">Add User</button>
+        </a>
     </div>
     <div class="pb-20">
         <table id="" class="data-table table stripe hover nowrap">
@@ -66,7 +65,7 @@
                             <i class="dw dw-more"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                            <a class="dropdown-item" href="#" onclick="editUserRole('{{$user->id}}')">
+                            <a class="dropdown-item" href="#" onclick="editUser('{{$user->id}}')">
                                 <i class="dw dw-edit2"></i> Edit
                             </a>
                             <a class="dropdown-item" href="#"

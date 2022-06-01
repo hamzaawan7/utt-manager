@@ -5,6 +5,8 @@ use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use App\Models\Owner;
+use App\Models\Customer;
 
 /**
  * Class UserRepository
@@ -12,10 +14,20 @@ use App\Models\User;
  */
 class UserRepository implements UserRepositoryInterface
 {
-    /** @var User $user */
-    public function __construct(User  $user)
+    /**
+     * @param Owner $owner
+     * @param Customer $customer
+     * @var User $user
+     */
+    public function __construct(
+        User      $user,
+        Owner    $owner,
+        Customer $customer
+    )
     {
         $this->user = $user;
+        $this->owner = $owner;
+        $this->customer = $customer;
     }
     /**
      * @param $data
@@ -27,10 +39,7 @@ class UserRepository implements UserRepositoryInterface
             try {
                 $user = $this->user::find($data['user_id']);
                 $user->name     = $data['name'];
-                $user->last_name    = $data['last_name'];
                 $user->email    = $data['email'];
-                $user->city    = $data['city'];
-                $user->country    = $data['country'];
                 $user->update();
                 $user->syncRoles($data['role']);
 
@@ -40,23 +49,17 @@ class UserRepository implements UserRepositoryInterface
             }
         }else{
             try {
-                $user = new $this->user;
-                $user->name     = $data['name'];
-                $user->last_name    = $data['last_name'];
-                $user->email    = $data['email'];
-                $user->password    = $data['password'];
-                $user->city    = $data['city'];
-                $user->country    = $data['country'];
+                $user                = new $this->user;
+                $user->name          = $data['name'];
+                $user->email         = $data['email'];
+                $user->password      = Hash::make($data['password']);
                 $user->save();
                 $user->syncRoles($data['role']);
-
                 return "Data Inserted Successfully";
             }catch (\Exception $e){
                 return $e->getMessage();
             }
-
         }
-
     }
 
     /**
@@ -65,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function edit(int $id)
     {
-        return $this->user::where('id',$id)->first();
+        return $this->user->where('id',$id)->first();
     }
 
     /**
@@ -73,7 +76,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function all()
     {
-        return $this->user::orderBy('id','DESC')->paginate(10);
+        return $this->user->orderBy('id','DESC')->paginate(10);
     }
 
     /**

@@ -36,18 +36,10 @@ class Category extends Model
     ];
 
     /**
-     * @return BelongsTo
+     * @return mixed
      */
-    public function discount(): BelongsTo
+    public function properties()
     {
-        return $this->belongsTo(Property::class);
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function property(): BelongsTo
-    {
-        return $this->belongsTo(Property::class);
+        return $this->belongsToMany(Property::class);
     }
 }

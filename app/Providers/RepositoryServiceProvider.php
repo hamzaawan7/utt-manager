@@ -15,6 +15,14 @@ use App\Repositories\PriceRepositoryInterface;
 use App\Repositories\Eloquent\PriceRepository;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Repositories\Eloquent\FeatureRepository;
+use App\Repositories\Eloquent\PropertyRepository;
+use App\Repositories\PropertyRepositoryInterface;
+use App\Repositories\OwnerRepositoryInterface;
+use App\Repositories\Eloquent\OwnerRepository;
+use App\Repositories\Eloquent\ReviewRepository;
+use App\Repositories\ReviewRepositoryInterface;
+use App\Repositories\CustomerRepositoryInterface;
+use App\Repositories\Eloquent\CustomerRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -31,6 +39,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PriceSeasonRepositoryInterface::class, PriceSeasonRepository::class);
         $this->app->bind(PriceRepositoryInterface::class, PriceRepository::class);
         $this->app->bind(FeatureRepositoryInterface::class, FeatureRepository::class);
+        $this->app->bind(PropertyRepositoryInterface::class, PropertyRepository::class);
+        $this->app->bind(OwnerRepositoryInterface::class, OwnerRepository::class);
+        $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
+        $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
     }
 
     /**
