@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Repositories;
+use voku\helper\ASCII;
+
 /**
  * Interface CustomerRepositoryInterface
  * @package App\Repositories
@@ -9,9 +11,9 @@ interface CustomerRepositoryInterface
 {
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string;
+    public function save($data);
 
     /**
      * @param int $id

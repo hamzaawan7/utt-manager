@@ -22,7 +22,7 @@ function addProperty() {
     var data =   new FormData($('#general-form')[0]); //$("#general-form").serialize();
     var url = $("#general-form").attr('action');
     var type = $("#general-form").attr('method');
-    console.log(data)
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -37,8 +37,7 @@ function addProperty() {
         cache: false,
         processData: false,
         success: function (response) {
-            console.log(response)
-            if (response.status == '200'){
+            if (response.status === '200') {
                 $('#property-modal').modal('hide');
                 getProperty();
                 toastr.success(''+response.message+'', 'Success');
@@ -55,53 +54,48 @@ function addProperty() {
 //Edit Property Function
 function editProperty(url) {
     $('#myLargeModalLabel').html('Update Property');
-    var url = url;
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            console.log(response)
-            if (response.is_visible == '1'){
+            if (response.is_visible === '1'){
                 $( "#is_visible" ).prop( "checked", true );
             }
             $('.multi_images_main').html('');
-            var cat = [];
+            var category = [];
             $('#category_names').select2('val',response.id);
             $.each(response.categories, function( index, value ) {
-                console.log(value)
-                cat.push(value.id)
+                category.push(value.id);
             });
-            console.log(cat)
-            $('#category_names').val(cat).trigger('change');
+
+            $('#category_names').val(category).trigger('change');
             $('#feature_name').val(response.feature_name).trigger('change');
             $('#nearby_property').val(response.nearby_property_id).trigger('change');
+
             $.each(response, function( index, value ) {
-
-                if(index != 'main_image' &&  index != 'images' )
-                {
-                    $('#'+index).val(value);
-                    $('#general_id').val(response.id);
+                if(index !== 'main_image' &&  index !== 'images' ) {
+                     $('#'+index).val(value);
+                     $('#general_id').val(response.id);
                 }
-
             });
+
             var html='';
             var mainImage='';
             var bas_url=$('#general-form').attr('base_path');
-            console.log(bas_url)
-            $.each(response.images, function( index, value ) {
 
+            $.each(response.images, function( index, value ) {
                 html+=' <div class="image_div col-lg-2" id="'+value.id+'">\n' +
                     '     <img src="'+bas_url+'/images/multiple/'+value.images+'" width="150px">\n' +
                     '     <span class="close_icon delete-images"><i class="icon-copy fa fa-trash fa-2x" aria-hidden="true"></i></span>\n' +
                     '   </div>';
             });
-             mainImage+=' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
+
+            mainImage+=' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
                 ' <img src="'+bas_url+'/images/main/'+response.main_image+'" width="200px">\n' +
                 ' </div>';
 
             $('.multi_images_main').html(html);
             $('.main-images').html(mainImage);
-            console.log(html)
             $('#property-modal').modal('show');
         }
     });
@@ -110,7 +104,6 @@ function editProperty(url) {
 
 //Delete Property propertyDelete
 function propertyDelete(url) {
-    var url = url;
     Swal.fire({
         title: 'Are you sure?',
         text:'Record will be deleted.?',
@@ -120,19 +113,18 @@ function propertyDelete(url) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
-    }).then((result) =>{
+    }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    console.log(response)
                     getProperty();
                     toastr.success(''+response+'', 'Success');
                 }
             });
         }
-    })
+    });
 }
 
 //Get Property Data In DataTable
@@ -140,7 +132,7 @@ getProperty();
 function getProperty()
 {
     $(".get_property").DataTable().clear().destroy();
-    var table = $('.get_property').DataTable({
+    return $('.get_property').DataTable({
         processing: true,
         serverSide: true,
         ajax: "/property/get",
@@ -182,14 +174,17 @@ $('.reset-customer-form').click( function (){
 $('.reset_owner').click( function (){
     $("#owner-form")[0].reset();
 });
+
 //Empty Property Category Form
 $('.reset_category').click( function (){
     $("#property_category")[0].reset();
 });
+
 //Empty Feature Form
 $('.reset_feature').click( function (){
     $("#property_feature")[0].reset();
 });
+
 //Empty User Form
 $('.reset_user').click( function (){
     $("#user_form")[0].reset();
@@ -201,9 +196,7 @@ $('#proprty-button').click( function (){
 
 
 //Multi Select Restrict
-
 $(document).ready(function() {
-
     $("#nearby_property").select2({
         maximumSelectionLength: 3
     });
@@ -218,26 +211,20 @@ $(document).on("click", ".delete-images" , function() {
         url: url,
         method: 'get',
         success: function (response) {
-            if(response.status == 200)
-            {
+            if(response.status === 200) {
                 parentDiv.remove();
                 toastr.success(''+response.message+'', 'Success');
             }
-            console.log(response)
-
         }
     });
 });
 
-//End
-
 //Add Or Update Property Category
-
 function addCategory() {
-
     var data =  $("#property_category").serialize();
     var url = $("#property_category").attr('action');
     var type = $("#property_category").attr('method');
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -248,13 +235,13 @@ function addCategory() {
         method: type,
         data: data,
         success: function (response) {
-            if (response.status == 200){
+            if (response.status === 200) {
                 $('#property_category')[0].reset();
                 $('#category').modal('hide');
                 getCategory();
                 toastr.success(''+response.message+'', 'Success');
             }
-        }, error :function (reject){
+        }, error :function (reject) {
             var response = $.parseJSON(reject.responseText);
             $.each(response.errors, function (key, val){
                 $("#" +key + "_error").text(val[0]);
@@ -265,12 +252,10 @@ function addCategory() {
 
 //Edit Property Category
 function editPropertyCategory(url) {
-    var url = url;
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            console.log(response)
             $.each(response, function( index, value ) {
                 $('#'+index).val(value);
                 $('#general_id').val(response.id);
@@ -282,7 +267,6 @@ function editPropertyCategory(url) {
 
 //Delete Property Category
 function deletePropertyCategory(url) {
-    var url = url;
     Swal.fire({
         title: 'Are you sure?',
         text:'Record will be deleted.?',
@@ -292,13 +276,13 @@ function deletePropertyCategory(url) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
-    }).then((result) =>{
+    }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200){
+                    if (response.status === 200) {
                         getCategory();
                         toastr.success(''+response.message+'', 'Success');
                     }
@@ -313,7 +297,7 @@ getCategory();
 function getCategory()
 {
     $(".get_category").DataTable().clear().destroy();
-    var table = $('.get_category').DataTable({
+    return $('.get_category').DataTable({
         processing: true,
         serverSide: true,
         ajax: "/category/get",
@@ -338,10 +322,10 @@ function getCategory()
 
 //Add Or Update Property Features
 function addFeature() {
-
     var data =  $("#property_feature").serialize();
     var url = $("#property_feature").attr('action');
     var type = $("#property_feature").attr('method');
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -352,7 +336,7 @@ function addFeature() {
         method: type,
         data: data,
         success: function (response) {
-            if (response.status == 200){
+            if (response.status === 200) {
                 $('#property_feature')[0].reset();
                 $('#feature-modal').modal('hide');
                 getFeature();
@@ -369,12 +353,10 @@ function addFeature() {
 
 //Edit Property Feature
 function editPropertyFeature(url) {
-    var url = url;
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            console.log(response)
             $.each(response, function( index, value ) {
                 $('#'+index).val(value);
                 $('#feature_id').val(response.id);
@@ -388,7 +370,6 @@ function editPropertyFeature(url) {
 //Delete Property Feature
 
 function deletePropertyFeature(url) {
-    var url = url;
     Swal.fire({
         title: 'Are you sure?',
         text:'Record will be deleted.?',
@@ -404,13 +385,12 @@ function deletePropertyFeature(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    console.log(response)
                     getFeature();
                     toastr.success(''+response+'', 'Success');
                 }
             });
         }
-    })
+    });
 }
 
 //Get Feature Data In DataTable
@@ -418,7 +398,7 @@ getFeature();
 function getFeature()
 {
     $(".get_feature").DataTable().clear().destroy();
-    var table = $('.get_feature').DataTable({
+    return $('.get_feature').DataTable({
         processing: true,
         serverSide: true,
         ajax: "/property/feature/get",
@@ -440,7 +420,6 @@ function getFeature()
 
 //Update Review
 function addReview() {
-
     var data =  $("#review_feature").serialize();
     var url = $("#review_feature").attr('action');
     var type = $("#review_feature").attr('method');
@@ -454,7 +433,6 @@ function addReview() {
         method: type,
         data: data,
         success: function (response) {
-            console.log(response)
             $('#review_feature')[0].reset();
             $('#review-modal').modal('hide');
             getReview();
@@ -465,16 +443,14 @@ function addReview() {
 
 //Edit Review
 function editReview(url) {
-    var url = url;
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            console.log(response)
-            if (response.is_accept == '1'){
+            if (response.is_accept === '1') {
                 $( "#is_accept" ).prop( "checked", true );
             }
-            if (response.is_show == '1'){
+            if (response.is_show === '1') {
                 $( "#is_show" ).prop( "checked", true );
             }
             $.each(response, function (index, value) {
@@ -487,32 +463,30 @@ function editReview(url) {
     });
 }
 
-    //Delete Review
-    function deleteReview(url) {
-        var url = url;
-        Swal.fire({
-            title: 'Are you sure?',
-            text:'Record will be deleted.?',
-            type:'warning',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then((result) =>{
-            if (result.value) {
-                $.ajax({
-                    url: url,
-                    method: 'get',
-                    success: function (response) {
-                        console.log(response)
-                        getFeature();
-                        toastr.success(''+response+'', 'Success');
-                    }
-                });
-            }
-        })
-    }
+//Delete Review
+function deleteReview(url) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text:'Record will be deleted.?',
+        type:'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    getFeature();
+                    toastr.success(''+response+'', 'Success');
+                }
+            });
+        }
+    });
+}
 
     //Get Review
     getReview();

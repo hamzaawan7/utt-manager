@@ -15,7 +15,6 @@ class PropertySaveRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            //'nearby_property' => 'required',
             'owner_name' => 'required',
             'short_code' => 'required',
             'category_name' => 'required',
@@ -26,8 +25,6 @@ class PropertySaveRequest extends FormRequest
             'special_category' => 'required',
             'utt_star_rating' => 'required',
             'is_visible' => 'required',
-            //'main_image' => 'required',
-            //'images' => 'required',
         ];
     }
 

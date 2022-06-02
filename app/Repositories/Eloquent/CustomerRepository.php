@@ -14,10 +14,22 @@ class CustomerRepository implements CustomerRepositoryInterface
 {
 
     /** @var Customer $customer */
-    /** @var User $user */
-    public function __construct(
-        Customer  $customer,
-        User      $user
+    /**
+     * @var Customer
+     */
+    private $customer;
+    /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @param Customer $customer
+     * @var User $user
+     */
+    public function __construct (
+        Customer $customer,
+        User $user
     )
     {
         $this->customer = $customer;
@@ -26,9 +38,9 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string
+    public function save($data)
     {
         if(!is_null($data['customer_id'])) {
             try {
@@ -46,13 +58,13 @@ class CustomerRepository implements CustomerRepositoryInterface
                     $customer->country = $data['country'];
                     $customer->update();
 
-                    return 'Data update successfully.';
+                    return 'Data updated successfully.';
                 }
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
 
-        }else{
+        } else {
             try{
                 $user           = new $this->user;
                 $user->name     = $data['name'];
@@ -70,8 +82,9 @@ class CustomerRepository implements CustomerRepositoryInterface
                 $customer->city = $data['city'];
                 $customer->country = $data['country'];
                 $customer->save();
-                return "Data Save Successfully";
-            }catch (\Exception $e){
+
+                return "Data Saved Successfully";
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
@@ -115,7 +128,7 @@ class CustomerRepository implements CustomerRepositoryInterface
             $this->user->where('id',$user_id)->delete();
 
             return "Data Deleted Successfully";
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 

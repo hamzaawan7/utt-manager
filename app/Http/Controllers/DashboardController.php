@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DashboardController
@@ -36,9 +35,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $permissions = $user->getAllPermissions();
-
         return view('dashboard');
     }
 }

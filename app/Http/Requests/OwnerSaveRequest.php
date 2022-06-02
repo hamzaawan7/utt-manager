@@ -4,19 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OwnerSaveReuest extends FormRequest
+class OwnerSaveRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required',
             'email' => 'required',
-            //'password' => 'required|confirmed',
             'address' => 'required',
             'main_contact_name' => 'required',
             'main_contact_number' => 'required',
@@ -35,7 +34,6 @@ class OwnerSaveReuest extends FormRequest
         return [
             'name.required' => 'This field is reuired',
             'email.required' => 'This field is reuired',
-            //'password.required' => 'This field is reuired',
             'address.required' => 'This field is reuired',
             'main_contact_name.required' => 'This field is reuired',
             'main_contact_number.required' => 'This field is reuired',

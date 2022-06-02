@@ -6,7 +6,6 @@ use Brick\Math\BigInteger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\User;
 
 /**
  * Class Customer
@@ -16,6 +15,7 @@ use App\Models\User;
  * @property bigInteger post_code
  * @property string city
  * @property string country
+ * @property-read User $user
  */
 class Customer extends Model
 {

@@ -15,6 +15,23 @@ class PropertyRepository implements PropertyRepositoryInterface
 {
     /** @var Property $property */
     /**
+     * @var Property
+     */
+    private $property;
+    /**
+     * @var CategoryProperty
+     */
+    private $propertyCategory;
+    /**
+     * @var FeatureProperty
+     */
+    private $feature;
+    /**
+     * @var NearbyProperty
+     */
+    private $nearbyProperty;
+
+    /**
      * @param Property $property
      * @param FeatureProperty $feature
      * @var CategoryProperty $propertyCategory
@@ -79,11 +96,10 @@ class PropertyRepository implements PropertyRepositoryInterface
             $this->propertyCategory->where('property_id', $id)->delete();
             $this->nearbyProperty->where('property_id', $id)->delete();
             $this->property->find($id)->delete();
+
             return "Data Deleted Successfully";
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
-
 }

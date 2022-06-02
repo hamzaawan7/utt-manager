@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Models\Feature;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use DataTables;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class FeatureRepository implements FeatureRepositoryInterface
      */
     public function save($data): string
     {
-        if(!is_null($data['feature_id'])) {
+        if (!is_null($data['feature_id'])) {
             try {
                 $feature                 = $this->feature::find($data['feature_id']);
                 $feature->feature_name   = $data['feature_name'];
@@ -41,7 +42,7 @@ class FeatureRepository implements FeatureRepositoryInterface
                 return $e->getMessage();
             }
 
-        }else{
+        } else {
             try{
                 $feature                 = new $this->feature;
                 $feature->feature_name   = $data['feature_name'];
@@ -53,7 +54,7 @@ class FeatureRepository implements FeatureRepositoryInterface
                 $feature->save();
 
                 return "Data Save Successfully";
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
@@ -69,7 +70,7 @@ class FeatureRepository implements FeatureRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return Feature[]|Collection
      */
     public function all()
     {
@@ -86,9 +87,9 @@ class FeatureRepository implements FeatureRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
         try {
             $this->feature->find($id)->delete();
@@ -99,5 +100,4 @@ class FeatureRepository implements FeatureRepositoryInterface
         }
 
     }
-
 }

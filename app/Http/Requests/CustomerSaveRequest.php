@@ -11,12 +11,11 @@ class CustomerSaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required',
             'email' => 'required',
-            //'password' => 'nullable|required',
             'phone' => 'required',
             'address' => 'required',
             'post_code' => 'required',

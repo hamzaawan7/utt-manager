@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\OwnerRepositoryInterface;
 use Illuminate\Routing\Controller;
-use App\Http\Requests\OwnerSaveReuest;
+use App\Http\Requests\OwnerSaveRequest;
 use DataTables;
 
 /**
@@ -68,10 +68,10 @@ class OwnerController extends Controller
     }
 
     /**
-     * @param OwnerSaveReuest $request
+     * @param OwnerSaveRequest $request
      * @return JsonResponse
      */
-    public function save(OwnerSaveReuest $request): JsonResponse
+    public function save(OwnerSaveRequest $request): JsonResponse
     {
         $category = $this->ownerRepository->save($request->input());
         if ($category) {

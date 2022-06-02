@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
@@ -11,6 +10,15 @@ use App\Models\User;
 class ResetPassword extends Mailable
 {
     use Queueable, SerializesModels;
+
+    /**
+     * @var User
+     */
+    private $user;
+    /**
+     * @var string
+     */
+    private $token;
 
     /**
      * @param User $user
@@ -22,15 +30,10 @@ class ResetPassword extends Mailable
         $this->token = $token;
     }
     /**
-     * @return mixed
+     * @return ResetPassword
      */
-    public function build()
+    public function build(): ResetPassword
     {
-        $url = url(route('password.reset', [
-            'token' => $this->token,
-            'email' => $this->user->email,
-        ], false));
-
         return $this->view('emails.forgot_password_template',[
             'token' =>  $this->token,
             'user'=> $this->user,

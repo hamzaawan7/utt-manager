@@ -4,13 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\Category;
-use App\Models\Feature;
-use App\Models\PropertyImage;
-use App\Models\NearbyProperty;
 
 /**
  * Class Property
@@ -44,33 +39,33 @@ class Property extends Model
     ];
 
     /**
-     * @return mixed
+     * @return BelongsToMany
      */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
     }
 
     /**
-     * @return mixed
+     * @return BelongsToMany
      */
-    public function features()
+    public function features(): BelongsToMany
     {
         return $this->belongsToMany(Feature::class);
     }
 
     /**
-     * @return mixed
+     * @return HasMany
      */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(PropertyImage::class);
     }
 
     /**
-     * @return mixed
+     * @return HasMany
      */
-    public function nearbyProperties()
+    public function nearbyProperties(): HasMany
     {
         return $this->hasMany(NearbyProperty::class);
     }

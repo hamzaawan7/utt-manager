@@ -31,5 +31,4 @@ interface FeatureRepositoryInterface
      * @return mixed
      */
     public function delete(int $id);
-
 }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 use App\Repositories\PriceCategoryRepositoryInterface;
 use App\Models\PriceCategory;
+use Illuminate\Database\Eloquent\Collection;
 
 class PriceCategoryRepository implements PriceCategoryRepositoryInterface
 {
@@ -61,7 +62,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection|PriceCategory[]
      */
     public function all()
     {

@@ -11,7 +11,7 @@ use App\Repositories\FeatureRepositoryInterface;
 use App\Repositories\OwnerRepositoryInterface;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\PropertyRepositoryInterface;
-use DataTables;
+use Yajra\DataTables\DataTables;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -45,6 +45,26 @@ class PropertyController extends Controller
 
     /** @var FeatureRepositoryInterface $propertyFeatureRepository */
     private $propertyFeatureRepository;
+    /**
+     * @var Property
+     */
+    private $property;
+    /**
+     * @var CategoryProperty
+     */
+    private $propertyCategory;
+    /**
+     * @var FeatureProperty
+     */
+    private $feature;
+    /**
+     * @var NearbyProperty
+     */
+    private $nearbyProperty;
+    /**
+     * @var PropertyImage
+     */
+    private $propertyImages;
 
     public function __construct(
         PropertyRepositoryInterface         $propertyRepository,
@@ -89,10 +109,11 @@ class PropertyController extends Controller
             return Datatables::of($propertyList)
                 ->addIndexColumn()
                 ->addColumn('action', function ($propertyList) {
-                    $actionBtn = '
-                                  <div class="dropdown">
+                    return '
+                             <div class="dropdown">
                                 <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                   role="button" data-toggle="dropdown">
+                                   role="button" data-toggle="dropdown"
+                                >
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
@@ -104,7 +125,6 @@ class PropertyController extends Controller
                                     </a>
                                 </div>
                             </div>';
-                    return $actionBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -112,7 +132,7 @@ class PropertyController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param PropertySaveRequest $request
      * @return JsonResponse
      */
     public function save(PropertySaveRequest $request): JsonResponse
@@ -166,12 +186,14 @@ class PropertyController extends Controller
                 $category->category_id = $item;
                 $category->save();
             }
+
             foreach ($request->feature_name as $item) {
                 $feature              = new $this->feature;
                 $feature->property_id = $request->general_id;
                 $feature->feature_id  = $item;
                 $feature->save();
             }
+
             if ($request->nearby_property) {
                 foreach ($request->nearby_property as $item) {
                     $nearByProperty = new $this->nearbyProperty;
@@ -183,7 +205,7 @@ class PropertyController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Data Update Successfully'
+                'message' => 'Data Updated Successfully'
             ]);
 
         } else {
@@ -197,9 +219,11 @@ class PropertyController extends Controller
             $property->post_code        = $request->post_code;
             $property->special_category = $request->special_category;
             $property->utt_star_rating  = $request->utt_star_rating;
-            if (isset($request->is_visible)){
+
+            if (isset($request->is_visible)) {
                 $isVisible = 1;
             }
+
             $property->is_visible       = $isVisible;
             if ($request->hasfile('main_image')) {
                 $file      = $request->file('main_image');
@@ -222,12 +246,14 @@ class PropertyController extends Controller
                     $propertyImages->save();
                 }
             }
+
             foreach ($request->category_name as $item) {
                 $category              = new $this->propertyCategory;
                 $category->property_id = $property_id;
                 $category->category_id = $item;
                 $category->save();
             }
+
             foreach ($request->feature_name as $item) {
                 $feature              = new $this->feature;
                 $feature->property_id = $property_id;
@@ -257,26 +283,26 @@ class PropertyController extends Controller
      */
     public function edit(int $id): JsonResponse
     {
-        $property       = $this->propertyRepository->edit($id);
-        $category       = array();
-        $feature        = array();
-        $nearbyProperty = array();
+        $property       = $this->propertyRepository->edit($id)->with('images', 'nearbyProperties', 'features');
+       /* $category       = [];
+        $feature        = [];
+        $nearbyProperty = [];
 
         foreach ($property->nearbyProperties as $item) {
-            array_push($nearbyProperty, $item->nearby_property_id);
+            $nearbyProperty[] = $item->nearby_property_id;
         }
 
         foreach ($property->categories as $item) {
-            array_push($category, $item->id);
+            $category[] = $item->id;
         }
 
         foreach ($property->features as $item) {
-            array_push($feature, $item->id);
+            $feature[] = $item->id;
         }
         $property->images;
         $property->category_names     = $category;
         $property->feature_name       = $feature;
-        $property->nearby_property_id = $nearbyProperty;
+        $property->nearby_property_id = $nearbyProperty;*/
 
         return response()->json($property);
     }
@@ -291,6 +317,7 @@ class PropertyController extends Controller
         $image_path     = public_path() . '/images/multiple/' . $propertyImages->images;
         unlink($image_path);
         $propertyImages->delete();
+
         return response()->json([
             'status' => 200,
             'message' => 'Images Deleted Successfully'
@@ -303,11 +330,11 @@ class PropertyController extends Controller
      */
     public function delete($id): JsonResponse
     {
-        $response = $this->propertyRepository->delete($id);
+        $message = $this->propertyRepository->delete($id);
 
         return response()->json([
-            'status'=>200,
-            'message'=>$response
+            'status' => 200,
+            'message' => $message
         ]);
     }
 }
