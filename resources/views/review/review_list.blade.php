@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @section('content')
 
+    @section('title') {{'Review List'}} @endsection
     <div class="content-wrapper">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="page-header">

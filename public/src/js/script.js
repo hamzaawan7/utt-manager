@@ -61,6 +61,9 @@ function editProperty(url) {
         method: 'get',
         success: function (response) {
             console.log(response)
+            if (response.is_visible == '1'){
+                $( "#is_visible" ).prop( "checked", true );
+            }
             $('.multi_images_main').html('');
             var cat = [];
             $('#category_names').select2('val',response.id);
@@ -69,7 +72,6 @@ function editProperty(url) {
                 cat.push(value.id)
             });
             console.log(cat)
-            // $("#category_names").select2('data', cat);
             $('#category_names').val(cat).trigger('change');
             $('#feature_name').val(response.feature_name).trigger('change');
             $('#nearby_property').val(response.nearby_property_id).trigger('change');

@@ -14,7 +14,7 @@
             <div class="sidebar-menu">
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:;" class="dropdown-toggle no-arrow">
                             <span class="micon dw dw-house-1"></span><span class="mtext">Dashbord</span>
                         </a>
                     </li>
@@ -80,13 +80,13 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:;" class="dropdown-toggle no-arrow">
                                 <span class="micon dw dw-analytics-21"></span><span
                                         class="mtext">Emails & Notifications</span>
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:;" class="dropdown-toggle no-arrow">
                                 <span class="micon dw dw-right-arrow1"></span><span class="mtext">Website Manager</span>
                             </a>
                         </li>
