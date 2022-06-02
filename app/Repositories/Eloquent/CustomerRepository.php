@@ -38,6 +38,7 @@ class CustomerRepository implements CustomerRepositoryInterface
                     $user->email = $data['email'];
                     $user->update();
                     $customer = $this->customer->where('user_id', $data['customer_id'])->first();
+                    $customer->customer_name = $data['name'];
                     $customer->phone = $data['phone'];
                     $customer->address = $data['address'];
                     $customer->post_code = $data['post_code'];
@@ -62,6 +63,7 @@ class CustomerRepository implements CustomerRepositoryInterface
                 $user_id = $user->id;
                 $customer = new $this->customer;
                 $customer->user_id = $user_id;
+                $customer->customer_name = $data['name'];
                 $customer->phone = $data['phone'];
                 $customer->address = $data['address'];
                 $customer->post_code = $data['post_code'];

@@ -15,8 +15,9 @@ class CreateOwnersTable extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            $table->foreignId('user_id')->nullable();
+
+            $table->string('owner_name');
             $table->string('address');
             $table->string('main_contact_name');
             $table->string('main_contact_number');
@@ -25,6 +26,9 @@ class CreateOwnersTable extends Migration
             $table->string('emergency_contact_name');
             $table->string('emergency_contact_number');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 

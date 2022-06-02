@@ -25,6 +25,7 @@ class CreatePropertiesTable extends Migration
             $table->string('special_category');
             $table->string('utt_star_rating');
             $table->integer('is_visible');
+            $table->string('main_image');
 
             $table->timestamps();
 

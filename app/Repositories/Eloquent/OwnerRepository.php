@@ -38,6 +38,7 @@ class OwnerRepository implements OwnerRepositoryInterface
                     $user->update();
 
                     $owner = $this->owner->where('user_id', $data['owner_id'])->first();
+                    $owner->owner_name = $data['name'];
                     $owner->address = $data['address'];
                     $owner->main_contact_name = $data['main_contact_name'];
                     $owner->main_contact_number = $data['main_contact_number'];
@@ -63,6 +64,7 @@ class OwnerRepository implements OwnerRepositoryInterface
                 $user_id                         = $user->id;
                 $owner                           = new $this->owner;
                 $owner->user_id                  = $user_id;
+                $owner->owner_name                  = $data['name'];
                 $owner->address                  = $data['address'];
                 $owner->main_contact_name        = $data['main_contact_name'];
                 $owner->main_contact_number      = $data['main_contact_number'];

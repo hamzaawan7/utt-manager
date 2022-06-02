@@ -15,7 +15,7 @@ class PropertySaveRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'nearby_property' => 'required',
+            //'nearby_property' => 'required',
             'owner_name' => 'required',
             'short_code' => 'required',
             'category_name' => 'required',

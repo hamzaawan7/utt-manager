@@ -20,11 +20,11 @@ class RoleSeeder extends Seeder
     {
         $role =  [
             [
-                'name' => 'admin',
+                'name' => 'super-admin',
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'user',
+                'name' => 'admin',
                 'guard_name' => 'web',
             ],
             [
@@ -32,9 +32,13 @@ class RoleSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'super-admin',
+                'name' => 'customer',
                 'guard_name' => 'web',
-            ]
+            ],
+            [
+                'name' => 'user',
+                'guard_name' => 'web',
+            ],
         ];
 
         Role::insert($role);

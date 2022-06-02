@@ -39,7 +39,7 @@
                                 <select class="custom-select" name="owner_name" id="owner_id">
                                     <option selected="">Select Owner</option>
                                     @foreach($owners as $item)
-                                        <option value="{{$item->id}}">{{$item->name}} </option>
+                                        <option value="{{$item->id}}">{{$item->owner_name}} </option>
                                     @endforeach
                                 </select>
                             </div>

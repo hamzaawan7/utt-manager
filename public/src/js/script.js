@@ -776,7 +776,6 @@ function addUser() {
     });
 }
 
-
 //User Edit
 function editUser(id) {
     var url = '/user/edit/' + id + '';
@@ -793,9 +792,7 @@ function editUser(id) {
     });
 }
 
-
 //Delete User
-
 function deleteUser(id) {
     var url = '/user/delete/' + id + '';
     $.ajax({
