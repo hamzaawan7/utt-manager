@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -52,14 +52,10 @@
                                style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                             <tr>
                                 <td style="padding:0 0 36px 0;color:#153643;">
+                                    <p style="font-weight:bold;margin:0 0 20px 0;font-family:Arial,sans-serif;">
+                                        Hello {{ $user ? $user['name'] : '' }},</h1>
                                     <p
-                                       style="font-weight:bold;margin:0 0 20px 0;font-family:Arial,sans-serif;"
-                                    >
-                                        Hello {{ $user ? $user['name'] : '' }},
-                                    </p>
-                                    <p
-                                            style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;"
-                                    >
+                                            style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
                                         We've received a request to reset the password.
                                     </p>
                                     <p

@@ -19,17 +19,12 @@ interface CustomerRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id);
+    public function find(int $id);
 
     /**
      * @return mixed
      */
     public function all();
-
-    /**
-     * @return mixed
-     */
-    public function get();
 
     /**
      * @param int $id

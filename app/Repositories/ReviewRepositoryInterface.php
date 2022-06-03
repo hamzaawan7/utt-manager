@@ -18,7 +18,7 @@ interface ReviewRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id);
+    public function find(int $id);
 
     /**
      * @return mixed

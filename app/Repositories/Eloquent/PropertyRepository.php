@@ -6,6 +6,7 @@ use App\Models\Property;
 use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
+use App\Models\PropertyImage;
 
 /**
  * Class PropertyRepository
@@ -23,6 +24,10 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     private $propertyCategory;
     /**
+     * @var PropertyImage
+     */
+    private $imageProperty;
+    /**
      * @var FeatureProperty
      */
     private $feature;
@@ -36,12 +41,14 @@ class PropertyRepository implements PropertyRepositoryInterface
      * @param FeatureProperty $feature
      * @var CategoryProperty $propertyCategory
      * @var NearbyProperty $nearbyProperty
+     * @var PropertyImage $imageProperty
      */
     public function __construct(
         Property                 $property,
         FeatureProperty          $feature,
         CategoryProperty $propertyCategory,
-        NearbyProperty $nearbyProperty
+        NearbyProperty $nearbyProperty,
+        PropertyImage $imageProperty
 
     )
     {
@@ -49,6 +56,7 @@ class PropertyRepository implements PropertyRepositoryInterface
         $this->propertyCategory = $propertyCategory;
         $this->feature          = $feature;
         $this->nearbyProperty  = $nearbyProperty;
+        $this->imageProperty  = $imageProperty;
     }
 
     /**
@@ -57,14 +65,14 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     public function save($data)
     {
-        
+
     }
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
         return $this->property->find($id);
     }
@@ -74,15 +82,7 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     public function all()
     {
-        return $this->property::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->property->all();
     }
 
     /**
@@ -94,6 +94,7 @@ class PropertyRepository implements PropertyRepositoryInterface
         try {
             $this->feature->where('property_id', $id)->delete();
             $this->propertyCategory->where('property_id', $id)->delete();
+            $this->imageProperty->where('property_id', $id)->delete();
             $this->nearbyProperty->where('property_id', $id)->delete();
             $this->property->find($id)->delete();
 

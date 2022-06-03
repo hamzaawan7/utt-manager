@@ -14,13 +14,13 @@ class PropertyCategorySaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_name' => 'required',
-            'standard_guests' => 'required',
-            'minimum_guest' => 'required',
+            'category_name' => 'required|string|max:255',
+            'standard_guests' => 'required|numeric',
+            'minimum_guest' => 'required|numeric',
             'room_layouts' => 'required',
-            'childs' => 'required',
-            'infants' => 'required',
-            'pets' => 'required',
+            'childs' => 'required|numeric',
+            'infants' => 'required|numeric',
+            'pets' => 'required|numeric',
         ];
     }
 

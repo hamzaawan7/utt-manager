@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\User;
 
 /**
  * Class Owner
@@ -14,6 +13,7 @@ use App\Models\User;
  * @property string main_contact_name
  * @property string main_contact_number
  * @property string secondary_contact_name
+ * @property-read User $user
  * @property string secondary_contact_number
  * @property string emergency_contact_name
  * @property string emergency_contact_number

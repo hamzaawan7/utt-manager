@@ -34,7 +34,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
         try {
             return $this->priceCategory::where('id', $id)->first();

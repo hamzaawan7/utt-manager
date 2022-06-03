@@ -117,7 +117,7 @@ class PropertyController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editProperty(\'/property/edit/' . $propertyList->id . '\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findProperty(\'/property/find/' . $propertyList->id . '\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
                                     <a class="dropdown-item btn-delete" onclick="propertyDelete(\'/property/delete/' . $propertyList->id . '\')">
@@ -235,7 +235,7 @@ class PropertyController extends Controller
             $property->save();
             $property_id = $property->id;
 
-            if ($request->has('images')) {
+            /*if ($request->has('images')) {
                 foreach ($request->file('images') as $file) {
                     $extension = $file->getClientOriginalExtension();
                     $filename  = time() . '.' . $extension;
@@ -243,6 +243,21 @@ class PropertyController extends Controller
                     $propertyImages              = new $this->propertyImages;
                     $propertyImages->property_id = $property_id;
                     $propertyImages->images      = $filename;
+                    $propertyImages->save();
+                }
+            }*/
+
+            if ($files = $request->file('images')) {
+                // Define upload path
+                $destinationPath = public_path('/images/multiple/'); // upload path
+                foreach ($files as $img) {
+                    // Upload Orginal Image
+                    $profileImage = $img->getClientOriginalName();
+                    $img->move($destinationPath, $profileImage);
+                    // Save In Database
+                    $propertyImages = new $this->propertyImages;
+                    $propertyImages->images = "$profileImage";
+                    $propertyImages->property_id = $property_id;
                     $propertyImages->save();
                 }
             }
@@ -281,28 +296,13 @@ class PropertyController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $property       = $this->propertyRepository->edit($id)->with('images', 'nearbyProperties', 'features');
-       /* $category       = [];
-        $feature        = [];
-        $nearbyProperty = [];
-
-        foreach ($property->nearbyProperties as $item) {
-            $nearbyProperty[] = $item->nearby_property_id;
-        }
-
-        foreach ($property->categories as $item) {
-            $category[] = $item->id;
-        }
-
-        foreach ($property->features as $item) {
-            $feature[] = $item->id;
-        }
+        $property = $this->propertyRepository->find($id);
         $property->images;
-        $property->category_names     = $category;
-        $property->feature_name       = $feature;
-        $property->nearby_property_id = $nearbyProperty;*/
+        $property->nearbyProperties;
+        $property->features;
+        $property->categories;
 
         return response()->json($property);
     }

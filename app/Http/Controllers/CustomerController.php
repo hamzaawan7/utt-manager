@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -10,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CustomerSaveRequest;
 use App\Repositories\CustomerRepositoryInterface;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
+use DataTables;
 
 /**
  * Class CustomerController
@@ -22,7 +21,7 @@ class CustomerController extends Controller
     /** @var CustomerRepositoryInterface $customerRepository */
     private $customerRepository;
 
-    public function __construct(CustomerRepositoryInterface $customerRepository)
+    public function __construct(CustomerRepositoryInterface  $customerRepository)
     {
         $this->customerRepository = $customerRepository;
     }
@@ -38,7 +37,6 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * @return void
-     * @throws Exception
      */
     public function getCustomer(Request $request)
     {
@@ -46,23 +44,23 @@ class CustomerController extends Controller
             $customerList = $this->customerRepository->all();
             return Datatables::of($customerList)
                 ->addIndexColumn()
-                ->addColumn('action', function ($customerList) {
-                    return '
-                             <div class="dropdown">
+                ->addColumn('action', function($customerList){
+                    $actionBtn = '
+                                  <div class="dropdown">
                                 <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                   role="button" data-toggle="dropdown"
-                                >
+                                   role="button" data-toggle="dropdown">
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editCustomer(\'/customer/edit/' . $customerList->id . '\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findCustomer(\'/customer/find/'.$customerList->id.'\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
-                                    <a class="dropdown-item btn-delete" onclick="deleteCustomer(\'/customer/delete/' . $customerList->id . '\')">
+                                    <a class="dropdown-item btn-delete" onclick="deleteCustomer(\'/customer/delete/'.$customerList->id.'\')">
                                         <i class="dw dw-delete-3"> Delete</i>
                                     </a>
                                 </div>
                             </div>';
+                    return $actionBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -77,21 +75,22 @@ class CustomerController extends Controller
     {
         $message = $this->customerRepository->save($request->input());
 
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+            return response()->json([
+                'status'=>200,
+                'message'=>$message
+                ]);
     }
 
     /**
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $customer = $this->customerRepository->edit($id)->with('user');
+        $response = $this->customerRepository->find($id);
 
-        return response()->json($customer);
+        $response->user;
+        return response()->json($response);
     }
 
     /**
@@ -102,9 +101,9 @@ class CustomerController extends Controller
     {
         $message = $this->customerRepository->delete($id);
 
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
-    }
+            return response()->json([
+                'status' => 200,
+                'message' => $message
+                ]);
+        }
 }

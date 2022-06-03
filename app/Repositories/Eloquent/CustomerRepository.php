@@ -42,20 +42,16 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function save($data)
     {
-        if(!is_null($data['customer_id'])) {
+        if (!is_null($data['customer_id'])) {
             try {
                 if (empty($data['password'])) {
                     $user = $this->user->where('id', $data['customer_id'])->first();
                     $user->name = $data['name'];
                     $user->email = $data['email'];
                     $user->update();
+
                     $customer = $this->customer->where('user_id', $data['customer_id'])->first();
-                    $customer->customer_name = $data['name'];
-                    $customer->phone = $data['phone'];
-                    $customer->address = $data['address'];
-                    $customer->post_code = $data['post_code'];
-                    $customer->city = $data['city'];
-                    $customer->country = $data['country'];
+                    $customer = $this->getCommonFields($customer,$data);
                     $customer->update();
 
                     return 'Data updated successfully.';
@@ -65,22 +61,17 @@ class CustomerRepository implements CustomerRepositoryInterface
             }
 
         } else {
-            try{
+            try {
                 $user           = new $this->user;
                 $user->name     = $data['name'];
                 $user->email    = $data['email'];
                 $user->password = Hash::make($data['password']);
                 $user->save();
                 $user->syncRoles('customer');
-                $user_id = $user->id;
-                $customer = new $this->customer;
+                $user_id           = $user->id;
+                $customer          = new $this->customer;
+                $customer          = $this->getCommonFields($customer,$data);
                 $customer->user_id = $user_id;
-                $customer->customer_name = $data['name'];
-                $customer->phone = $data['phone'];
-                $customer->address = $data['address'];
-                $customer->post_code = $data['post_code'];
-                $customer->city = $data['city'];
-                $customer->country = $data['country'];
                 $customer->save();
 
                 return "Data Saved Successfully";
@@ -91,10 +82,27 @@ class CustomerRepository implements CustomerRepositoryInterface
     }
 
     /**
+     * @param $customer
+     * @param $data
+     * @return mixed
+     */
+    public function getCommonFields($customer, $data)
+    {
+        $customer->customer_name = $data['name'];
+        $customer->phone         = $data['phone'];
+        $customer->address       = $data['address'];
+        $customer->post_code     = $data['post_code'];
+        $customer->city          = $data['city'];
+        $customer->country       = $data['country'];
+
+        return $customer;
+    }
+
+    /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
         return $this->customer->find($id);
     }
@@ -105,14 +113,6 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function all()
     {
         return $this->customer::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
     }
 
     /**

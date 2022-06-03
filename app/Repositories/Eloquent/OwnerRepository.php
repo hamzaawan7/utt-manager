@@ -25,9 +25,9 @@ class OwnerRepository implements OwnerRepositoryInterface
 
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string
+    public function save($data)
     {
         if(!is_null($data['owner_id'])) {
             try {
@@ -38,14 +38,7 @@ class OwnerRepository implements OwnerRepositoryInterface
                     $user->update();
 
                     $owner = $this->owner->where('user_id', $data['owner_id'])->first();
-                    $owner->owner_name = $data['name'];
-                    $owner->address = $data['address'];
-                    $owner->main_contact_name = $data['main_contact_name'];
-                    $owner->main_contact_number = $data['main_contact_number'];
-                    $owner->secondary_contact_name = $data['secondary_contact_name'];
-                    $owner->secondary_contact_number = $data['secondary_contact_number'];
-                    $owner->emergency_contact_name = $data['emergency_contact_name'];
-                    $owner->emergency_contact_number = $data['emergency_contact_number'];
+                    $this->getCommonFields($data,$owner);
                     $owner->update();
                     return 'Data update successfully.';
                 }
@@ -53,8 +46,8 @@ class OwnerRepository implements OwnerRepositoryInterface
                 return $e->getMessage();
             }
 
-        }else{
-            try{
+        } else {
+            try {
                 $user           = new $this->user;
                 $user->name     = $data['name'];
                 $user->email    = $data['email'];
@@ -63,30 +56,43 @@ class OwnerRepository implements OwnerRepositoryInterface
                 $user->syncRoles('owner');
                 $user_id                         = $user->id;
                 $owner                           = new $this->owner;
+                $this->getCommonFields($data,$owner);
                 $owner->user_id                  = $user_id;
-                $owner->owner_name                  = $data['name'];
-                $owner->address                  = $data['address'];
-                $owner->main_contact_name        = $data['main_contact_name'];
-                $owner->main_contact_number      = $data['main_contact_number'];
-                $owner->secondary_contact_name   = $data['secondary_contact_name'];
-                $owner->secondary_contact_number = $data['secondary_contact_number'];
-                $owner->emergency_contact_name   = $data['emergency_contact_name'];
-                $owner->emergency_contact_number = $data['emergency_contact_number'];
                 $owner->save();
+
                 return "Data Save Successfully";
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
     }
 
     /**
+     * @param $data
+     * @param $owner
+     * @return mixed
+     */
+    public function getCommonFields($data,$owner)
+    {
+        $owner->owner_name                  = $data['name'];
+        $owner->address                  = $data['address'];
+        $owner->main_contact_name        = $data['main_contact_name'];
+        $owner->main_contact_number      = $data['main_contact_number'];
+        $owner->secondary_contact_name   = $data['secondary_contact_name'];
+        $owner->secondary_contact_number = $data['secondary_contact_number'];
+        $owner->emergency_contact_name   = $data['emergency_contact_name'];
+        $owner->emergency_contact_number = $data['emergency_contact_number'];
+
+        return $owner;
+    }
+
+    /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
-        return $this->owner::where('id', $id)->first();
+        return $this->owner->find($id);
     }
 
     /**
@@ -95,14 +101,6 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function all()
     {
         return $this->owner->all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
     }
 
     /**
@@ -121,7 +119,5 @@ class OwnerRepository implements OwnerRepositoryInterface
         }catch (\Exception $e){
             return $e->getMessage();
         }
-
     }
-
 }

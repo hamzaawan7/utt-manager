@@ -15,7 +15,7 @@
                             <div class="form-group">
                                 <label>Property Name</label>
                                 <input type="text" name="name" id="name" class="form-control">
-                                <div class="text-danger" id="name_error"></div>
+                                <div class="text-danger clear-error" id="name_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -31,7 +31,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="text-danger" id="nearby_property_error"></div>
+                            <div class="text-danger clear-error" id="nearby_property_error"></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -44,7 +44,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="text-danger" id="owner_name_error"></div>
+                        <div class="text-danger clear-error" id="owner_name_error"></div>
                     </div>
                     <div class="row">
 
@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <label>Short Code</label>
                                 <input type="text" name="short_code" id="short_code" class="form-control">
-                                <div class="text-danger" id="short_code_error"></div>
+                                <div class="text-danger clear-error" id="short_code_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -66,7 +66,7 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                                <div class="text-danger" id="category_name_error"></div>
+                                <div class="text-danger clear-error" id="category_name_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -81,7 +81,7 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
-                                <div class="text-danger" id="feature_name_error"></div>
+                                <div class="text-danger clear-error" id="feature_name_error"></div>
                             </div>
                         </div>
                     </div>
@@ -90,14 +90,14 @@
                             <div class="form-group">
                                 <label>Phone</label>
                                 <input type="text" name="phone" id="phone" class="form-control">
-                                <div class="text-danger" id="phone_error"></div>
+                                <div class="text-danger clear-error" id="phone_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Address</label>
                                 <input type="text" name="address" id="address" class="form-control">
-                                <div class="text-danger" id="address_error"></div>
+                                <div class="text-danger clear-error" id="address_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -113,14 +113,14 @@
                             <div class="form-group">
                                 <label>Special Category</label>
                                 <input type="text" name="special_category" id="special_category" class="form-control">
-                                <div class="text-danger" id="special_category_error"></div>
+                                <div class="text-danger clear-error" id="special_category_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Utt Star Rating</label>
                                 <input type="text" name="utt_star_rating" id="utt_star_rating" class="form-control">
-                                <div class="text-danger" id="utt_star_rating_error"></div>
+                                <div class="text-danger clear-error" id="utt_star_rating_error"></div>
                             </div>
                         </div>
                         <div class="col-md-4">

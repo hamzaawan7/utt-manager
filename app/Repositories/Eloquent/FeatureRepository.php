@@ -38,12 +38,12 @@ class FeatureRepository implements FeatureRepositoryInterface
                 $feature->update();
 
                 return 'Data update successfully.';
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
 
         } else {
-            try{
+            try {
                 $feature                 = new $this->feature;
                 $feature->feature_name   = $data['feature_name'];
                 $checkIn                  = date('Y-m-d H:i:s',strtotime($data['check_in_time']));
@@ -64,7 +64,7 @@ class FeatureRepository implements FeatureRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
       return $this->feature::select("*",DB::raw("DATE_FORMAT(check_in_time, '%d-%b-%Y') as checkInTime"),DB::raw("DATE_FORMAT(check_out_time, '%d-%b-%Y') as checkOutTime"))->where('id', $id)->first();
     }
@@ -74,15 +74,7 @@ class FeatureRepository implements FeatureRepositoryInterface
      */
     public function all()
     {
-        return $this->feature::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->feature->all();
     }
 
     /**
@@ -95,7 +87,7 @@ class FeatureRepository implements FeatureRepositoryInterface
             $this->feature->find($id)->delete();
 
             return "Data Deleted Successfully";
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 

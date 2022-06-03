@@ -37,21 +37,21 @@ Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user-d
 Route::get('/property/category/list', [PropertyCategoryController::class, 'index'])->name('propert-category-list');
 Route::post('/category/save', [PropertyCategoryController::class, 'save'])->name('category-save');
 Route::get('/category/get', [PropertyCategoryController::class, 'getCategory'])->name('category-get');
-Route::get('/category/edit/{id}', [PropertyCategoryController::class, 'edit'])->name('category-edit');
+Route::get('/category/find/{id}', [PropertyCategoryController::class, 'find'])->name('category-find');
 Route::get('/category/delete/{id}', [PropertyCategoryController::class, 'delete'])->name('category-delete');
 
 Route::prefix('property')->group(function () {
     Route::get('/list', [PropertyController::class, 'index'])->name('property-list');
     Route::get('/get', [PropertyController::class, 'getProperty'])->name('property-get');
     Route::post('/save', [PropertyController::class, 'save'])->name('property-save');
-    Route::get('/edit/{id}', [PropertyController::class, 'edit'])->name('property-edit');
+    Route::get('/find/{id}', [PropertyController::class, 'find'])->name('property-find');
     Route::get('/delete/{id}', [PropertyController::class, 'delete'])->name('property-delete');
     Route::get('/image/delete/{id}', [PropertyController::class, 'deleteImage'])->name('image-delete');
 
     Route::get('/feature/list', [FeatureController::class, 'index'])->name('feature-list');
     Route::get('/feature/get', [FeatureController::class, 'getFeatures'])->name('feature-get');
     Route::post('/feature/save', [FeatureController::class, 'save'])->name('feature-save');
-    Route::get('/feature/edit/{id}', [FeatureController::class, 'edit'])->name('feature-edit');
+    Route::get('/feature/find/{id}', [FeatureController::class, 'edit'])->name('feature-find');
     Route::get('/feature/delete/{id}', [FeatureController::class, 'delete'])->name('feature-delete');
 });
 
@@ -60,7 +60,7 @@ Route::prefix('owner')->group(function () {
     Route::get('/list', [OwnerController::class, 'index'])->name('owner-list');
     Route::get('/get', [OwnerController::class, 'getOwner'])->name('owner-get');
     Route::post('/save', [OwnerController::class, 'save'])->name('owner-save');
-    Route::get('/edit/{id}', [OwnerController::class, 'edit'])->name('owner-edit');
+    Route::get('/find/{id}', [OwnerController::class, 'find'])->name('owner-edit');
     Route::get('/delete/{id}', [OwnerController::class, 'delete'])->name('owner-delete');
 
 });
@@ -70,7 +70,7 @@ Route::prefix('customer')->group(function () {
     Route::get('/list', [CustomerController::class, 'index'])->name('customer-list');
     Route::get('/get', [CustomerController::class, 'getCustomer'])->name('customer-get');
     Route::post('/save', [CustomerController::class, 'save'])->name('customer-save');
-    Route::get('/edit/{id}', [CustomerController::class, 'edit'])->name('customer-edit');
+    Route::get('/find/{id}', [CustomerController::class, 'find'])->name('customer-find');
     Route::get('/delete/{id}', [CustomerController::class, 'delete'])->name('customer-delete');
 });
 

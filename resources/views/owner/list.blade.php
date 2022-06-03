@@ -38,6 +38,7 @@
                 <thead>
                 <tr>
                     <th>id</th>
+                    <th>Name</th>
                     <th>Address</th>
                     <th>Main Contact Name </th>
                     <th>Main Number</th>

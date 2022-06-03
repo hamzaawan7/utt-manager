@@ -55,7 +55,7 @@ class PropertyCategoryController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editPropertyCategory(\'/category/edit/'.$categoryList->id.'\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findPropertyCategory(\'/category/find/'.$categoryList->id.'\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
                                     <a class="dropdown-item btn-delete" onclick="deletePropertyCategory(\'/category/delete/'.$categoryList->id.'\')">
@@ -76,39 +76,24 @@ class PropertyCategoryController extends Controller
      */
     public function save(PropertyCategorySaveRequest $request): JsonResponse
     {
-        $category = $this->propertyCategoryRepository->save($request->input());
-        if ($category) {
+        $message = $this->propertyCategoryRepository->save($request->input());
+
             return response()->json([
                 'status'=>200,
-                 'message'=>$category
+                 'message'=>$message
             ]);
-        }
     }
 
     /**
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $category = $this->propertyCategoryRepository->edit($id);
+        $category = $this->propertyCategoryRepository->find($id);
 
         return response()->json($category);
 
-    }
-
-    /**
-     * @param PropertyCategorySaveRequest $request
-     * @return RedirectResponse
-     */
-    public function update(PropertyCategorySaveRequest $request): RedirectResponse
-    {
-       $response = $this->propertyCategoryRepository->update($request->input());
-        if ($response) {
-            return redirect()->route('propert-category-list')->with('message','Data Updated Successfully');
-        }
-
-        return redirect()->route('propert-category-list')->with('error','Error While Update Data');
     }
 
     /**
@@ -117,13 +102,11 @@ class PropertyCategoryController extends Controller
      */
     public function delete($id): JsonResponse
     {
-        $response = $this->propertyCategoryRepository->delete($id);
-       if ($response){
-           return response()->json([
-               'status'=>200,
-               'message'=>$response
-           ]);
-       }
-    }
+        $message = $this->propertyCategoryRepository->delete($id);
 
+        return response()->json([
+            'status' => 200,
+            'message' => $message
+        ]);
+    }
 }

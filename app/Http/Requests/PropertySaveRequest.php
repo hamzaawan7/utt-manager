@@ -14,16 +14,16 @@ class PropertySaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'owner_name' => 'required',
-            'short_code' => 'required',
+            'short_code' => 'required|numeric',
             'category_name' => 'required',
             'feature_name' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'post_code' => 'required',
+            'phone' => 'required|numeric',
+            'address' => 'required|string|max:255',
+            'post_code' => 'required|numeric',
             'special_category' => 'required',
-            'utt_star_rating' => 'required',
+            'utt_star_rating' => 'required|numeric',
             'is_visible' => 'required',
         ];
     }

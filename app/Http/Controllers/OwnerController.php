@@ -52,7 +52,7 @@ class OwnerController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editOwner(\'/owner/edit/'.$ownerList->id.'\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findOwner(\'/owner/find/'.$ownerList->id.'\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
                                     <a class="dropdown-item" onclick="deleteOwner(\'/owner/delete/'.$ownerList->id.'\')">
@@ -88,12 +88,12 @@ class OwnerController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $response = $this->ownerRepository->edit($id);
+        $response = $this->ownerRepository->find($id);
         $response->user;
-        return response()->json($response);
 
+        return response()->json($response);
     }
 
     /**
@@ -102,13 +102,10 @@ class OwnerController extends Controller
      */
     public function delete($id): JsonResponse
     {
-        $response = $this->ownerRepository->delete($id);
-        if ($response){
+        $message = $this->ownerRepository->delete($id);
             return response()->json([
                 'status'=>200,
-                'message'=>$response
+                'message'=>$message
             ]);
         }
-
-    }
 }

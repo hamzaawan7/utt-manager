@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -34,6 +35,11 @@ class FeatureController extends Controller
         return view('property.feature_list');
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     * @throws Exception
+     */
     public function getFeatures(Request $request)
     {
         if ($request->ajax()) {
@@ -49,7 +55,7 @@ class FeatureController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editPropertyFeature(\'/property/feature/edit/'.$featureList->id.'\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findPropertyFeature(\'/property/feature/find/'.$featureList->id.'\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
                                     <a class="dropdown-item delete-property-feature" onclick="deletePropertyFeature(\'/property/feature/delete/'.$featureList->id.'\')">
@@ -84,9 +90,9 @@ class FeatureController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $response = $this->propertyFeatureRepository->edit($id);
+        $response = $this->propertyFeatureRepository->find($id);
 
         return response()->json($response);
     }

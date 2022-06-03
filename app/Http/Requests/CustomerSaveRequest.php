@@ -14,13 +14,13 @@ class CustomerSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'post_code' => 'required',
-            'city' => 'required',
-            'country' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|',
+            'phone' => 'required|numeric',
+            'address' => 'required|string|max:255',
+            'post_code' => 'required|numeric',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
         ];
     }
 
@@ -31,7 +31,6 @@ class CustomerSaveRequest extends FormRequest
     {
         return [
             'name.required' => 'This field is reuired',
-            'email.required' => 'This field is reuired',
             'password.required' => 'This field is reuired',
             'phone.required' => 'This field is reuired',
             'address.required' => 'This field is reuired',

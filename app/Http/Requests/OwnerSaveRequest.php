@@ -14,15 +14,15 @@ class OwnerSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-            'main_contact_name' => 'required',
-            'main_contact_number' => 'required',
-            'secondary_contact_name' => 'required',
-            'secondary_contact_number' => 'required',
-            'emergency_contact_name' => 'required',
-            'emergency_contact_number' => 'required',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|',
+            'address' => 'required|string|max:255',
+            'main_contact_name' => 'required|string|max:255',
+            'main_contact_number' => 'required|numeric',
+            'secondary_contact_name' => 'required|string|max:255',
+            'secondary_contact_number' => 'required|numeric',
+            'emergency_contact_name' => 'required|string|max:255',
+            'emergency_contact_number' => 'required|numeric',
         ];
     }
 

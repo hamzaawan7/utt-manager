@@ -14,8 +14,8 @@ class FeatureSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'feature_name' => 'required',
-            'minimum_nights' => 'required',
+            'feature_name' => 'required|string|max:255',
+            'minimum_nights' => 'required|numeric',
             'check_in_time' => 'required',
             'check_out_time' => 'required',
         ];

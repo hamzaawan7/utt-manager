@@ -10,15 +10,15 @@ interface OwnerRepositoryInterface
 {
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string;
+    public function save($data);
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id);
+    public function find(int $id);
 
     /**
      * @return mixed
@@ -28,12 +28,7 @@ interface OwnerRepositoryInterface
     /**
      * @return mixed
      */
-    public function get();
 
-    /**
-     * @param int $id
-     * @return mixed
-     */
     public function delete(int $id);
 
 }

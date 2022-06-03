@@ -27,44 +27,52 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
         if(!is_null($data['general_id'])) {
             try {
                 $category = $this->propertyCategory::find($data['general_id']);
-                $category->category_name = $data['category_name'];
-                $category->standard_guests = $data['standard_guests'];
-                $category->minimum_guest = $data['minimum_guest'];
-                $category->room_layouts = $data['room_layouts'];
-                $category->childs = $data['childs'];
-                $category->infants = $data['infants'];
-                $category->pets = $data['pets'];
+                $category = $this->getCommonFields($category,$data);
                 $category->update();
-                return "Data Update Successfully";
-            } catch (\Exception $e){
+
+                return "Data Updated Successfully";
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
 
-        }else{
-            try{
+        } else {
+            try {
                 $category = new $this->propertyCategory;
-                $category->category_name = $data['category_name'];
-                $category->standard_guests = $data['standard_guests'];
-                $category->minimum_guest = $data['minimum_guest'];
-                $category->room_layouts = $data['room_layouts'];
-                $category->childs = $data['childs'];
-                $category->infants = $data['infants'];
-                $category->pets = $data['pets'];
+                $category = $this->getCommonFields($category,$data);
                 $category->save();
-                return "Data Save Successfully";
-            }catch (\Exception $e){
+
+                return "Data Saved Successfully";
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
     }
 
     /**
+     * @param $category
+     * @param $data
+     * @return mixed
+     */
+    public function getCommonFields($category,$data)
+    {
+        $category->category_name = $data['category_name'];
+        $category->standard_guests = $data['standard_guests'];
+        $category->minimum_guest = $data['minimum_guest'];
+        $category->room_layouts = $data['room_layouts'];
+        $category->childs = $data['childs'];
+        $category->infants = $data['infants'];
+        $category->pets = $data['pets'];
+
+        return $category;
+    }
+
+    /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
-        return $this->propertyCategory::where('id', $id)->first();
+        return $this->propertyCategory->find($id);
     }
 
     /**
@@ -72,15 +80,7 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      */
     public function all()
     {
-        return $this->propertyCategory::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->propertyCategory->all();
     }
 
     /**
@@ -90,10 +90,10 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     public function delete(int $id)
     {
         try {
-             $this->propertyCategory::where('id',$id)->delete();
+             $this->propertyCategory->find($id)->delete();
 
              return "Data Deleted Successfully";
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 
