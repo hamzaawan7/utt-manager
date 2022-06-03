@@ -52,6 +52,7 @@ function addProperty() {
 
 //Edit Property Function
 function findProperty(url) {
+    $('.img-tag').attr('src', '');
     $('#myLargeModalLabel').html('Update Property');
     $.ajax({
         url: url,
@@ -73,7 +74,7 @@ function findProperty(url) {
             });
 
             $.each(response.nearby_properties, function( index, value ) {
-                nearbyProperty.push(value.id);
+                nearbyProperty.push(value.property_id);
             });
 
             $('#category_names').val(category).trigger('change');
@@ -355,7 +356,7 @@ function addFeature() {
 }
 
 //Edit Property Feature
-function editPropertyFeature(url) {
+function findPropertyFeature(url) {
     $.ajax({
         url: url,
         method: 'get',

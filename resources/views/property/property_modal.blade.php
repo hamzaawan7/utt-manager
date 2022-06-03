@@ -137,7 +137,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Select Main Image</label>
-                                <input class="form-control-file form-control height-auto" type="file" id="main_image"
+                                <input class="form-control-file form-control height-auto img-tag" type="file" id="main_image"
                                        name="main_image">
                             </div>
                             <div class="main-images">
@@ -147,7 +147,7 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label>Select Multiple Image</label>
-                                <input class="form-control-file form-control height-auto" id="images" name="images[]"
+                                <input class="form-control-file form-control height-auto img-tag" id="images" name="images[]"
                                        type="file" multiple>
                             </div>
                             <div class="multi_images_main row">

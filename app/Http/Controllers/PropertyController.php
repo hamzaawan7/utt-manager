@@ -137,8 +137,8 @@ class PropertyController extends Controller
      */
     public function save(PropertySaveRequest $request): JsonResponse
     {
+        $isVisible = 0;
         if (!is_null($request->general_id)) {
-            $isVisible = 0;
             $property                   = $this->property->find($request->general_id);
             $property->name             = $request->name;
             $property->owner_id         = $request->owner_name;
@@ -157,23 +157,22 @@ class PropertyController extends Controller
                 if (File::exists($destination)) {
                     File::delete($destination);
                 }
+                $file      = $request->file('main_image');
+                $extention = $file->getClientOriginalExtension();
+                $filename  = time() . '.' . $extention;
+                $file->move(public_path('images/main'), $filename);
+                $property->main_image = $filename;
             }
-            $file      = $request->file('main_image');
-            $extention = $file->getClientOriginalExtension();
-            $filename  = time() . '.' . $extention;
-            $file->move(public_path('images/main'), $filename);
-            $property->main_image = $filename;
+
             $property->update();
-
-
-            if ($request->has('images')) {
-                foreach ($request->file('images') as $file) {
-                    $extension  = $file->getClientOriginalExtension();
-                    $filename   = time() . '.' . $extension;
-                    $file->move(public_path('images/multiple'), $filename);
-                    $propertyImages              = new $this->propertyImages;
+            if ($files = $request->file('images')) {
+                $destinationPath = public_path('/images/multiple/');
+                foreach ($files as $img) {
+                    $profileImage = $img->getClientOriginalName();
+                    $img->move($destinationPath, $profileImage);
+                    $propertyImages = new $this->propertyImages;
+                    $propertyImages->images = "$profileImage";
                     $propertyImages->property_id = $request->general_id;
-                    $propertyImages->images      = $filename;
                     $propertyImages->save();
                 }
             }
@@ -209,7 +208,6 @@ class PropertyController extends Controller
             ]);
 
         } else {
-            $isVisible = 0;
             $property                   = new $this->property;
             $property->name             = $request->name;
             $property->owner_id         = $request->owner_name;
@@ -219,44 +217,27 @@ class PropertyController extends Controller
             $property->post_code        = $request->post_code;
             $property->special_category = $request->special_category;
             $property->utt_star_rating  = $request->utt_star_rating;
-
             if (isset($request->is_visible)) {
                 $isVisible = 1;
             }
-
             $property->is_visible       = $isVisible;
             if ($request->hasfile('main_image')) {
                 $file      = $request->file('main_image');
-                $extention = $file->getClientOriginalExtension();
-                $filename  = time() . '.' . $extention;
+                $extension = $file->getClientOriginalExtension();
+                $filename  = time() . '.' . $extension;
                 $file->move(public_path('images/main'), $filename);
                 $property->main_image = $filename;
             }
             $property->save();
             $property_id = $property->id;
 
-            /*if ($request->has('images')) {
-                foreach ($request->file('images') as $file) {
-                    $extension = $file->getClientOriginalExtension();
-                    $filename  = time() . '.' . $extension;
-                    $file->move(public_path('images/multiple'), $filename);
-                    $propertyImages              = new $this->propertyImages;
-                    $propertyImages->property_id = $property_id;
-                    $propertyImages->images      = $filename;
-                    $propertyImages->save();
-                }
-            }*/
-
             if ($files = $request->file('images')) {
-                // Define upload path
-                $destinationPath = public_path('/images/multiple/'); // upload path
+                $destinationPath = public_path('/images/multiple/');
                 foreach ($files as $img) {
-                    // Upload Orginal Image
                     $profileImage = $img->getClientOriginalName();
                     $img->move($destinationPath, $profileImage);
-                    // Save In Database
                     $propertyImages = new $this->propertyImages;
-                    $propertyImages->images = "$profileImage";
+                    $propertyImages->images = $profileImage;
                     $propertyImages->property_id = $property_id;
                     $propertyImages->save();
                 }

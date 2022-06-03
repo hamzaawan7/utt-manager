@@ -1,4 +1,4 @@
-# Unrankedsmurfs Boosting
+# Uttp Manager
 
 ## Setup
 

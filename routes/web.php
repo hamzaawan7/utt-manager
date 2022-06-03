@@ -51,7 +51,7 @@ Route::prefix('property')->group(function () {
     Route::get('/feature/list', [FeatureController::class, 'index'])->name('feature-list');
     Route::get('/feature/get', [FeatureController::class, 'getFeatures'])->name('feature-get');
     Route::post('/feature/save', [FeatureController::class, 'save'])->name('feature-save');
-    Route::get('/feature/find/{id}', [FeatureController::class, 'edit'])->name('feature-find');
+    Route::get('/feature/find/{id}', [FeatureController::class, 'find'])->name('feature-find');
     Route::get('/feature/delete/{id}', [FeatureController::class, 'delete'])->name('feature-delete');
 });
 
