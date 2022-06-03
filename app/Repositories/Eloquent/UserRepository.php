@@ -43,11 +43,11 @@ class UserRepository implements UserRepositoryInterface
                 $user->update();
                 $user->syncRoles($data['role']);
 
-                return "Data Update Successfully";
-            }catch (\Exception $e){
+                return "Data Updated Successfully";
+            } catch (\Exception $e){
                 return $e->getMessage();
             }
-        }else{
+        } else {
             try {
                 $user                = new $this->user;
                 $user->name          = $data['name'];
@@ -56,7 +56,7 @@ class UserRepository implements UserRepositoryInterface
                 $user->save();
                 $user->syncRoles($data['role']);
                 return "Data Inserted Successfully";
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e->getMessage();
             }
         }
@@ -66,7 +66,7 @@ class UserRepository implements UserRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
         return $this->user->where('id',$id)->first();
     }

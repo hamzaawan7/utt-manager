@@ -19,13 +19,13 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
      */
     public function save($data): string
     {
-        try{
+        try {
             $category = new $this->priceCategory;
             $category->category = $data['category_name'];
             $category->save();
 
             return $category;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -45,36 +45,11 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     }
 
     /**
-     * @param $data
-     * @return string
-     */
-    public function update($data): string
-    {
-        try{
-            $category = $this->priceCategory::where('id', intval($data['category_id']))->first();
-            $category->category = $data['category_name'];
-            $category->update();
-
-            return $category;
-        }catch (\Exception $e){
-            return $e->getMessage();
-        }
-    }
-
-    /**
      * @return Collection|PriceCategory[]
      */
     public function all()
     {
-        return $this->priceCategory::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->priceCategory->all();
     }
 
     /**
@@ -84,9 +59,9 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     public function delete(int $id): string
     {
         try {
-            return $this->priceCategory::where('id',$id)->delete();
+            return $this->priceCategory->find($id)->delete();
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
 

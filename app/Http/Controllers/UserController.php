@@ -7,12 +7,12 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Repositories\UserRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UserSaveRequest;
+
 /**
  * Class UserController
  * @package App\Http\Controllers
@@ -40,10 +40,10 @@ class UserController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UserSaveRequest $request
      * @return JsonResponse
      */
-    public function saveUserRole(Request $request): JsonResponse
+    public function save(UserSaveRequest $request): JsonResponse
     {
        $response = $this->userRepository->save($request->input());
 
@@ -54,11 +54,12 @@ class UserController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id)
+    public function find(int $id): JsonResponse
     {
-        $users = $this->userRepository->edit($id);
+        $user = $this->userRepository->find($id);
+        $user->getRoleNames();
 
-        return response()->json($users);
+        return response()->json($user);
     }
 
     /**
@@ -69,7 +70,7 @@ class UserController extends Controller
     {
         $this->userRepository->delete($id);
 
-        return response()->json("Data Deleeted Successfully");
+        return response()->json("Data Deleted Successfully");
     }
 }
 

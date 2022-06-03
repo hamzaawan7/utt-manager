@@ -65,7 +65,7 @@
                             <i class="dw dw-more"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                            <a class="dropdown-item" href="#" onclick="editUser('{{$user->id}}')">
+                            <a class="dropdown-item" href="#" onclick="findUser('{{$user->id}}')">
                                 <i class="dw dw-edit2"></i> Edit
                             </a>
                             <a class="dropdown-item" href="#"

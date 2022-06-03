@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePriceCategoriesTable extends Migration
+class CreateTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreatePriceCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('price_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_name');
-
-            $table->timestamps();
-            
+        Schema::table('type', function (Blueprint $table) {
+            //
         });
     }
 
@@ -29,6 +25,8 @@ class CreatePriceCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('price_categories');
+        Schema::table('type', function (Blueprint $table) {
+            //
+        });
     }
 }

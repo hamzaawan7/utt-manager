@@ -56,7 +56,8 @@
                                        href="{{ url('price/category/edit', ['id' => $item->id]) }}">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
-                                    <a class="dropdown-item" href="{{ url('/price/category/delete', ['id' => $item->id]) }}"
+                                    <a class="dropdown-item"
+                                       href="{{ url('/price/category/delete', ['id' => $item->id]) }}"
                                        onclick="return confirm('Are you sure?')">
                                         <i class="dw dw-delete-3"> Delete</i>
                                     </a>

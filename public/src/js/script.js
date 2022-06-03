@@ -739,13 +739,18 @@ function addUser() {
             $('#user_form')[0].reset();
             $('#user-modal').modal('hide');
             toastr.success(''+response+'', 'Success');
+        }, error :function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val){
+                $("#" +key + "_error").text(val[0]);
+            });
         }
     });
 }
 
 //User Edit
-function editUser(id) {
-    var url = '/user/edit/' + id + '';
+function findUser(id) {
+    var url = '/user/find/' + id + '';
     $.ajax({
         url: url,
         method: 'get',
@@ -753,6 +758,10 @@ function editUser(id) {
             $.each(response, function (index, value) {
                 $('#' + index).val(value);
                 $('#user_id').val(response.id);
+            });
+            $.each(response.roles[0], function (index, value) {
+
+                $('#role').val(index.id);
             });
             $('#user-modal').modal('show');
         }

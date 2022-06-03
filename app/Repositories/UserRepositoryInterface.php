@@ -18,17 +18,12 @@ interface UserRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id);
+    public function find(int $id);
 
     /**
      * @return void
      */
     public function all();
-
-    /**
-     * @return void
-     */
-    public function get();
 
     /**
      * @param int $id

@@ -15,12 +15,14 @@
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" id="name" class="form-control" name="name">
+                                <div class="text-danger clear-error" id="name_error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="text" id="email" class="form-control" name="email">
+                                <div class="text-danger clear-error" id="email_error"></div>
                             </div>
                         </div>
                     </div>
@@ -39,12 +41,11 @@
                             </div>
                         </div>
                     </div>
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Roles</label>
-                            <select class="form-control" name="role">
+                            <select class="form-control" name="role" id="role">
                                 <option> Select Role</option>
                                 @foreach($roles as $role)
                                     <option value=" {{ $role->id }}">{{ $role->name }}</option>

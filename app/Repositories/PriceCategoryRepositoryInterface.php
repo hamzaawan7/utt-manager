@@ -17,23 +17,12 @@ interface PriceCategoryRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id);
-
-    /**
-     * @param $data
-     * @return string
-     */
-    public function update($data): string;
+    public function find(int $id);
 
     /**
      * @return void
      */
     public function all();
-
-    /**
-     * @return void
-     */
-    public function get();
 
     /**
      * @param int $id

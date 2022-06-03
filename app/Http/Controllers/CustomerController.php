@@ -73,6 +73,7 @@ class CustomerController extends Controller
      */
     public function save(CustomerSaveRequest $request): JsonResponse
     {
+        dd($request);
         $message = $this->customerRepository->save($request->input());
 
             return response()->json([

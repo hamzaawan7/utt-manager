@@ -29,8 +29,8 @@ Auth::routes();
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/user/list', [UserController::class, 'list'])->name('user-list');
-Route::post('/user/save', [UserController::class, 'saveUserRole'])->name('user-save');
-Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user-edit');
+Route::post('/user/save', [UserController::class, 'save'])->name('user-save');
+Route::get('/user/find/{id}', [UserController::class, 'find'])->name('user-edit');
 Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('user-delete');
 
 //Property Category Route
