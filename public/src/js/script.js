@@ -58,7 +58,7 @@ function findProperty(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            if (response.is_visible === 1){
+            if (response[0].is_visible === 1){
                 $( "#is_visible" ).prop( "checked", true );
             }
             $('.multi_images_main').html('');
@@ -66,22 +66,22 @@ function findProperty(url) {
             var features       = [];
             var nearbyProperty = [];
             $('#category_names').select2('val',response.id);
-            $.each(response.features, function( index, value ) {
+            $.each(response[0].features, function( index, value ) {
                 features.push(value.id)
             });
-            $.each(response.categories, function( index, value ) {
+            $.each(response[0].categories, function( index, value ) {
                 category.push(value.id);
             });
 
-            $.each(response.nearby_properties, function( index, value ) {
-                nearbyProperty.push(value.property_id);
+            $.each(response[0].nearby_properties, function( index, value ) {
+                nearbyProperty.push(value.nearby_property_id);
             });
 
             $('#category_names').val(category).trigger('change');
             $('#feature_name').val(features).trigger('change');
             $('#nearby_property').val(nearbyProperty).trigger('change');
-            $('#general_id').val(response.id);
-            $.each(response, function( index, value ) {
+            $('#general_id').val(response[0].id);
+            $.each(response[0], function( index, value ) {
                 if(index !== 'main_image' &&  index !== 'images' ) {
                      $('#'+index).val(value);
                 }
@@ -91,7 +91,7 @@ function findProperty(url) {
             var mainImage='';
             var bas_url=$('#general-form').attr('base_path');
 
-            $.each(response.images, function( index, value ) {
+            $.each(response[0].images, function( index, value ) {
                 html+=' <div class="image_div col-lg-2" id="'+value.id+'">\n' +
                     '     <img src="'+bas_url+'/images/multiple/'+value.images+'" width="150px">\n' +
                     '     <span class="close_icon delete-images"><i class="icon-copy fa fa-trash fa-2x" aria-hidden="true"></i></span>\n' +
@@ -99,7 +99,7 @@ function findProperty(url) {
             });
 
             mainImage+=' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
-                ' <img src="'+bas_url+'/images/main/'+response.main_image+'" width="200px">\n' +
+                ' <img src="'+bas_url+'/images/main/'+response[0].main_image+'" width="200px">\n' +
                 ' </div>';
 
             $('.multi_images_main').html(html);
@@ -443,7 +443,7 @@ function addReview() {
 }
 
 //Edit Review
-function editReview(url) {
+function findReview(url) {
     $.ajax({
         url: url,
         method: 'get',
@@ -549,13 +549,13 @@ function findCustomer(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response, function (index, value) {
+            $.each(response[0], function (index, value) {
 
                 $('#' + index).val(value);
 
-                $('#customer_id').val(response.user_id);
+                $('#customer_id').val(response[0].user_id);
             });
-            $.each(response.user, function (index, value) {
+            $.each(response[0].user, function (index, value) {
                 $('#' + index).val(value);
             })
             $('#customer-modal').modal('show');
@@ -632,9 +632,9 @@ function addOwner() {
         data: data,
         success: function (response) {
             if (response.status === 200) {
+                toastr.success(''+response.message+'', 'Success');
                 $('#owner-form')[0].reset();
                 $('#owner-modal').modal('hide');
-                toastr.success(''+response.message+'', 'Success');
                 getOwner();
             }
         }, error :function (reject) {
@@ -652,12 +652,12 @@ function findOwner(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response, function (index, value) {
+            $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
-                $('#owner_id').val(response.user_id);
+                $('#owner_id').val(response[0].user_id);
             });
-            $.each(response.user, function (index, value) {
+            $.each(response[0].user, function (index, value) {
                 $('#' + index).val(value);
             });
             $('#owner-modal').modal('show');
@@ -759,10 +759,7 @@ function findUser(id) {
                 $('#' + index).val(value);
                 $('#user_id').val(response.id);
             });
-            $.each(response.roles[0], function (index, value) {
-
-                $('#role').val(index.id);
-            });
+            $('#role').val(response.roles[0].id);
             $('#user-modal').modal('show');
         }
     });

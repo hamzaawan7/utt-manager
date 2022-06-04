@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class PriceCategoryRepository implements PriceCategoryRepositoryInterface
 {
+    /**
+     * @var PriceCategory
+     */
+    private $priceCategory;
+
     /** @var PriceCategory $priceCategory */
     public function __construct(PriceCategory  $priceCategory)
     {
@@ -38,7 +43,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     {
         try {
             return $this->priceCategory::where('id', $id)->first();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
            return $e->getMessage();
         }
 
@@ -60,10 +65,8 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     {
         try {
             return $this->priceCategory->find($id)->delete();
-
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 }

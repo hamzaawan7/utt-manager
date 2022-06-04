@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
+use App\Repositories\ReviewRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Repositories\ReviewRepositoryInterface;
-use App\Models\Review;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 /**
  * Class ReviewController
@@ -21,9 +21,10 @@ class ReviewController extends Controller
     /** @var Review $review */
     /** @var ReviewRepositoryInterface $reviewRepository */
     private $reviewRepository;
+
     public function __construct(
-        ReviewRepositoryInterface  $reviewRepository,
-        Review $review
+        ReviewRepositoryInterface $reviewRepository,
+        Review                    $review
     )
     {
         $this->reviewRepository = $reviewRepository;
@@ -48,23 +49,22 @@ class ReviewController extends Controller
             $reviewList = $this->reviewRepository->all();
             return Datatables::of($reviewList)
                 ->addIndexColumn()
-                ->addColumn('action', function($reviewList){
-                    $actionBtn = '
-                                  <div class="dropdown">
+                ->addColumn('action', function ($reviewList) {
+                    return '
+                             <div class="dropdown">
                                 <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
                                    role="button" data-toggle="dropdown">
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="editReview(\'/review/edit/'.$reviewList->id.'\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findReview(\'/review/find/' . $reviewList->id . '\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
-                                    <a class="dropdown-item btn-delete" onclick="deleteReview(\'/review/delete/'.$reviewList->id.'\')">
+                                    <a class="dropdown-item btn-delete" onclick="deleteReview(\'/review/delete/' . $reviewList->id . '\')">
                                         <i class="dw dw-delete-3"> Delete</i>
                                     </a>
                                 </div>
                             </div>';
-                    return $actionBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -73,25 +73,20 @@ class ReviewController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse|void
+     * @return JsonResponse
      */
-    public function save(Request $request)
+    public function save(Request $request): JsonResponse
     {
-        $category = $this->reviewRepository->save($request->input());
-        if ($category) {
-            return response()->json($category);
-        }
+        return response()->json($this->reviewRepository->save($request->input()));
     }
 
     /**
      * @param int $id
      * @return JsonResponse
      */
-    public function edit(int $id): JsonResponse
+    public function find(int $id): JsonResponse
     {
-        $response = $this->reviewRepository->edit($id);
-
-        return response()->json($response);
+        return response()->json($this->reviewRepository->find($id));
     }
 
     /**
@@ -100,8 +95,6 @@ class ReviewController extends Controller
      */
     public function delete(int $id): JsonResponse
     {
-        $response = $this->reviewRepository->delete($id);
-
-        return response()->json($response);
+        return response()->json($this->reviewRepository->delete($id));
     }
 }

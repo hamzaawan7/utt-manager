@@ -10,7 +10,10 @@ use App\Models\Review;
  */
 class ReviewRepository implements ReviewRepositoryInterface
 {
-    /** @var Review $review */
+    /**
+     * @var Review
+     */
+    private $review;
     public function __construct(Review $review)
     {
         $this->review = $review;
@@ -18,9 +21,9 @@ class ReviewRepository implements ReviewRepositoryInterface
 
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string
+    public function save($data)
     {
         if(!is_null($data['review_id'])) {
             try {
@@ -43,7 +46,6 @@ class ReviewRepository implements ReviewRepositoryInterface
             } catch (\Exception $e){
                 return $e->getMessage();
             }
-
         }
     }
 
@@ -51,7 +53,7 @@ class ReviewRepository implements ReviewRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
         return $this->review->find($id);
     }
@@ -61,15 +63,7 @@ class ReviewRepository implements ReviewRepositoryInterface
      */
     public function all()
     {
-        return $this->review::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->review->all();
     }
 
     /**
@@ -79,11 +73,11 @@ class ReviewRepository implements ReviewRepositoryInterface
     public function delete(int $id)
     {
         try {
-            return $this->review->find()->delete();
-        }catch (\Exception $e){
+             $this->review->find($id)->delete();
+
+             return "Data Deleted Successfully";
+        } catch (\Exception $e){
             return $e->getMessage();
         }
-
     }
-
 }

@@ -137,21 +137,10 @@ class PropertyController extends Controller
      */
     public function save(PropertySaveRequest $request): JsonResponse
     {
-        $isVisible = 0;
         if (!is_null($request->general_id)) {
-            $property                   = $this->property->find($request->general_id);
-            $property->name             = $request->name;
-            $property->owner_id         = $request->owner_name;
-            $property->short_code       = $request->short_code;
-            $property->phone            = $request->phone;
-            $property->address          = $request->address;
-            $property->post_code        = $request->post_code;
-            $property->special_category = $request->special_category;
-            $property->utt_star_rating  = $request->utt_star_rating;
-            if (isset($request->is_visible)){
-                $isVisible = 1;
-            }
-            $property->is_visible       = $isVisible;
+            $property = $this->property->find($request->general_id);
+            $property = $this->getCommonFields($property,$request);
+
             if ($request->hasFile('main_image')) {
                 $destination = public_path('images/main/' . $property->main_image);
                 if (File::exists($destination)) {
@@ -165,13 +154,12 @@ class PropertyController extends Controller
             }
 
             $property->update();
-            if ($files = $request->file('images')) {
-                $destinationPath = public_path('/images/multiple/');
-                foreach ($files as $img) {
-                    $profileImage = $img->getClientOriginalName();
-                    $img->move($destinationPath, $profileImage);
+            if ($request->file('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = time().rand(1,100).'.'.$file->extension();
+                    $file->move(public_path('/images/multiple/'),$name);
                     $propertyImages = new $this->propertyImages;
-                    $propertyImages->images = "$profileImage";
+                    $propertyImages->images = $name;
                     $propertyImages->property_id = $request->general_id;
                     $propertyImages->save();
                 }
@@ -179,18 +167,23 @@ class PropertyController extends Controller
             $this->feature->where('property_id', $request->general_id)->delete();
             $this->propertyCategory->where('property_id', $request->general_id)->delete();
             $this->nearbyProperty->where('property_id', $request->general_id)->delete();
-            foreach ($request->category_name as $item) {
-                $category              = new $this->propertyCategory;
-                $category->property_id = $request->general_id;
-                $category->category_id = $item;
-                $category->save();
+
+            if ($request->category_name) {
+                foreach ($request->category_name as $item) {
+                    $category              = new $this->propertyCategory;
+                    $category->property_id = $request->general_id;
+                    $category->category_id = $item;
+                    $category->save();
+                }
             }
 
-            foreach ($request->feature_name as $item) {
-                $feature              = new $this->feature;
-                $feature->property_id = $request->general_id;
-                $feature->feature_id  = $item;
-                $feature->save();
+            if ($request->feature_name) {
+                foreach ($request->feature_name as $item) {
+                    $feature              = new $this->feature;
+                    $feature->property_id = $request->general_id;
+                    $feature->feature_id  = $item;
+                    $feature->save();
+                }
             }
 
             if ($request->nearby_property) {
@@ -208,19 +201,8 @@ class PropertyController extends Controller
             ]);
 
         } else {
-            $property                   = new $this->property;
-            $property->name             = $request->name;
-            $property->owner_id         = $request->owner_name;
-            $property->short_code       = $request->short_code;
-            $property->phone            = $request->phone;
-            $property->address          = $request->address;
-            $property->post_code        = $request->post_code;
-            $property->special_category = $request->special_category;
-            $property->utt_star_rating  = $request->utt_star_rating;
-            if (isset($request->is_visible)) {
-                $isVisible = 1;
-            }
-            $property->is_visible       = $isVisible;
+            $property = new $this->property;
+            $property = $this->getCommonFields($property,$request);
             if ($request->hasfile('main_image')) {
                 $file      = $request->file('main_image');
                 $extension = $file->getClientOriginalExtension();
@@ -231,30 +213,33 @@ class PropertyController extends Controller
             $property->save();
             $property_id = $property->id;
 
-            if ($files = $request->file('images')) {
-                $destinationPath = public_path('/images/multiple/');
-                foreach ($files as $img) {
-                    $profileImage = $img->getClientOriginalName();
-                    $img->move($destinationPath, $profileImage);
+            if ($request->file('images')) {
+                foreach ($request->file('images') as $file) {
+                    $name = time().rand(1,100).'.'.$file->extension();
+                    $file->move(public_path('/images/multiple/'),$name);
                     $propertyImages = new $this->propertyImages;
-                    $propertyImages->images = $profileImage;
+                    $propertyImages->images = $name;
                     $propertyImages->property_id = $property_id;
                     $propertyImages->save();
                 }
             }
 
-            foreach ($request->category_name as $item) {
-                $category              = new $this->propertyCategory;
-                $category->property_id = $property_id;
-                $category->category_id = $item;
-                $category->save();
+            if ($request->category_name) {
+                foreach ($request->category_name as $item) {
+                    $category              = new $this->propertyCategory;
+                    $category->property_id = $property_id;
+                    $category->category_id = $item;
+                    $category->save();
+                }
             }
 
-            foreach ($request->feature_name as $item) {
-                $feature              = new $this->feature;
-                $feature->property_id = $property_id;
-                $feature->feature_id  = $item;
-                $feature->save();
+            if ($request->feature_name){
+                foreach ($request->feature_name as $item) {
+                    $feature              = new $this->feature;
+                    $feature->property_id = $property_id;
+                    $feature->feature_id  = $item;
+                    $feature->save();
+                }
             }
 
             if ($request->nearby_property) {
@@ -274,18 +259,36 @@ class PropertyController extends Controller
     }
 
     /**
+     * @param $property
+     * @param $request
+     * @return mixed
+     */
+    public function getCommonFields($property, $request)
+    {
+        $isVisible = 0;
+        $property->name             = $request->name;
+        $property->owner_id         = $request->owner_name;
+        $property->short_code       = $request->short_code;
+        $property->phone            = $request->phone;
+        $property->address          = $request->address;
+        $property->post_code        = $request->post_code;
+        $property->special_category = $request->special_category;
+        $property->utt_star_rating  = $request->utt_star_rating;
+        if (isset($request->is_visible)){
+            $isVisible = 1;
+        }
+        $property->is_visible       = $isVisible;
+
+        return $property;
+    }
+
+    /**
      * @param int $id
      * @return JsonResponse
      */
     public function find(int $id): JsonResponse
     {
-        $property = $this->propertyRepository->find($id);
-        $property->images;
-        $property->nearbyProperties;
-        $property->features;
-        $property->categories;
-
-        return response()->json($property);
+        return response()->json($this->propertyRepository->getPropertyWithRelationship($id));
     }
 
     /**

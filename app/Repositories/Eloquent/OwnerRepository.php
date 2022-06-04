@@ -12,8 +12,18 @@ use Illuminate\Support\Facades\Hash;
  */
 class OwnerRepository implements OwnerRepositoryInterface
 {
-    /** @var Owner $owner */
-    /** @var User $user */
+    /**
+     * @var Owner
+     */
+    private $owner;
+    /**
+     * @var User
+     */
+    private $user;
+    /**
+     * @param Owner $owner
+     * @var User $user
+     */
     public function __construct(
         Owner  $owner,
         User   $user
@@ -36,11 +46,11 @@ class OwnerRepository implements OwnerRepositoryInterface
                     $user->name = $data['name'];
                     $user->email = $data['email'];
                     $user->update();
-
                     $owner = $this->owner->where('user_id', $data['owner_id'])->first();
                     $this->getCommonFields($data,$owner);
                     $owner->update();
-                    return 'Data update successfully.';
+
+                    return 'Data Updated successfully.';
                 }
             } catch (\Exception $e){
                 return $e->getMessage();
@@ -60,7 +70,7 @@ class OwnerRepository implements OwnerRepositoryInterface
                 $owner->user_id                  = $user_id;
                 $owner->save();
 
-                return "Data Save Successfully";
+                return "Data Saved Successfully";
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
@@ -74,7 +84,7 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function getCommonFields($data,$owner)
     {
-        $owner->owner_name                  = $data['name'];
+        $owner->owner_name               = $data['name'];
         $owner->address                  = $data['address'];
         $owner->main_contact_name        = $data['main_contact_name'];
         $owner->main_contact_number      = $data['main_contact_number'];
@@ -92,7 +102,7 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->owner->find($id);
+        return $this->owner->where('id', $id)->with('user')->get();
     }
 
     /**
@@ -105,9 +115,9 @@ class OwnerRepository implements OwnerRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
         try {
             $owner = $this->owner->find($id);

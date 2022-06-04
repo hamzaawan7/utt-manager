@@ -3,7 +3,6 @@
 namespace App\Repositories\Eloquent;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Owner;
 use App\Models\Customer;
@@ -14,6 +13,21 @@ use App\Models\Customer;
  */
 class UserRepository implements UserRepositoryInterface
 {
+    /**
+     * @var User
+     */
+    private $user;
+
+    /**
+     * @var Owner
+     */
+    private $owner;
+
+    /**
+     * @var Customer
+     */
+    private $customer;
+
     /**
      * @param Owner $owner
      * @param Customer $customer
@@ -68,7 +82,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->user->where('id',$id)->first();
+        return $this->user->where('id', $id)->first();
     }
 
     /**
@@ -80,14 +94,6 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @return void
-     */
-    public function get()
-    {
-
-    }
-
-    /**
      * @param int $id
      * @return mixed
      */
@@ -95,5 +101,4 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user::where('id',$id)->delete();
     }
-
 }

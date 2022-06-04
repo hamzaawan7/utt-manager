@@ -22,7 +22,7 @@
                     @else
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
-                                <span class="micon dw dw-edit2"></span><span class="mtext">User Manager</span>
+                                <span class="micon fa fa-users"></span><span class="mtext">User Manager</span>
                             </a>
                             <ul class="submenu">
                                 <li><a href="{{route('owner-list')}}">Owner List</a></li>
@@ -33,7 +33,7 @@
                         @endrole
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
-                                <span class="micon dw dw-edit2"></span><span class="mtext">Bookings</span>
+                                <span class="micon fa fa-pencil"></span><span class="mtext">Bookings</span>
                             </a>
                             <ul class="submenu">
                                 <li><a href="form-basic.html">All Availability</a></li>
@@ -56,7 +56,7 @@
                         </li>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
-                                <span class="micon dw dw-apartment"></span><span class="mtext"> Settings </span>
+                                <span class="micon dw fi-widget"></span><span class="mtext"> Settings </span>
                             </a>
                             <ul class="submenu">
                                 <li><a href="{{route('price-list')}}">Pricing Overview</a></li>
@@ -68,7 +68,7 @@
                         </li>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
-                                <span class="micon dw dw-paint-brush"></span><span class="mtext">Reports</span>
+                                <span class="micon dw fi-page-filled"></span><span class="mtext">Reports</span>
                             </a>
                             <ul class="submenu">
                                 <li><a href="font-awesome.html">Sales Report</a></li>
@@ -81,13 +81,13 @@
                         </li>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle no-arrow">
-                                <span class="micon dw dw-analytics-21"></span><span
+                                <span class="micon fa fa-envelope-open"></span><span
                                         class="mtext">Emails & Notifications</span>
                             </a>
                         </li>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle no-arrow">
-                                <span class="micon dw dw-right-arrow1"></span><span class="mtext">Website Manager</span>
+                                <span class="micon fa fa-user"></span><span class="mtext">Website Manager</span>
                             </a>
                         </li>
                 </ul>

@@ -5,6 +5,7 @@ use App\Repositories\CustomerRepositoryInterface;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CustomerRepository
@@ -99,12 +100,11 @@ class CustomerRepository implements CustomerRepositoryInterface
     }
 
     /**
-     * @param int $id
-     * @return mixed
+     * @return Customer[]|Collection
      */
     public function find(int $id)
     {
-        return $this->customer->find($id);
+        return $this->customer->where('id', $id)->with('user')->get();
     }
 
     /**
@@ -112,14 +112,14 @@ class CustomerRepository implements CustomerRepositoryInterface
      */
     public function all()
     {
-        return $this->customer::all();
+        return $this->customer->all();
     }
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
         try {
             $customer = $this->customer->where('id',$id)->first();
@@ -131,6 +131,5 @@ class CustomerRepository implements CustomerRepositoryInterface
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 }

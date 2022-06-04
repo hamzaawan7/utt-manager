@@ -10,7 +10,7 @@ interface ReviewRepositoryInterface
 {
     /**
      * @param $data
-     * @return mixed
+     * @return string|void
      */
     public function save($data);
 
@@ -25,10 +25,6 @@ interface ReviewRepositoryInterface
      */
     public function all();
 
-    /**
-     * @return mixed
-     */
-    public function get();
 
     /**
      * @param int $id

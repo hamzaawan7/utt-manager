@@ -18,7 +18,7 @@ interface PropertyRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function find(int $id);
+    public function getPropertyWithRelationship(int $id);
 
     /**
      * @return mixed

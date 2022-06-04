@@ -18,7 +18,7 @@ class PriceCategoryController extends Controller
     /** @var PriceCategoryRepositoryInterface $priceCategoryRepository */
     private $priceCategoryRepository;
 
-    public function __construct(PriceCategoryRepositoryInterface  $priceCategoryRepository)
+    public function __construct(PriceCategoryRepositoryInterface $priceCategoryRepository)
     {
         $this->priceCategoryRepository = $priceCategoryRepository;
     }
@@ -30,7 +30,7 @@ class PriceCategoryController extends Controller
     {
         $priceCategories = $this->priceCategoryRepository->all();
 
-        return view('price.price_category_list',compact('priceCategories'));
+        return view('price.price_category_list', compact('priceCategories'));
     }
 
     public function create()
@@ -46,10 +46,10 @@ class PriceCategoryController extends Controller
     {
         $response = $this->priceCategoryRepository->save($request->input());
         if ($response) {
-            return redirect()->route('price-category-list')->with('message','Data Inserted Successfully');
+            return redirect()->route('price-category-list')->with('message', 'Data Inserted Successfully');
         }
 
-        return redirect()->route('price-category-list')->with('error','Error While Saving Data');
+        return redirect()->route('price-category-list')->with('error', 'Error While Saving Data');
 
     }
 
@@ -61,18 +61,18 @@ class PriceCategoryController extends Controller
     {
         $category = $this->priceCategoryRepository->edit($id);
 
-        return view('price.edit_category',compact('category'));
+        return view('price.edit_category', compact('category'));
     }
 
-    public function update(PriceCategorySaveRequest $request)
+    public function update(PriceCategorySaveRequest $request): RedirectResponse
     {
         $response = $this->priceCategoryRepository->update($request->input());
 
         if ($response) {
-            return redirect()->route('price-category-list')->with('message','Data Updated Successfully');
+            return redirect()->route('price-category-list')->with('message', 'Data Updated Successfully');
         }
 
-        return redirect()->route('price-category-list')->with('error','Error While Saving Data');
+        return redirect()->route('price-category-list')->with('error', 'Error While Saving Data');
     }
 
     /**
@@ -83,6 +83,6 @@ class PriceCategoryController extends Controller
     {
         $this->priceCategoryRepository->delete($id);
 
-        return redirect()->route('price-category-list')->with('message','Data Deleted Successfully');
+        return redirect()->route('price-category-list')->with('message', 'Data Deleted Successfully');
     }
 }

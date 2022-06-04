@@ -5,7 +5,6 @@ use App\Repositories\FeatureRepositoryInterface;
 use App\Models\Feature;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
-use DataTables;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -14,7 +13,10 @@ use Illuminate\Support\Facades\DB;
  */
 class FeatureRepository implements FeatureRepositoryInterface
 {
-    /** @var Feature $feature */
+    /**
+     * @var Feature
+     */
+    private $feature;
     public function __construct(Feature  $feature)
     {
         $this->feature = $feature;
@@ -90,6 +92,5 @@ class FeatureRepository implements FeatureRepositoryInterface
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
 }

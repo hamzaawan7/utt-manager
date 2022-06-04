@@ -4,7 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Models\Category;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class PropertyCategoryRepository
@@ -12,6 +11,11 @@ use Illuminate\Http\JsonResponse;
  */
 class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
 {
+    /**
+     * @var Category
+     */
+    private $propertyCategory;
+
     /** @var Category $propertyCategory */
     public function __construct(Category  $propertyCategory)
     {
@@ -96,7 +100,5 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
     }
-
 }

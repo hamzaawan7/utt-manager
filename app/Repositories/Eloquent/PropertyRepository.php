@@ -7,6 +7,7 @@ use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
 use App\Models\PropertyImage;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class PropertyRepository
@@ -72,13 +73,13 @@ class PropertyRepository implements PropertyRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function find(int $id)
+    public function getPropertyWithRelationship(int $id)
     {
-        return $this->property->find($id);
+        return $this->property->where('id', $id)->with('images','nearbyProperties','features','categories')->get();
     }
 
     /**
-     * @return mixed
+     * @return Collection|Property[]
      */
     public function all()
     {
@@ -87,9 +88,9 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
         try {
             $this->feature->where('property_id', $id)->delete();

@@ -78,7 +78,7 @@ Route::prefix('review')->group(function () {
     Route::get('/list', [ReviewController::class, 'index'])->name('review-list');
     Route::get('/get', [ReviewController::class, 'getReview'])->name('review-get');
     Route::post('/save', [ReviewController::class, 'save'])->name('review-save');
-    Route::get('/edit/{id}', [ReviewController::class, 'edit'])->name('review-edit');
+    Route::get('/find/{id}', [ReviewController::class, 'find'])->name('review-find');
     Route::get('/delete/{id}', [ReviewController::class, 'delete'])->name('review-delete');
 });
 
