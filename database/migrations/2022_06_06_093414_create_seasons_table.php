@@ -17,7 +17,7 @@ class CreateSeasonsTable extends Migration
             $table->id();
             $table->string('season_name');
             $table->timestamp('from_date');
-            $table->timestamp('to_date');
+            $table->timestamp('to_date')->nullable();
 
             $table->timestamps();
         });

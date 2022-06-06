@@ -22,7 +22,7 @@ class CreateDiscountsTable extends Migration
             $table->string('code');
             $table->string('code_type');
             $table->timestamp('from_date');
-            $table->timestamp('to_date');
+            $table->timestamp('to_date')->nullable();
             $table->string('reason_for_creating');
 
             $table->timestamps();
