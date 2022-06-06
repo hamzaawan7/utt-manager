@@ -15,8 +15,8 @@ class CreateNearbyPropertiesTable extends Migration
     {
         Schema::create('nearby_properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id')->nullable();
-            $table->unsignedInteger('nearby_property_id')->nullable();
+            $table->unsignedBigInteger('property_id')->nullable();
+            $table->unsignedBigInteger('nearby_property_id')->nullable();
 
             $table->timestamps();
 

@@ -16,7 +16,7 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('owner_id')->nullable();
+            $table->unsignedBigInteger('owner_id');
             $table->string('name');
             $table->string('short_code');
             $table->string('phone');

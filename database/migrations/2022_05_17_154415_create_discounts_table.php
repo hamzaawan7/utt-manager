@@ -15,7 +15,7 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id')->nullable();
+            $table->unsignedBigInteger('property_id');
             $table->string('discount_period');
             $table->string('discount_value');
             $table->string('notice');
