@@ -15,8 +15,8 @@ class CreateCategoryPropertyTable extends Migration
     {
         Schema::create('category_property', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedBigInteger('property_id');
+            $table->unsignedBigInteger('category_id');
 
             $table->timestamps();
 

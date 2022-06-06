@@ -8,9 +8,11 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use App\Repositories\PriceSeasonRepositoryInterface;
-use Session;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\Type;
+use Yajra\DataTables\DataTables;
 
 /**
  * Class PriceSeasonController
@@ -34,29 +36,57 @@ class PriceSeasonController extends Controller
      */
     public function index()
     {
-        $seasons = $this->priceSeasonRepository->all();
+        $type = Type::all();
 
-        return view('price.price_season',compact('seasons'));
+        return view('price.price_season_list',compact('type'));
     }
 
-    public function create()
+    public function getSeason(Request $request)
     {
-        return view('price.add_season');
+        if ($request->ajax()) {
+            $seasons = $this->priceSeasonRepository->all();
+            return Datatables::of($seasons)
+                ->addIndexColumn()
+                ->addColumn('action', function ($seasons) {
+                    return '
+                            <div class="dropdown">
+                                <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
+                                   role="button" data-toggle="dropdown"
+                                >
+                                    <i class="dw dw-more"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findPriceSeason(\'/price/season/find/' . $seasons->id . '\')">
+                                        <i class="dw dw-edit2"></i> Edit
+                                    </a>
+                                    <a class="dropdown-item delete-property-feature" onclick="deletePriceSeason(\'/price/season/delete/' . $seasons->id . '\')">
+                                        <i class="dw dw-delete-3"> Delete</i>
+                                    </a>
+                                </div>
+                            </div>';
+                })->editColumn('from_date', function ($seasons) {
+                    return Carbon::createFromFormat('Y-m-d H:i:s', $seasons->from_date)->format('d-m-Y H:i:s');
+                })
+                ->editColumn('to_date', function ($seasons) {
+                    return Carbon::createFromFormat('Y-m-d H:i:s', $seasons->to_date)->format('d-m-Y H:i:s');
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
      * @param PriceSeasonSaveRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function save(PriceSeasonSaveRequest $request): RedirectResponse
+    public function save(PriceSeasonSaveRequest $request): JsonResponse
     {
-        $response = $this->priceSeasonRepository->save($request->input());
+        $message = $this->priceSeasonRepository->save($request->input());
 
-        if ($response){
-            return redirect()->route('price-season-list')->with('message','Data Save Successfully');
-        }
-
-        return redirect()->route('price-season-list')->with('error','Error While Save Data');
+        return response()->json([
+            'status' => 200,
+            'message' => $message
+        ]);
     }
 
     /**
@@ -71,21 +101,7 @@ class PriceSeasonController extends Controller
 
        return view('price.edit_season',compact('season'));
     }
-
-    /**
-     * @param PriceSeasonSaveRequest $request
-     * @return RedirectResponse
-     */
-    public function update(PriceSeasonSaveRequest $request): RedirectResponse
-    {
-        $response = $this->priceSeasonRepository->update($request->input());
-        if ($response){
-            return redirect()->route('price-season-list')->with('message','Data Updated Successfully');
-        }
-
-        return redirect()->route('price-season-list')->with('error','Error While Update Data');
-    }
-
+    
     /**
      * @param $id
      * @return RedirectResponse

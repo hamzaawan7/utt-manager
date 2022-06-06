@@ -14,8 +14,7 @@ class PriceSeasonSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'type' => 'required',
+            'season_name' => 'required|string|max:255',
             'from_date' => 'required',
             'to_date' => 'required',
         ];

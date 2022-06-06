@@ -97,9 +97,8 @@ Route::prefix('price')->group(function () {
     Route::get('/category/delete/{id}', [PriceCategoryController::class, 'delete'])->name('price-category-delete');
 
     Route::get('/season/list', [PriceSeasonController::class, 'index'])->name('price-season-list');
-    Route::get('/season/create', [PriceSeasonController::class, 'create'])->name('price-season-create');
+    Route::get('/season/get', [PriceSeasonController::class, 'getSeason'])->name('price-season-get');
     Route::post('/season/save', [PriceSeasonController::class, 'save'])->name('price-season-save');
-    Route::get('/season/edit/{id}', [PriceSeasonController::class, 'edit'])->name('price-season-edit');
-    Route::post('/season/update', [PriceSeasonController::class, 'update'])->name('price-season-update');
+    Route::get('/season/find/{id}', [PriceSeasonController::class, 'find'])->name('price-season-find');
     Route::get('/season/delete/{id}', [PriceSeasonController::class, 'delete'])->name('price-season-delete');
 });

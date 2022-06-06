@@ -3,14 +3,20 @@
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\PriceSeasonRepositoryInterface;
-use App\Models\PriceSeason;
+use App\Models\Season;
+use App\Models\TypeSeason;
 
 class PriceSeasonRepository implements PriceSeasonRepositoryInterface
 {
-    /** @var PriceSeason $priceSeason */
-    public function __construct(PriceSeason $priceSeason)
+    /** @var Season $season */
+    /** @var TypeSeason $typeSeason */
+    public function __construct(
+        Season $season,
+        TypeSeason  $typeSeason
+    )
     {
-        $this->priceSeason = $priceSeason;
+        $this->season = $season;
+        $this->typeSeason = $typeSeason;
     }
 
     /**
@@ -19,17 +25,42 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
      */
     public function save($data): string
     {
-        try {
-            $priceSeason = new $this->priceSeason;
-            $priceSeason->name = $data['name'];
-            $priceSeason->type = $data['type'];
-            $priceSeason->from_date = $data['from_date'];
-            $priceSeason->to_date = $data['to_date'];
-            $priceSeason->save();
-            return $priceSeason;
-        } catch (\Exception $e) {
-            return $e->getMessage();
+        if (!is_null($data['season_id'])) {
+            try {
+                $season = $this->season->find($data['season_id']);
+                $season = $this->getCommonFields($data, $season);
+                $season->update();
+
+                return 'Data Updated successfully.';
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+
+        } else {
+            try {
+                $season = new $this->season;
+                $season = $this->getCommonFields($data, $season);
+                $season->save();
+                $seasonId              = $season->id;
+                $typeSeason            = new $this->typeSeason;
+                $typeSeason->season_id = $seasonId;
+                $typeSeason->type_id   = $data['type_id'] ;
+                $typeSeason->save();
+
+                return "Data Saved Successfully";
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         }
+    }
+
+    public function getCommonFields($data, $season)
+    {
+        $season->season_name = $data['season_name'];
+        $season->from_date   = dateFormat($data['from_date']);
+        $season->to_date     = dateFormat($data['to_date']);
+
+        return $season;
     }
 
     /**
@@ -65,7 +96,7 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
      */
     public function all()
     {
-        return $this->priceSeason::all();
+        return $this->season->all();
     }
 
     /**

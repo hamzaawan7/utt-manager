@@ -15,7 +15,7 @@ class CreatePropertyImagesTable extends Migration
     {
         Schema::create('property_images', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id');
+            $table->unsignedBigInteger('property_id');
             $table->string('images');
 
             $table->timestamps();

@@ -360,7 +360,7 @@ function addFeature() {
     });
 }
 
-//Edit Property Feature
+//Find Property Feature
 function findPropertyFeature(url) {
     $.ajax({
         url: url,
@@ -778,6 +778,59 @@ function deleteUser(id) {
     });
 }
 
+//Add Or Update Price Season
+function addSeason() {
+    var data = $("#price_season").serialize();
+    var url = $("#price_season").attr('action');
+    var type = $("#price_season").attr('method');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#price_season')[0].reset();
+                $('#season-modal').modal('hide');
+                getSeason();
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Get Season Data In DataTable
+function getSeason() {
+    $(".get_season").DataTable().clear().destroy();
+    return $('.get_season').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/price/season/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'season_name', name: 'season_name'},
+            {data: 'from_date', name: 'from_date'},
+            {data: 'to_date', name: 'to_date'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
 $(document).ready(function () {
     getOwner();
     getProperty();
@@ -785,6 +838,7 @@ $(document).ready(function () {
     getReview();
     getCategory();
     getFeature();
+    getSeason();
     $("#nearby_property").select2({
         maximumSelectionLength: 3
     });

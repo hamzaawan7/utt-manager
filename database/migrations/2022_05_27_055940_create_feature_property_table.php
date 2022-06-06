@@ -15,8 +15,8 @@ class CreateFeaturePropertyTable extends Migration
     {
         Schema::create('feature_property', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('property_id');
-            $table->unsignedInteger('feature_id');
+            $table->unsignedBigInteger('property_id');
+            $table->unsignedBigInteger('feature_id');
 
             $table->timestamps();
 
