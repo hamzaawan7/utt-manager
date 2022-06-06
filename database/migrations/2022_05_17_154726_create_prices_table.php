@@ -15,9 +15,9 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('property_id')->nullable();
-            $table->foreignId('category_id')->nullable();
-            $table->foreignId('season_id')->nullable();
+            $table->unsignedInteger('property_id')->nullable();
+            $table->unsignedInteger('category_id')->nullable();
+            $table->unsignedInteger('season_id')->nullable();
             $table->string('range');
             $table->string('price');
 

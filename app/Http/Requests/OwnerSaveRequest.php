@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class OwnerSaveRequest extends FormRequest
@@ -11,11 +12,11 @@ class OwnerSaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|unique:users,email,' .$request->owner_id,
             'address' => 'required|string|max:255',
             'main_contact_name' => 'required|string|max:255',
             'main_contact_number' => 'required|numeric',

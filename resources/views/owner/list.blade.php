@@ -40,12 +40,8 @@
                     <th>id</th>
                     <th>Name</th>
                     <th>Address</th>
-                    <th>Main Contact Name </th>
-                    <th>Main Number</th>
-                    <th>Secondary Contact Name</th>
-                    <th>Secondary Number</th>
-                    <th>Emergency Contact Name</th>
-                    <th>Emergency Number</th>
+                    <th>Contact Name </th>
+                    <th>Contact Number</th>
                     <th>Action</th>
                 </tr>
                 </thead>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PropertyCategorySaveRequest extends FormRequest
@@ -11,10 +12,10 @@ class PropertyCategorySaveRequest extends FormRequest
      *
      * @return string[]
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
-            'category_name' => 'required|string|max:255',
+            'category_name' => 'required|string|unique:categories,category_name,'.$request->category_id,
             'standard_guests' => 'required|numeric',
             'minimum_guest' => 'required|numeric',
             'room_layouts' => 'required',

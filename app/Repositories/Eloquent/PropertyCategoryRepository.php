@@ -28,9 +28,9 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      */
     public function save($data): string
     {
-        if(!is_null($data['general_id'])) {
+        if(!is_null($data['category_id'])) {
             try {
-                $category = $this->propertyCategory::find($data['general_id']);
+                $category = $this->propertyCategory::find($data['category_id']);
                 $category = $this->getCommonFields($category,$data);
                 $category->update();
 
@@ -94,9 +94,19 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     public function delete(int $id)
     {
         try {
-             $this->propertyCategory->find($id)->delete();
+            if (!$this->propertyCategory->where('id', $id)->get()) {
+                $this->propertyCategory->find($id)->delete();
+                $message = "Data Deleted Successfully";
+                $status  = 200;
+            } else {
+                 $message = "Category Used not Deleted";
+                $status   = 400;
+            }
 
-             return "Data Deleted Successfully";
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+            ]);
         } catch (\Exception $e) {
             return $e->getMessage();
         }

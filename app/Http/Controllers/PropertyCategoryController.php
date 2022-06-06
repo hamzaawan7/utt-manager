@@ -100,11 +100,6 @@ class PropertyCategoryController extends Controller
      */
     public function delete($id): JsonResponse
     {
-        $message = $this->propertyCategoryRepository->delete($id);
-
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+        return $this->propertyCategoryRepository->delete($id);
     }
 }

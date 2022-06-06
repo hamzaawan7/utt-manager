@@ -61,9 +61,9 @@
                         <div class="row pb-30">
                             <div class="col-6">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input"
+                                    <input type="checkbox" class=""
                                            name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="customCheck1">Remember</label>
+                                    <label class="" for="customCheck1">Remember</label>
                                 </div>
                             </div>
                             <div class="col-6">

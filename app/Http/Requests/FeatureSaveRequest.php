@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FeatureSaveRequest extends FormRequest
@@ -11,10 +12,10 @@ class FeatureSaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
-            'feature_name' => 'required|string|max:255',
+            'feature_name' => 'required|string|unique:features,feature_name,'.$request->feature_id,
             'minimum_nights' => 'required|numeric',
             'check_in_time' => 'required',
             'check_out_time' => 'required',

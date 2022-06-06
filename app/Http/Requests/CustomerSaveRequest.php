@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerSaveRequest extends FormRequest
@@ -11,11 +12,11 @@ class CustomerSaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|',
+            'email' => 'required|unique:users,email,' .$request->customer_id,
             'phone' => 'required|numeric',
             'address' => 'required|string|max:255',
             'post_code' => 'required|numeric',

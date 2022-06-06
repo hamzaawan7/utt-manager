@@ -13,8 +13,9 @@ class CreateSeasonsTable extends Migration
      */
     public function up()
     {
-        Schema::table('seasons', function (Blueprint $table) {
-            //
+        Schema::create('seasons', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +26,6 @@ class CreateSeasonsTable extends Migration
      */
     public function down()
     {
-        Schema::table('seasons', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('seasons');
     }
 }

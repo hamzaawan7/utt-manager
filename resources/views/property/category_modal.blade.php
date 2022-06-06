@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <form id="property_category" method="post" action="{{route('category-save')}}">
-                <input type="hidden" name="general_id" id="general_id">
+                <input type="hidden" name="category_id" id="category_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">

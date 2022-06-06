@@ -48,10 +48,8 @@ class FeatureRepository implements FeatureRepositoryInterface
             try {
                 $feature                 = new $this->feature;
                 $feature->feature_name   = $data['feature_name'];
-                $checkIn                  = date('Y-m-d H:i:s',strtotime($data['check_in_time']));
-                $checkOut                 = date('Y-m-d H:i:s',strtotime($data['check_out_time']));
-                $feature->check_in_time  = $checkIn;
-                $feature->check_out_time = $checkOut;
+                $feature->check_in_time  = dateFormat($data['check_in_time']);
+                $feature->check_out_time = dateFormat($data['check_out_time']);
                 $feature->minimum_nights = $data['minimum_nights'];
                 $feature->save();
 

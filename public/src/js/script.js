@@ -18,7 +18,7 @@ toastr.options = {
 
 //Add Property
 function addProperty() {
-    var data =   new FormData($('#general-form')[0]); //$("#general-form").serialize();
+    var data = new FormData($('#general-form')[0]); //$("#general-form").serialize();
     var url = $("#general-form").attr('action');
     var type = $("#general-form").attr('method');
 
@@ -31,7 +31,7 @@ function addProperty() {
         url: url,
         method: type,
         data: data,
-        dataType:'JSON',
+        dataType: 'JSON',
         contentType: false,
         cache: false,
         processData: false,
@@ -39,12 +39,12 @@ function addProperty() {
             if (response.status === 200) {
                 $('#property-modal').modal('hide');
                 getProperty();
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
             }
-        }, error :function (reject){
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -58,22 +58,22 @@ function findProperty(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            if (response[0].is_visible === 1){
-                $( "#is_visible" ).prop( "checked", true );
+            if (response[0].is_visible === 1) {
+                $("#is_visible").prop("checked", true);
             }
             $('.multi_images_main').html('');
-            var category       = [];
-            var features       = [];
+            var category = [];
+            var features = [];
             var nearbyProperty = [];
-            $('#category_names').select2('val',response.id);
-            $.each(response[0].features, function( index, value ) {
+            $('#category_names').select2('val', response.id);
+            $.each(response[0].features, function (index, value) {
                 features.push(value.id)
             });
-            $.each(response[0].categories, function( index, value ) {
+            $.each(response[0].categories, function (index, value) {
                 category.push(value.id);
             });
 
-            $.each(response[0].nearby_properties, function( index, value ) {
+            $.each(response[0].nearby_properties, function (index, value) {
                 nearbyProperty.push(value.nearby_property_id);
             });
 
@@ -81,25 +81,25 @@ function findProperty(url) {
             $('#feature_name').val(features).trigger('change');
             $('#nearby_property').val(nearbyProperty).trigger('change');
             $('#general_id').val(response[0].id);
-            $.each(response[0], function( index, value ) {
-                if(index !== 'main_image' &&  index !== 'images' ) {
-                     $('#'+index).val(value);
+            $.each(response[0], function (index, value) {
+                if (index !== 'main_image' && index !== 'images') {
+                    $('#' + index).val(value);
                 }
             });
 
-            var html='';
-            var mainImage='';
-            var bas_url=$('#general-form').attr('base_path');
+            var html = '';
+            var mainImage = '';
+            var bas_url = $('#general-form').attr('base_path');
 
-            $.each(response[0].images, function( index, value ) {
-                html+=' <div class="image_div col-lg-2" id="'+value.id+'">\n' +
-                    '     <img src="'+bas_url+'/images/multiple/'+value.images+'" width="150px">\n' +
+            $.each(response[0].images, function (index, value) {
+                html += ' <div class="image_div col-lg-2" id="' + value.id + '">\n' +
+                    '     <img src="' + bas_url + '/images/multiple/' + value.images + '" width="150px">\n' +
                     '     <span class="close_icon delete-images"><i class="icon-copy fa fa-trash fa-2x" aria-hidden="true"></i></span>\n' +
                     '   </div>';
             });
 
-            mainImage+=' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
-                ' <img src="'+bas_url+'/images/main/'+response[0].main_image+'" width="200px">\n' +
+            mainImage += ' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
+                ' <img src="' + bas_url + '/images/main/' + response[0].main_image + '" width="200px">\n' +
                 ' </div>';
 
             $('.multi_images_main').html(html);
@@ -113,8 +113,8 @@ function findProperty(url) {
 function propertyDelete(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -126,8 +126,8 @@ function propertyDelete(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200){
-                        toastr.success(''+response.message+'', 'Success');
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
                         getProperty();
                     }
                 }
@@ -137,8 +137,7 @@ function propertyDelete(url) {
 }
 
 //Get Property Data In DataTable
-function getProperty()
-{
+function getProperty() {
     $(".get_property").DataTable().clear().destroy();
     return $('.get_property').DataTable({
         processing: true,
@@ -163,10 +162,12 @@ function getProperty()
         ]
     });
 }
+
 //Empty Property Forms
-$('.reset_form').click( function (){
+$('.reset_form').click(function () {
     $("#general-form")[0].reset();
     $('.multi_images_main').html('');
+    $('#general_id').val('');
     $('.main-images').html('');
     $('#category_names').val(null).trigger('change');
     $('#nearby_property').val(null).trigger('change');
@@ -174,51 +175,55 @@ $('.reset_form').click( function (){
 });
 
 //Empty Customer Forms
-$('.reset-customer-form').click( function (){
+$('.reset-customer-form').click(function () {
     $("#customer-form")[0].reset();
+    $("#customer_id").val("");
     $(".clear-error").html('');
 });
 
 //Empty Owner Forms
-$('.reset_owner').click( function (){
+$('.reset_owner').click(function () {
     $("#owner-form")[0].reset();
+    $("#owner_id").val('');
     $(".clear-error").html('');
 });
 
 //Empty Property Category Form
-$('.reset_category').click( function (){
+$('.reset_category').click(function () {
     $("#property_category")[0].reset();
+    $("#category_id").val("");
     $(".clear-error").html('');
 });
 
 //Empty Feature Form
-$('.reset_feature').click( function (){
+$('.reset_feature').click(function () {
     $("#property_feature")[0].reset();
+    $("#feature_id").val('');
     $(".clear-error").html('');
 });
 
 //Empty User Form
-$('.reset_user').click( function (){
+$('.reset_user').click(function () {
     $("#user_form")[0].reset();
     $(".clear-error").html('');
 });
 
-$('#proprty-button').click( function (){
+$('#proprty-button').click(function () {
     $('#myLargeModalLabel').html('Add Property');
 });
 
 //delete Images
-$(document).on("click", ".delete-images" , function() {
-   var id  =  $(this).parent().attr('id');
-   var url = '/property/image/delete/' + id + '';
-    var parentDiv =  $(this).parent();
+$(document).on("click", ".delete-images", function () {
+    var id = $(this).parent().attr('id');
+    var url = '/property/image/delete/' + id + '';
+    var parentDiv = $(this).parent();
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            if(response.status === 200) {
+            if (response.status === 200) {
                 parentDiv.remove();
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
             }
         }
     });
@@ -226,7 +231,7 @@ $(document).on("click", ".delete-images" , function() {
 
 //Add Or Update Property Category
 function addCategory() {
-    var data =  $("#property_category").serialize();
+    var data = $("#property_category").serialize();
     var url = $("#property_category").attr('action');
     var type = $("#property_category").attr('method');
 
@@ -244,12 +249,12 @@ function addCategory() {
                 $('#property_category')[0].reset();
                 $('#category').modal('hide');
                 getCategory();
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
             }
-        }, error :function (reject) {
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -261,9 +266,9 @@ function findPropertyCategory(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response, function( index, value ) {
-                $('#'+index).val(value);
-                $('#general_id').val(response.id);
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
+                $('#category_id').val(response.id);
             });
             $('#category').modal('show');
         }
@@ -274,8 +279,8 @@ function findPropertyCategory(url) {
 function deletePropertyCategory(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -289,8 +294,9 @@ function deletePropertyCategory(url) {
                 success: function (response) {
                     if (response.status === 200) {
                         getCategory();
-                        toastr.success(''+response.message+'', 'Success');
-                    }
+                        toastr.success('' + response.message + '', 'Success');
+                    } else
+                        toastr.warning('' + response.message + '', 'warning');
                 }
             });
         }
@@ -298,8 +304,7 @@ function deletePropertyCategory(url) {
 }
 
 //Get Category
-function getCategory()
-{
+function getCategory() {
     $(".get_category").DataTable().clear().destroy();
     return $('.get_category').DataTable({
         processing: true,
@@ -326,7 +331,7 @@ function getCategory()
 
 //Add Or Update Property Features
 function addFeature() {
-    var data =  $("#property_feature").serialize();
+    var data = $("#property_feature").serialize();
     var url = $("#property_feature").attr('action');
     var type = $("#property_feature").attr('method');
 
@@ -344,12 +349,12 @@ function addFeature() {
                 $('#property_feature')[0].reset();
                 $('#feature-modal').modal('hide');
                 getFeature();
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
             }
-        }, error :function (reject){
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -361,8 +366,8 @@ function findPropertyFeature(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response, function( index, value ) {
-                $('#'+index).val(value);
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
                 $('#feature_id').val(response.id);
             });
             $('#feature-modal').modal('show');
@@ -374,21 +379,21 @@ function findPropertyFeature(url) {
 function deletePropertyFeature(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
-    }).then((result) =>{
+    }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: url,
                 method: 'get',
                 success: function (response) {
                     getFeature();
-                    toastr.success(''+response+'', 'Success');
+                    toastr.success('' + response + '', 'Success');
                 }
             });
         }
@@ -396,8 +401,7 @@ function deletePropertyFeature(url) {
 }
 
 //Get Feature Data In DataTable
-function getFeature()
-{
+function getFeature() {
     $(".get_feature").DataTable().clear().destroy();
     return $('.get_feature').DataTable({
         processing: true,
@@ -421,7 +425,7 @@ function getFeature()
 
 //Update Review
 function addReview() {
-    var data =  $("#review_feature").serialize();
+    var data = $("#review_feature").serialize();
     var url = $("#review_feature").attr('action');
     var type = $("#review_feature").attr('method');
     $.ajaxSetup({
@@ -437,7 +441,7 @@ function addReview() {
             $('#review_feature')[0].reset();
             $('#review-modal').modal('hide');
             getReview();
-            toastr.success(''+response+'', 'Success');
+            toastr.success('' + response + '', 'Success');
         }
     });
 }
@@ -449,10 +453,10 @@ function findReview(url) {
         method: 'get',
         success: function (response) {
             if (response.is_accept === '1') {
-                $( "#is_accept" ).prop( "checked", true );
+                $("#is_accept").prop("checked", true);
             }
             if (response.is_show === '1') {
-                $( "#is_show" ).prop( "checked", true );
+                $("#is_show").prop("checked", true);
             }
             $.each(response, function (index, value) {
                 $('#' + index).val(value);
@@ -468,8 +472,8 @@ function findReview(url) {
 function deleteReview(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -482,7 +486,7 @@ function deleteReview(url) {
                 method: 'get',
                 success: function (response) {
                     getFeature();
-                    toastr.success(''+response+'', 'Success');
+                    toastr.success('' + response + '', 'Success');
                 }
             });
         }
@@ -490,8 +494,7 @@ function deleteReview(url) {
 }
 
 //Get Review
-function getReview()
-{
+function getReview() {
     $(".get_review").DataTable().clear().destroy();
     return $('.get_review').DataTable({
         processing: true,
@@ -515,7 +518,7 @@ function getReview()
 
 //Add Or Update Customer Data
 function addCustomer() {
-    var data =  $("#customer-form").serialize();
+    var data = $("#customer-form").serialize();
     var url = $("#customer-form").attr('action');
     var type = $("#customer-form").attr('method');
     $.ajaxSetup({
@@ -528,16 +531,16 @@ function addCustomer() {
         method: type,
         data: data,
         success: function (response) {
-            if (response.status === 200){
+            if (response.status === 200) {
                 $('#customer-form')[0].reset();
                 $('#customer-modal').modal('hide');
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
                 getCustomer();
             }
-        }, error :function (reject){
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -567,21 +570,21 @@ function findCustomer(url) {
 function deleteCustomer(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
-    }).then((result) =>{
+    }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200){
-                        toastr.success(''+response.message+'', 'Success');
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
                         getCustomer();
                     }
 
@@ -592,10 +595,9 @@ function deleteCustomer(url) {
 }
 
 //Get Customer
-function getCustomer()
-{
+function getCustomer() {
     $(".get_customer").DataTable().clear().destroy();
-    return  $('.get_customer').DataTable({
+    return $('.get_customer').DataTable({
         processing: true,
         serverSide: true,
         ajax: "/customer/get",
@@ -618,7 +620,7 @@ function getCustomer()
 
 //Add Or Update Owner Data
 function addOwner() {
-    var data =  $("#owner-form").serialize();
+    var data = $("#owner-form").serialize();
     var url = $("#owner-form").attr('action');
     var type = $("#owner-form").attr('method');
     $.ajaxSetup({
@@ -632,15 +634,15 @@ function addOwner() {
         data: data,
         success: function (response) {
             if (response.status === 200) {
-                toastr.success(''+response.message+'', 'Success');
+                toastr.success('' + response.message + '', 'Success');
                 $('#owner-form')[0].reset();
                 $('#owner-modal').modal('hide');
                 getOwner();
             }
-        }, error :function (reject) {
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -669,21 +671,21 @@ function findOwner(url) {
 function deleteOwner(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text:'Record will be deleted.?',
-        type:'warning',
+        text: 'Record will be deleted.?',
+        type: 'warning',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!',
-    }).then((result) =>{
+    }).then((result) => {
         if (result.value) {
             $.ajax({
                 url: url,
                 method: 'get',
                 success: function (response) {
                     if (response.status == 200) {
-                        toastr.success(''+response.message+'', 'Success');
+                        toastr.success('' + response.message + '', 'Success');
                         getOwner();
                     }
                 }
@@ -693,10 +695,9 @@ function deleteOwner(url) {
 }
 
 //Get Owners
-function getOwner()
-{
+function getOwner() {
     $(".get_owner").DataTable().clear().destroy();
-    return  $('.get_owner').DataTable({
+    return $('.get_owner').DataTable({
         processing: true,
         serverSide: true,
         ajax: "/owner/get",
@@ -706,10 +707,6 @@ function getOwner()
             {data: 'address', name: 'address'},
             {data: 'main_contact_name', name: 'main_contact_name'},
             {data: 'main_contact_number', name: 'main_contact_number'},
-            {data: 'secondary_contact_name', name: 'secondary_contact_name'},
-            {data: 'secondary_contact_number', name: 'secondary_contact_number'},
-            {data: 'emergency_contact_name', name: 'emergency_contact_name'},
-            {data: 'emergency_contact_number', name: 'emergency_contact_number'},
             {
                 data: 'action',
                 name: 'action',
@@ -722,7 +719,7 @@ function getOwner()
 
 //Add Or Update Users Data
 function addUser() {
-    var data =  $("#user_form").serialize();
+    var data = $("#user_form").serialize();
     var url = $("#user_form").attr('action');
     var type = $("#user_form").attr('method');
 
@@ -738,11 +735,11 @@ function addUser() {
         success: function (response) {
             $('#user_form')[0].reset();
             $('#user-modal').modal('hide');
-            toastr.success(''+response+'', 'Success');
-        }, error :function (reject) {
+            toastr.success('' + response + '', 'Success');
+        }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val){
-                $("#" +key + "_error").text(val[0]);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
             });
         }
     });
@@ -781,7 +778,7 @@ function deleteUser(id) {
     });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     getOwner();
     getProperty();
     getCustomer();
