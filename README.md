@@ -16,7 +16,7 @@ composer install
 You'll then need to setup your environment variables
 
 ```bash
-cp env.example .env
+cp .env.example .env
 ```
 
 
