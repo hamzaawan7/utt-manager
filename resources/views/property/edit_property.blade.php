@@ -3,8 +3,7 @@
 
     <div class="pd-20 card-box mb-30">
         <div class="clearfix">
-            <h4 class="text-blue h4">Step wizard vertical</h4>
-            <p class="mb-30">jQuery Step wizard</p>
+            <a type="submit" class="btn btn-primary" href="{{route('property-list')}}">Back</a>
         </div>
 
         <div class="wizard-content">

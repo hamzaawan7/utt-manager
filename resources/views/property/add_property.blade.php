@@ -2,8 +2,7 @@
 @section('content')
         <div class="pd-20 card-box mb-30">
             <div class="clearfix">
-                <h4 class="text-blue h4">Step wizard vertical</h4>
-                <p class="mb-30">jQuery Step wizard</p>
+                <a type="submit" class="btn btn-primary" href="{{route('property-list')}}">Back</a>
             </div>
 
             <div class="wizard-content">
@@ -18,7 +17,9 @@
                                 <div class="form-group">
                                     <label>Property Name</label>
                                     <input type="text" name="name" id="name" class="form-control">
-                                    <div class="text-danger clear-error" id="name_error"></div>
+                                    @error('name')
+                                     <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -34,7 +35,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="text-danger clear-error" id="nearby_property_error"></div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -47,14 +47,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="text-danger clear-error" id="owner_name_error"></div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Short Code</label>
                                     <input type="text" name="short_code" id="short_code" class="form-control">
-                                    <div class="text-danger clear-error" id="short_code_error"></div>
+                                    @error('short_code')
+                                    <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -69,7 +70,6 @@
                                             </optgroup>
                                         @endforeach
                                     </select>
-                                    <div class="text-danger clear-error" id="category_name_error"></div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -84,7 +84,6 @@
                                             </optgroup>
                                         @endforeach
                                     </select>
-                                    <div class="text-danger clear-error" id="feature_name_error"></div>
                                 </div>
                             </div>
                         </div>
@@ -93,21 +92,27 @@
                                 <div class="form-group">
                                     <label>Phone</label>
                                     <input type="text" name="phone" id="phone" class="form-control">
-                                    <div class="text-danger clear-error" id="phone_error"></div>
+                                    @error('phone')
+                                    <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Address</label>
                                     <input type="text" name="address" id="address" class="form-control">
-                                    <div class="text-danger clear-error" id="address_error"></div>
+                                    @error('address')
+                                     <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Post Code</label>
                                     <input type="text" name="post_code" id="post_code" class="form-control">
-                                    <div class="text-danger" id="post_code_error"></div>
+                                    @error('post_code')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -117,7 +122,9 @@
                                     <label>Special Category</label>
                                     <input type="text" name="special_category" id="special_category"
                                            class="form-control">
-                                    <div class="text-danger clear-error" id="special_category_error"></div>
+                                    @error('special_category')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -125,7 +132,9 @@
                                     <label>Utt Star Rating</label>
                                     <input type="number" name="utt_star_rating" id="utt_star_rating"
                                            class="form-control">
-                                    <div class="text-danger clear-error" id="utt_star_rating_error"></div>
+                                    @error('utt_star_rating')
+                                    <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -171,15 +180,19 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Standard Guest</label>
-                                    <input type="text" name="standard_guests" id="standard_guests" class="form-control">
-                                    <div class="text-danger clear-error" id="standard_guests_error"></div>
+                                    <input type="number" name="standard_guests" id="standard_guests" class="form-control">
+                                    @error('standard_guests')
+                                     <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Minimum Guest</label>
                                     <input type="number" name="minimum_guest" id="minimum_guest" class="form-control">
-                                    <div class="text-danger clear-error" id="minimum_guest_error"></div>
+                                    @error('minimum_guest')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -190,7 +203,6 @@
                                         <option value="single_bed">Single Bed</option>
                                         <option value="double_bed">Double Bed</option>
                                     </select>
-                                    <div class="text-danger clear-error" id="room_layouts_error"></div>
                                 </div>
                             </div>
                         </div>
@@ -199,23 +211,29 @@
                                 <div class="form-group">
                                     <label>Check In Time</label>
                                     <input type="text" name="check_in_time" id="checkInTime"
-                                           class="form-control datetimepicker">
-                                    <div class="text-danger clear-error" id="check_in_time_error"></div>
+                                           class="form-control datetimepicker" autocomplete="off">
+                                    @error('check_in_time')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Check Out Time</label>
                                     <input type="text" name="check_out_time" id="checkOutTime"
-                                           class="form-control datetimepicker">
-                                    <div class="text-danger clear-error" id="check_out_time_error"></div>
+                                           class="form-control datetimepicker" autocomplete="off">
+                                    @error('check_out_time')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Minimum Nights</label>
                                     <input type="number" name="minimum_nights" id="minimum_nights" class="form-control">
-                                    <div class="text-danger clear-error" id="minimum_nights_error"></div>
+                                    @error('minimum_nights')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -224,21 +242,27 @@
                                 <div class="form-group">
                                     <label>Childs</label>
                                     <input type="number" name="childs" id="childs" class="form-control">
-                                    <div class="text-danger clear-error" id="childs_error"></div>
+                                    @error('childs')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Infants</label>
                                     <input type="number" name="infants" id="infants" class="form-control">
-                                    <div class="text-danger clear-error" id="infants_error"></div>
+                                    @error('infants')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Pets</label>
                                     <input type="number" name="pets" id="pets" class="form-control">
-                                    <div class="text-danger clear-error" id="pets_error"></div>
+                                    @error('pets')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -258,8 +282,10 @@
                                 <div class="form-group">
                                     <label>Special Start Days</label>
                                     <input type="text" name="special_start_days" id="special_start_days"
-                                           class="form-control datetimepicker">
-                                    <div class="text-danger clear-error" id="check_in_time_error"></div>
+                                           class="form-control datetimepicker" autocomplete="off">
+                                    @error('special_start_days')
+                                      <div class="text-danger">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
