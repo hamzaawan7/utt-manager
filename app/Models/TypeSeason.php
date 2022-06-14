@@ -9,5 +9,5 @@ class TypeSeason extends Model
 {
     use HasFactory;
 
-    protected $table = 'type_season';
+    protected $table = 'season_type';
 }

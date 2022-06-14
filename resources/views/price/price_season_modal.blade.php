@@ -19,13 +19,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Select type</label>
-                                <select class="custom-select" name="type_id" id="type_id">
-                                    <option selected="">Select Type</option>
+                                <label>Select Type</label>
+                                <select class="custom-select2 form-control" id="type" name="type[]"
+                                        multiple="multiple" style="width: 100%;">
                                     @foreach($type as $item)
-                                        <option value="{{$item->id}}">{{$item->type}} </option>
+                                        <optgroup>
+                                            <option value="{{$item->id}}">{{$item->type}}</option>
+                                        </optgroup>
                                     @endforeach
                                 </select>
+                                <div class="text-danger clear-error" id="type_error"></div>
                             </div>
                         </div>
                     </div>

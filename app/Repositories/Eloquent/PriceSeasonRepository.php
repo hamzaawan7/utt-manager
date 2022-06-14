@@ -30,6 +30,15 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
                 $season = $this->season->find($data['season_id']);
                 $season = $this->getCommonFields($data, $season);
                 $season->update();
+                $this->typeSeason->where('season_id', $data['season_id'])->delete();
+                if ($data['type']) {
+                    foreach ($data['type'] as $item) {
+                        $typeSeason            = new $this->typeSeason;
+                        $typeSeason->season_id = $data['season_id'];
+                        $typeSeason->type_id   = $item;
+                        $typeSeason->save();
+                    }
+                }
 
                 return 'Data Updated successfully.';
             } catch (\Exception $e) {
@@ -42,10 +51,14 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
                 $season = $this->getCommonFields($data, $season);
                 $season->save();
                 $seasonId              = $season->id;
-                $typeSeason            = new $this->typeSeason;
-                $typeSeason->season_id = $seasonId;
-                $typeSeason->type_id   = $data['type_id'] ;
-                $typeSeason->save();
+                if ($data['type']) {
+                    foreach ($data['type'] as $item) {
+                        $typeSeason            = new $this->typeSeason;
+                        $typeSeason->season_id = $seasonId;
+                        $typeSeason->type_id   = $item;
+                        $typeSeason->save();
+                    }
+                }
 
                 return "Data Saved Successfully";
             } catch (\Exception $e) {
@@ -67,28 +80,9 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
-        return $this->priceSeason::where('id', $id)->first();
-    }
-
-    /**
-     * @param $data
-     * @return string
-     */
-    public function update($data): string
-    {
-        try {
-            $priceSeason = $this->priceSeason::where('id', intval($data['season_id']))->first();
-            $priceSeason->name = $data['name'];
-            $priceSeason->type = $data['type'];
-            $priceSeason->from_date = $data['from_date'];
-            $priceSeason->to_date = $data['to_date'];
-            $priceSeason->update();
-            return $priceSeason;
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
+        return $this->season->where('id', $id)->with('types')->get();
     }
 
     /**
@@ -100,21 +94,16 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
     }
 
     /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
-    }
-
-    /**
      * @param int $id
      * @return string
      */
     public function delete(int $id): string
     {
         try {
-            return $this->priceSeason::where('id', $id)->delete();
+            $this->typeSeason->where('season_id', $id)->delete();
+            $this->season->where('id', $id)->delete();
+
+            return "Data Deleted Successfully";
         } catch (\Exception $e) {
             return $e->getMessage();
         }

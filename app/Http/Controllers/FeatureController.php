@@ -63,12 +63,12 @@ class FeatureController extends Controller
                                     </a>
                                 </div>
                             </div>';
-                })->editColumn('check_in_time', function ($featureList) {
+                })/*->editColumn('check_in_time', function ($featureList) {
                     return Carbon::createFromFormat('Y-m-d H:i:s', $featureList->check_in_time)->format('d-m-Y H:i:s');
                 })
                 ->editColumn('check_out_time', function ($featureList) {
                     return Carbon::createFromFormat('Y-m-d H:i:s', $featureList->check_out_time)->format('d-m-Y H:i:s');
-                })
+                })*/
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -76,9 +76,9 @@ class FeatureController extends Controller
 
     /**
      * @param FeatureSaveRequest $request
-     * @return JsonResponse|void
+     * @return JsonResponse
      */
-    public function save(FeatureSaveRequest $request)
+    public function save(FeatureSaveRequest $request): JsonResponse
     {
         $message = $this->propertyFeatureRepository->save($request->input());
 

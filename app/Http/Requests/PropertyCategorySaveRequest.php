@@ -16,12 +16,6 @@ class PropertyCategorySaveRequest extends FormRequest
     {
         return [
             'category_name' => 'required|string|unique:categories,category_name,'.$request->category_id,
-            'standard_guests' => 'required|numeric',
-            'minimum_guest' => 'required|numeric',
-            'room_layouts' => 'required',
-            'childs' => 'required|numeric',
-            'infants' => 'required|numeric',
-            'pets' => 'required|numeric',
         ];
     }
 
@@ -32,12 +26,6 @@ class PropertyCategorySaveRequest extends FormRequest
     {
         return [
             'category_name.required' => 'This field is reuired',
-            'standard_guests.required' => 'This field is reuired',
-            'minimum_guest.required' => 'This field is reuired',
-            'room_layouts.required' => 'This field is reuired',
-            'childs.required' => 'This field is reuired',
-            'infants.required' => 'This field is reuired',
-            'pets.required' => 'This field is reuired',
         ];
     }
 }

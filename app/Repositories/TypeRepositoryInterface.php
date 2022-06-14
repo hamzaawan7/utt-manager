@@ -3,13 +3,14 @@
 namespace App\Repositories;
 
 /**
- * Interface PriceSeasonRepositoryInterface
+ * Interface TypeRepositoryInterface
  * @package App\Repositories
  */
-interface PriceSeasonRepositoryInterface
+interface TypeRepositoryInterface
 {
     /**
-     * @return mixed
+     * @param $data
+     * @return string|void
      */
     public function save($data);
 
@@ -20,14 +21,13 @@ interface PriceSeasonRepositoryInterface
     public function find(int $id);
 
     /**
-     * @return void
+     * @return mixed
      */
     public function all();
 
     /**
-     * @param int $id
-     * @return string
+     * @return mixed
      */
-    public function delete(int $id): string;
 
+    public function delete(int $id);
 }

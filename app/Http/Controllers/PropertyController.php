@@ -6,17 +6,17 @@ use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
 use App\Models\Property;
+use App\Models\Season;
 use App\Models\PropertyImage;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Repositories\OwnerRepositoryInterface;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\PropertyRepositoryInterface;
-use Yajra\DataTables\DataTables;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\PropertySaveRequest;
 
@@ -102,43 +102,28 @@ class PropertyController extends Controller
         return view('property.list', compact('category', 'propertyList', 'features', 'owners'));
     }
 
-    public function getProperty(Request $request)
+    /**
+     * @return Application|Factory|View
+     */
+    public function addProperty()
     {
-        if ($request->ajax()) {
-            $propertyList = $this->propertyRepository->all();
-            return Datatables::of($propertyList)
-                ->addIndexColumn()
-                ->addColumn('action', function ($propertyList) {
-                    return '
-                             <div class="dropdown">
-                                <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                   role="button" data-toggle="dropdown"
-                                >
-                                    <i class="dw dw-more"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="findProperty(\'/property/find/' . $propertyList->id . '\')">
-                                        <i class="dw dw-edit2"></i> Edit
-                                    </a>
-                                    <a class="dropdown-item btn-delete" onclick="propertyDelete(\'/property/delete/' . $propertyList->id . '\')">
-                                        <i class="dw dw-delete-3"> Delete</i>
-                                    </a>
-                                </div>
-                            </div>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+        $category     = $this->propertyCategoryRepository->all();
+        $features     = $this->propertyFeatureRepository->all();
+        $owners       = $this->ownerRepository->all();
+        $propertyList = $this->propertyRepository->all();
+        $seasonList   = Season::all();
+
+        return view('property.add_property',compact('category','seasonList','features','owners','propertyList'));
     }
 
     /**
      * @param PropertySaveRequest $request
-     * @return JsonResponse
+     * @return RedirectResponse
      */
-    public function save(PropertySaveRequest $request): JsonResponse
+    public function save(PropertySaveRequest $request): RedirectResponse
     {
-        if (!is_null($request->general_id)) {
-            $property = $this->property->find($request->general_id);
+        if (!is_null($request->property_id)) {
+            $property = $this->property->find($request->property_id);
             $property = $this->getCommonFields($property,$request);
 
             if ($request->hasFile('main_image')) {
@@ -164,14 +149,14 @@ class PropertyController extends Controller
                     $propertyImages->save();
                 }
             }
-            $this->feature->where('property_id', $request->general_id)->delete();
-            $this->propertyCategory->where('property_id', $request->general_id)->delete();
-            $this->nearbyProperty->where('property_id', $request->general_id)->delete();
+            $this->feature->where('property_id', $request->property_id)->delete();
+            $this->propertyCategory->where('property_id', $request->property_id)->delete();
+            $this->nearbyProperty->where('property_id', $request->property_id)->delete();
 
             if ($request->category_name) {
                 foreach ($request->category_name as $item) {
                     $category              = new $this->propertyCategory;
-                    $category->property_id = $request->general_id;
+                    $category->property_id = $request->property_id;
                     $category->category_id = $item;
                     $category->save();
                 }
@@ -180,7 +165,7 @@ class PropertyController extends Controller
             if ($request->feature_name) {
                 foreach ($request->feature_name as $item) {
                     $feature              = new $this->feature;
-                    $feature->property_id = $request->general_id;
+                    $feature->property_id = $request->property_id;
                     $feature->feature_id  = $item;
                     $feature->save();
                 }
@@ -189,18 +174,14 @@ class PropertyController extends Controller
             if ($request->nearby_property) {
                 foreach ($request->nearby_property as $item) {
                     $nearByProperty = new $this->nearbyProperty;
-                    $nearByProperty->property_id = $request->general_id;
+                    $nearByProperty->property_id = $request->property_id;
                     $nearByProperty->nearby_property_id = $item;
                     $nearByProperty->save();
                 }
             }
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Data Updated Successfully'
-            ]);
-
-        } else {
+            return redirect()->route('property-list')->with('message','Data Updated Successfully');
+        }
             $property = new $this->property;
             $property = $this->getCommonFields($property,$request);
             if ($request->hasfile('main_image')) {
@@ -251,12 +232,8 @@ class PropertyController extends Controller
                 }
             }
 
-            return response()->json([
-                'status' => 200,
-                'message' => 'Data Inserted Successfully'
-            ]);
+            return redirect()->route('property-list')->with('message','Data Saved Successfully');
         }
-    }
 
     /**
      * @param $property
@@ -265,30 +242,80 @@ class PropertyController extends Controller
      */
     public function getCommonFields($property, $request)
     {
-        $isVisible = 0;
-        $property->name             = $request->name;
-        $property->owner_id         = $request->owner_name;
-        $property->short_code       = $request->short_code;
-        $property->phone            = $request->phone;
-        $property->address          = $request->address;
-        $property->post_code        = $request->post_code;
-        $property->special_category = $request->special_category;
-        $property->utt_star_rating  = $request->utt_star_rating;
+        $isVisible      = 0;
+        $sevenNightStay = 0;
+        $property->name                = $request->name;
+        $property->owner_id            = $request->owner_name;
+        $property->season_id            = $request->season_id;
+        $property->short_code          = $request->short_code;
+        $property->phone               = $request->phone;
+        $property->address             = $request->address;
+        $property->post_code           = $request->post_code;
+        $property->special_category    = $request->special_category;
+        $property->utt_star_rating     = $request->utt_star_rating;
+        $property->standard_guests     = $request->standard_guests;
+        $property->minimum_guest       = $request->minimum_guest;
+        $property->room_layouts        = $request->room_layouts;
+        $property->check_in_time       = dateFormat($request->check_in_time);
+        $property->check_out_time      = dateFormat($request->check_out_time);
+        $property->minimum_nights      = $request->minimum_nights;
+        $property->childs              = $request->childs;
+        $property->infants             = $request->infants;
+        $property->pets                = $request->pets;
+        $property->special_start_days  = dateFormat($request->special_start_days);
         if (isset($request->is_visible)){
             $isVisible = 1;
         }
-        $property->is_visible       = $isVisible;
+        if (isset($request->min_seven_night_stay)){
+            $sevenNightStay = 1;
+        }
+        $property->is_visible                 = $isVisible;
+        $property->min_seven_night_stay       = $sevenNightStay;
 
         return $property;
     }
 
     /**
      * @param int $id
-     * @return JsonResponse
+     * @return Application|Factory|View
      */
-    public function find(int $id): JsonResponse
+    public function find(int $id)
     {
-        return response()->json($this->propertyRepository->getPropertyWithRelationship($id));
+        $property = $this->propertyRepository->getPropertyWithRelationship($id);
+        $categories       = [];
+        $features         = [];
+        $nearbyProperties = [];
+        if (!empty($property->categories)) {
+            foreach ($property->categories as $item)
+            {
+                $categories[] = $item->id;
+            }
+        }
+
+        if (!empty($property->features)) {
+            foreach ($property->features as $item)
+            {
+                $features[] = $item->id;
+            }
+        }
+
+        if (!empty($property->nearbyProperties)) {
+            foreach ($property->nearbyProperties as $item)
+            {
+                $nearbyProperties[] = $item->nearby_property_id;
+            }
+        }
+
+        $property->categories       = $categories;
+        $property->features         = $features;
+        $property->nearbyProperties = $nearbyProperties;
+        $category                   = $this->propertyCategoryRepository->all();
+        $features                   = $this->propertyFeatureRepository->all();
+        $owners                     = $this->ownerRepository->all();
+        $propertyList               = $this->propertyRepository->all();
+        $seasonList                 = Season::all();
+
+        return view('property.edit_property',compact('property','propertyList','category','owners','features','seasonList'));
     }
 
     /**
@@ -309,16 +336,13 @@ class PropertyController extends Controller
     }
 
     /**
-     * @param $id
-     * @return JsonResponse
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function delete($id): JsonResponse
+    public function delete(int $id): RedirectResponse
     {
         $message = $this->propertyRepository->delete($id);
 
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+        return redirect()->route('property-list')->with('message', $message);
     }
 }

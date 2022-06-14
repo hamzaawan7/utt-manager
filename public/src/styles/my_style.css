@@ -20,3 +20,7 @@ span.close_icon {
 .image_div.col-lg-2:hover .close_icon {
     opacity: 1 !important;
 }
+
+.hide{
+    display: none;
+}

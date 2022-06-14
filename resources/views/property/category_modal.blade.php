@@ -10,63 +10,33 @@
                 <input type="hidden" name="category_id" id="category_id">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>Category Name</label>
                                 <input type="text" name="category_name" id="category_name" class="form-control">
                                 <div class="text-danger clear-error" id="category_name_error"></div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Standard Guest</label>
-                                <input type="text" name="standard_guests" id="standard_guests" class="form-control">
-                                <div class="text-danger clear-error" id="standard_guests_error"></div>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Minimum Guest</label>
-                                <input type="number" name="minimum_guest" id="minimum_guest" class="form-control">
-                                <div class="text-danger clear-error" id="minimum_guest_error"></div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                       style="width: 20px; height: 20px; margin-top: 39px;"
+                                       id="include_in_search_filter"
+                                       name="include_in_search_filter">
+                                <label class="form-check-label" for="include_in_search_filter"
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Include In Search Filter</label>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Room Layout</label>
-                                <select class="form-control" id="room_layouts" name="room_layouts">
-                                    <option>Select</option>
-                                    <option value="single_bed">Single Bed</option>
-                                    <option value="double_bed">Double Bed</option>
-                                </select>
-                                <div class="text-danger clear-error" id="room_layouts_error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Childs</label>
-                                <input type="number" name="childs" id="childs" class="form-control">
-                                <div class="text-danger clear-error" id="childs_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Infants</label>
-                                <input type="number" name="infants" id="infants" class="form-control">
-                                <div class="text-danger clear-error" id="infants_error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Pets</label>
-                                <input type="number" name="pets" id="pets" class="form-control">
-                                <div class="text-danger clear-error" id="pets_error"></div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                       style="width: 20px; height: 20px; margin-top: 39px;"
+                                       id="include_in_header"
+                                       name="include_in_header">
+                                <label class="form-check-label" for="include_in_header"
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Include In Header</label>
                             </div>
                         </div>
                     </div>

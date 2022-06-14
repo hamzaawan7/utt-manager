@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
             ReviewSeeder::class,
             TypeSeeder::class,
+            PriceCategorySeeder::class,
         ]);
     }
 }

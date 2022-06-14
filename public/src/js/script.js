@@ -16,162 +16,10 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
-//Add Property
-function addProperty() {
-    var data = new FormData($('#general-form')[0]); //$("#general-form").serialize();
-    var url = $("#general-form").attr('action');
-    var type = $("#general-form").attr('method');
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: url,
-        method: type,
-        data: data,
-        dataType: 'JSON',
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (response) {
-            if (response.status === 200) {
-                $('#property-modal').modal('hide');
-                getProperty();
-                toastr.success('' + response.message + '', 'Success');
-            }
-        }, error: function (reject) {
-            var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val) {
-                $("#" + key + "_error").text(val[0]);
-            });
-        }
-    });
-}
-
-//Edit Property Function
-function findProperty(url) {
-    $('.img-tag').attr('src', '');
-    $('#myLargeModalLabel').html('Update Property');
-    $.ajax({
-        url: url,
-        method: 'get',
-        success: function (response) {
-            if (response[0].is_visible === 1) {
-                $("#is_visible").prop("checked", true);
-            }
-            $('.multi_images_main').html('');
-            var category = [];
-            var features = [];
-            var nearbyProperty = [];
-            $('#category_names').select2('val', response.id);
-            $.each(response[0].features, function (index, value) {
-                features.push(value.id)
-            });
-            $.each(response[0].categories, function (index, value) {
-                category.push(value.id);
-            });
-
-            $.each(response[0].nearby_properties, function (index, value) {
-                nearbyProperty.push(value.nearby_property_id);
-            });
-
-            $('#category_names').val(category).trigger('change');
-            $('#feature_name').val(features).trigger('change');
-            $('#nearby_property').val(nearbyProperty).trigger('change');
-            $('#general_id').val(response[0].id);
-            $.each(response[0], function (index, value) {
-                if (index !== 'main_image' && index !== 'images') {
-                    $('#' + index).val(value);
-                }
-            });
-
-            var html = '';
-            var mainImage = '';
-            var bas_url = $('#general-form').attr('base_path');
-
-            $.each(response[0].images, function (index, value) {
-                html += ' <div class="image_div col-lg-2" id="' + value.id + '">\n' +
-                    '     <img src="' + bas_url + '/images/multiple/' + value.images + '" width="150px">\n' +
-                    '     <span class="close_icon delete-images"><i class="icon-copy fa fa-trash fa-2x" aria-hidden="true"></i></span>\n' +
-                    '   </div>';
-            });
-
-            mainImage += ' <div class="image_div col-lg-4" id="\'+value.id+\'">\n' +
-                ' <img src="' + bas_url + '/images/main/' + response[0].main_image + '" width="200px">\n' +
-                ' </div>';
-
-            $('.multi_images_main').html(html);
-            $('.main-images').html(mainImage);
-            $('#property-modal').modal('show');
-        }
-    });
-}
-
-//Delete Property propertyDelete
-function propertyDelete(url) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Record will be deleted.?',
-        type: 'warning',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function (response) {
-                    if (response.status == 200) {
-                        toastr.success('' + response.message + '', 'Success');
-                        getProperty();
-                    }
-                }
-            });
-        }
-    });
-}
-
-//Get Property Data In DataTable
-function getProperty() {
-    $(".get_property").DataTable().clear().destroy();
-    return $('.get_property').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "/property/get",
-        columns: [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'short_code', name: 'short_code'},
-            {data: 'phone', name: 'phone'},
-            {data: 'address', name: 'address'},
-            {data: 'post_code', name: 'post_code'},
-            {data: 'special_category', name: 'special_category'},
-            {data: 'utt_star_rating', name: 'utt_star_rating'},
-            {data: 'is_visible', name: 'is_visible'},
-            {
-                data: 'action',
-                name: 'action',
-                orderable: true,
-                searchable: true
-            },
-        ]
-    });
-}
-
-//Empty Property Forms
-$('.reset_form').click(function () {
-    $("#general-form")[0].reset();
-    $('.multi_images_main').html('');
-    $('#general_id').val('');
-    $('.main-images').html('');
-    $('#category_names').val(null).trigger('change');
-    $('#nearby_property').val(null).trigger('change');
-    $('#feature_name').val(null).trigger('change');
+//Property Form Submit
+$("a[href='#finish']").click(function(){
+     $('#property_form').submit();
 });
 
 //Empty Customer Forms
@@ -205,6 +53,14 @@ $('.reset_feature').click(function () {
 //Empty User Form
 $('.reset_user').click(function () {
     $("#user_form")[0].reset();
+    $(".clear-error").html('');
+});
+
+//Empty Season Form
+$('.reset_season').click(function () {
+    $("#price_season")[0].reset();
+    $("#season_id").val('');
+    $('#type').val(null).trigger('change');
     $(".clear-error").html('');
 });
 
@@ -266,6 +122,12 @@ function findPropertyCategory(url) {
         url: url,
         method: 'get',
         success: function (response) {
+            if (response.include_in_search_filter === 1) {
+                $("#include_in_search_filter").prop("checked", true);
+            }
+            if (response.include_in_header === 1) {
+                $("#include_in_header").prop("checked", true);
+            }
             $.each(response, function (index, value) {
                 $('#' + index).val(value);
                 $('#category_id').val(response.id);
@@ -313,12 +175,8 @@ function getCategory() {
         columns: [
             {data: 'id', name: 'id'},
             {data: 'category_name', name: 'category_name'},
-            {data: 'standard_guests', name: 'standard_guests'},
-            {data: 'minimum_guest', name: 'minimum_guest'},
-            {data: 'room_layouts', name: 'room_layouts'},
-            {data: 'childs', name: 'childs'},
-            {data: 'infants', name: 'infants'},
-            {data: 'pets', name: 'pets'},
+            {data: 'include_in_search_filter', name: 'include_in_search_filter'},
+            {data: 'include_in_header', name: 'include_in_header'},
             {
                 data: 'action',
                 name: 'action',
@@ -410,9 +268,6 @@ function getFeature() {
         columns: [
             {data: 'id', name: 'id'},
             {data: 'feature_name', name: 'feature_name'},
-            {data: 'check_in_time', name: 'check_in_time'},
-            {data: 'check_out_time', name: 'check_out_time'},
-            {data: 'minimum_nights', name: 'minimum_nights'},
             {
                 data: 'action',
                 name: 'action',
@@ -809,6 +664,55 @@ function addSeason() {
     });
 }
 
+//Edit Seasons
+function findPriceSeason(url) {
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            $.each(response[0], function (index, value) {
+                $('#' + index).val(value);
+
+                $('#season_id').val(response[0].id);
+            });
+            var types = [];
+            $.each(response[0].types, function (index, value) {
+                types.push(value.id)
+            });
+            $('#type').val(types).trigger('change');
+            $('#season-modal').modal('show');
+        }
+    });
+}
+
+//Delete Price Seasons
+function deletePriceSeason(url)
+{
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Record will be deleted.?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
+                        getSeason();
+                    }
+                }
+            });
+        }
+    });
+}
+
 //Get Season Data In DataTable
 function getSeason() {
     $(".get_season").DataTable().clear().destroy();
@@ -831,15 +735,303 @@ function getSeason() {
     });
 }
 
+//Update Price Category
+function AddPriceCategory() {
+    var data = $("#price_category").serialize();
+    var url = $("#price_category").attr('action');
+    var type = $("#price_category").attr('method');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#price_category')[0].reset();
+                $('#price-category').modal('hide');
+                getPriceCategory();
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }
+    });
+}
+
+//Find Price Category
+function findPriceCategory(url)
+{
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
+
+                $('#category_id').val(response.id);
+            });
+
+            $('#price-category').modal('show');
+        }
+    });
+}
+
+//Get Price Category Data In DataTable
+function getPriceCategory() {
+    $(".get_price_category").DataTable().clear().destroy();
+    return $('.get_price_category').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/price/category/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'category_name', name: 'category_name'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
+//Delete Price Category
+function deletePriceCategory(url)
+{
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Record will be deleted.?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
+                        getPriceCategory();
+                    }
+                }
+            });
+        }
+    });
+}
+
+//Add Or Update Price
+function addPrice() {
+    var data = $("#price").serialize();
+    var url  = $("#price").attr('action');
+    var type = $("#price").attr('method');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#price')[0].reset();
+                $('#price-modal').modal('hide');
+                getPrice();
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Get Price Data In DataTable
+function getPrice() {
+    $(".get_price").DataTable().clear().destroy();
+    return $('.get_price').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/price/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'price_seven_night', name: 'price_seven_night'},
+            {data: 'price_monday_to_friday', name: 'price_monday_to_friday'},
+            {data: 'price_friday_to_monday', name: 'price_friday_to_monday'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
+//Find Price
+function findPrice(url)
+{
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
+
+                $('#price_id').val(response.id);
+            });
+
+            $('#price-modal').modal('show');
+        }
+    });
+}
+
+//Add Or Update Price Type
+function addType() {
+    var data = $("#type_form").serialize();
+    var url  = $("#type_form").attr('action');
+    var type = $("#type_form").attr('method');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#type_form')[0].reset();
+                $('#type-modal').modal('hide');
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Find Type
+function findType(url)
+{
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
+
+                $('#price_id').val(response.id);
+            });
+
+            $('#type-modal').modal('show');
+        }
+    });
+}
+
+//Get Price Type Data In DataTable
+function getPrice() {
+    $(".get_type").DataTable().clear().destroy();
+    return $('.get_type').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/price/type/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'type', name: 'type'},
+            {data: 'price_seven_night', name: 'price_seven_night'},
+            {data: 'price_monday_to_friday', name: 'price_monday_to_friday'},
+            {data: 'price_friday_to_monday', name: 'price_friday_to_monday'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
+//Delete Price Type
+function deleteType(url)
+{
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Record will be deleted.?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
+                        getPriceCategory();
+                    }
+                }
+            });
+        }
+    });
+}
+
 $(document).ready(function () {
     getOwner();
-    getProperty();
+    /*getProperty();*/
     getCustomer();
     getReview();
     getCategory();
     getFeature();
     getSeason();
+    getPriceCategory();
+    getPrice();
     $("#nearby_property").select2({
         maximumSelectionLength: 3
     });
 });
+
+//Select Price Category
+$('#price_category_id').on('change', function() {
+    var data      = $("#price_category_id option:selected").text().split(' ');
+    var $category = data[0].toString().toLowerCase();
+    if ($category == 'standard') {
+       $('.main-standard').removeClass('hide');
+       $('.main-flexible').addClass('hide');
+    }else{
+        $('.main-flexible').removeClass('hide');
+        $('.main-standard').addClass('hide');
+    }
+});
+
+$(".year").datepicker({
+    language:"en",
+    minView:"years",
+    view:"years",
+    autoClose:!0,
+    dateFormat:"yyyy"
+});
+
+//Submit Add Property Form
+/*
+$("a[href='#finish']").click(function(){
+    $("#add_property").submit();
+});*/

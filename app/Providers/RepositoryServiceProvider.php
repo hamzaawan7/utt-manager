@@ -23,6 +23,8 @@ use App\Repositories\Eloquent\ReviewRepository;
 use App\Repositories\ReviewRepositoryInterface;
 use App\Repositories\CustomerRepositoryInterface;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\TypeRepositoryInterface;
+use App\Repositories\Eloquent\TypeRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -43,6 +45,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OwnerRepositoryInterface::class, OwnerRepository::class);
         $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->bind(TypeRepositoryInterface::class, TypeRepository::class);
     }
 
     /**

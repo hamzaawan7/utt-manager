@@ -17,6 +17,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string secondary_contact_number
  * @property string emergency_contact_name
  * @property string emergency_contact_number
+ * @property string cleaning_rota_receipts
+ * @property integer bank_account_number
+ * @property integer bank_account_short_code
  */
 class Owner extends Model
 {
@@ -33,6 +36,9 @@ class Owner extends Model
         'secondary_contact_number',
         'emergency_contact_name',
         'emergency_contact_number',
+        'cleaning_rota_receipts',
+        'bank_account_number',
+        'bank_account_short_code',
     ];
 
     /**

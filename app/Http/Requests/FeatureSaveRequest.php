@@ -16,9 +16,6 @@ class FeatureSaveRequest extends FormRequest
     {
         return [
             'feature_name' => 'required|string|unique:features,feature_name,'.$request->feature_id,
-            'minimum_nights' => 'required|numeric',
-            'check_in_time' => 'required',
-            'check_out_time' => 'required',
         ];
     }
 
@@ -29,9 +26,6 @@ class FeatureSaveRequest extends FormRequest
     {
         return [
             'feature_name.required' => 'This field is reuired',
-            'minimum_nights.required' => 'This field is reuired',
-            'check_in_time.required' => 'This field is reuired',
-            'check_out_time.required' => 'This field is reuired',
         ];
     }
 }

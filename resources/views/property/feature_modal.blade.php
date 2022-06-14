@@ -10,37 +10,13 @@
                 <input type="hidden" name="feature_id" id="feature_id">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label>Feature Name</label>
                                 <input type="text" name="feature_name" id="feature_name" class="form-control">
                                 <div class="text-danger clear-error" id="feature_name_error"></div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Minimum Nights</label>
-                                <input type="number" name="minimum_nights" id="minimum_nights" class="form-control">
-                                <div class="text-danger clear-error" id="minimum_nights_error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Check In Time</label>
-                                <input type="text" name="check_in_time" id="checkInTime" class="form-control datetimepicker">
-                                <div class="text-danger clear-error" id="check_in_time_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Check Out Time</label>
-                                <input type="text" name="check_out_time" id="checkOutTime" class="form-control datetimepicker">
-                                <div class="text-danger clear-error" id="check_out_time_error"></div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">

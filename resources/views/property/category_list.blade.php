@@ -7,8 +7,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6>
-                    <nav aria-label=" breadcrumb
-                    " role="navigation">
+                    <nav aria-label=" breadcrumb role="navigation">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><h4><a href="#">Property Category List</a></h4></li>
                     </ol>
@@ -16,8 +15,7 @@
                 </div>
 
                 <div class="col-md-6 col-sm-6>
-             <nav aria-label=" breadcrumb
-                " role="navigation">
+             <nav aria-label=" breadcrumb role="navigation">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Category List</li>
@@ -39,12 +37,8 @@
                 <tr>
                     <th>id</th>
                     <th>Name</th>
-                    <th>Standard Guest</th>
-                    <th>Minimum Guest</th>
-                    <th>Room Layout</th>
-                    <th>Childs</th>
-                    <th>Infants</th>
-                    <th>Pets</th>
+                    <th>Include In Search Filter</th>
+                    <th>Include In Header</th>
                     <th>Action</th>
                 </tr>
                 </thead>

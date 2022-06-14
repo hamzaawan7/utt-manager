@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PriceSeasonSaveRequest;
+use http\Env\Response;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -60,7 +61,7 @@ class PriceSeasonController extends Controller
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
                                     <a class="dropdown-item delete-property-feature" onclick="deletePriceSeason(\'/price/season/delete/' . $seasons->id . '\')">
-                                        <i class="dw dw-delete-3"> Delete</i>
+                                        <i class="dw dw-delete-3" style="cursor: pointer;"> Delete</i>
                                     </a>
                                 </div>
                             </div>';
@@ -91,25 +92,24 @@ class PriceSeasonController extends Controller
 
     /**
      * @param $id
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
-    public function edit($id)
+    public function find($id): JsonResponse
     {
-       $season =  $this->priceSeasonRepository->edit($id);
-       $season->from_date = date('y/m/d', strtotime($season->from_date));
-       $season->to_date   = date('y/m/d', strtotime($season->to_date));
-
-       return view('price.edit_season',compact('season'));
+       return response()->json($this->priceSeasonRepository->find($id));
     }
     
     /**
      * @param $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function delete($id): RedirectResponse
+    public function delete($id): JsonResponse
     {
-       $response = $this->priceSeasonRepository->delete($id);
+       $message = $this->priceSeasonRepository->delete($id);
 
-       return redirect()->route('price-season-list')->with('message','Data Deleted Successfully');
+       return response()->json([
+             'status'=> 200,
+              'message'=> $message
+       ]);
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Repositories\Eloquent;
-use App\Repositories\PriceCategoryRepositoryInterface;
+
 use App\Models\PriceCategory;
+use App\Repositories\PriceCategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class PriceCategoryRepository implements PriceCategoryRepositoryInterface
@@ -13,25 +14,27 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     private $priceCategory;
 
     /** @var PriceCategory $priceCategory */
-    public function __construct(PriceCategory  $priceCategory)
+    public function __construct(PriceCategory $priceCategory)
     {
         $this->priceCategory = $priceCategory;
     }
 
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string
+    public function save($data)
     {
-        try {
-            $category = new $this->priceCategory;
-            $category->category = $data['category_name'];
-            $category->save();
+        if (!is_null($data['category_id'])) {
+            try {
+                $category = $this->priceCategory->find($data['category_id']);
+                $category->category_name = $data['category_name'];
+                $category->update();
 
-            return $category;
-        } catch (\Exception $e) {
-            return $e->getMessage();
+                return "Data Updated Successfully";
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         }
     }
 
@@ -42,11 +45,10 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     public function find(int $id)
     {
         try {
-            return $this->priceCategory::where('id', $id)->first();
+            return $this->priceCategory->find($id);
         } catch (\Exception $e) {
-           return $e->getMessage();
+            return $e->getMessage();
         }
-
     }
 
     /**
@@ -64,7 +66,9 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     public function delete(int $id): string
     {
         try {
-            return $this->priceCategory->find($id)->delete();
+            $this->priceCategory->find($id)->delete();
+
+            return "Data Deleted Successfully";
         } catch (\Exception $e) {
             return $e->getMessage();
         }

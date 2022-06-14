@@ -7,17 +7,15 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6>
-                    <nav aria-label=" breadcrumb
-                    " role="navigation">
+                    <nav aria-label=" breadcrumb role="navigation">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><h4><a href="#">Price Season List</a></h4></li>
+                        <li class="breadcrumb-item"><h4><a href="#">Season List</a></h4></li>
                     </ol>
                     </nav>
                 </div>
 
                 <div class="col-md-6 col-sm-6>
-             <nav aria-label=" breadcrumb
-                " role="navigation">
+             <nav aria-label=" breadcrumb role="navigation">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Season List</li>
@@ -30,7 +28,7 @@
     <div class="card-box mb-30">
         <div class="pd-20">
             <a href="" data-toggle="modal" data-target="#season-modal" class="reset_season">
-                <button type="button" class="btn btn-success">Add Price Season</button>
+                <button type="button" class="btn btn-success">Add Season</button>
             </a>
         </div>
         <div class="pb-20">

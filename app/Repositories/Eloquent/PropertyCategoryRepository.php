@@ -59,13 +59,17 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      */
     public function getCommonFields($category,$data)
     {
+        $includeInSearchFilter = 0;
+        $includeInHeader        = 0;
+        if (isset($data['include_in_search_filter'])) {
+            $includeInSearchFilter = 1;
+        }
+        if (isset($data['include_in_header'])) {
+            $includeInHeader = 1;
+        }
         $category->category_name = $data['category_name'];
-        $category->standard_guests = $data['standard_guests'];
-        $category->minimum_guest = $data['minimum_guest'];
-        $category->room_layouts = $data['room_layouts'];
-        $category->childs = $data['childs'];
-        $category->infants = $data['infants'];
-        $category->pets = $data['pets'];
+        $category->include_in_search_filter = $includeInSearchFilter;
+        $category->include_in_header = $includeInHeader;
 
         return $category;
     }

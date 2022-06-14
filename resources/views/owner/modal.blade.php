@@ -98,12 +98,38 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Emergency Contact Number</label>
                                 <input type="text" name="emergency_contact_number" id="emergency_contact_number"
                                        class="form-control">
                                 <div class="text-danger clear-error" id="emergency_contact_number_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Cleaning Rota Receipts</label>
+                                <input type="text" name="cleaning_rota_receipts" id="cleaning_rota_receipts"
+                                       class="form-control">
+                                <div class="text-danger clear-error" id="cleaning_rota_receipts_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Bank Account Number</label>
+                                <input type="number" name="bank_account_number" id="bank_account_number"
+                                       class="form-control">
+                                <div class="text-danger clear-error" id="bank_account_number_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Bank Account Short Code</label>
+                                <input type="text" name="bank_account_short_code" id="bank_account_short_code"
+                                       class="form-control">
+                                <div class="text-danger clear-error" id="bank_account_short_code_error"></div>
                             </div>
                         </div>
                     </div>

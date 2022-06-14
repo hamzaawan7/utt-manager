@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PriceCategorySaveRequest;
 use App\Repositories\PriceCategoryRepositoryInterface;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 /**
  * Class PriceCategoryController
@@ -28,61 +31,74 @@ class PriceCategoryController extends Controller
      */
     public function index()
     {
-        $priceCategories = $this->priceCategoryRepository->all();
-
-        return view('price.price_category_list', compact('priceCategories'));
+        return view('price.price_category_list');
     }
 
-    public function create()
+    /**
+     * @throws Exception
+     */
+    public function getPriceCategory(Request $request)
     {
-        return view('price.add_category');
+        if ($request->ajax()) {
+            $priceCategories = $this->priceCategoryRepository->all();
+            return Datatables::of($priceCategories)
+                ->addIndexColumn()
+                ->addColumn('action', function ($priceCategories) {
+                    return '
+                             <div class="dropdown">
+                                <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
+                                   role="button" data-toggle="dropdown">
+                                    <i class="dw dw-more"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findPriceCategory(\'/price/category/find/' . $priceCategories->id . '\')">
+                                        <i class="dw dw-edit2"></i> Edit
+                                    </a>
+                                    <a class="dropdown-item" onclick="deletePriceCategory(\'/price/category/delete/' . $priceCategories->id . '\')">
+                                        <i class="dw dw-delete-3" style="cursor: pointer;"> Delete</i>
+                                    </a>
+                                </div>
+                            </div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**
      * @param PriceCategorySaveRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function save(PriceCategorySaveRequest $request): RedirectResponse
+    public function save(PriceCategorySaveRequest $request): JsonResponse
     {
-        $response = $this->priceCategoryRepository->save($request->input());
-        if ($response) {
-            return redirect()->route('price-category-list')->with('message', 'Data Inserted Successfully');
-        }
+        $message = $this->priceCategoryRepository->save($request->input());
 
-        return redirect()->route('price-category-list')->with('error', 'Error While Saving Data');
-
+        return response()->json([
+            'status'  => 200,
+            'message' => $message
+        ]);
     }
 
     /**
      * @param int $id
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
-    public function edit(int $id)
+    public function find(int $id): JsonResponse
     {
-        $category = $this->priceCategoryRepository->edit($id);
-
-        return view('price.edit_category', compact('category'));
-    }
-
-    public function update(PriceCategorySaveRequest $request): RedirectResponse
-    {
-        $response = $this->priceCategoryRepository->update($request->input());
-
-        if ($response) {
-            return redirect()->route('price-category-list')->with('message', 'Data Updated Successfully');
-        }
-
-        return redirect()->route('price-category-list')->with('error', 'Error While Saving Data');
+        return response()->json($this->priceCategoryRepository->find($id));
     }
 
     /**
      * @param $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function delete($id): RedirectResponse
+    public function delete($id): JsonResponse
     {
-        $this->priceCategoryRepository->delete($id);
+        $message = $this->priceCategoryRepository->delete($id);
 
-        return redirect()->route('price-category-list')->with('message', 'Data Deleted Successfully');
+        return response()->json([
+            'status'  => 200,
+            'message' => $message
+        ]);
     }
 }

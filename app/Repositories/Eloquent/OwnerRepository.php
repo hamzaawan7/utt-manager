@@ -92,6 +92,9 @@ class OwnerRepository implements OwnerRepositoryInterface
         $owner->secondary_contact_number = $data['secondary_contact_number'];
         $owner->emergency_contact_name   = $data['emergency_contact_name'];
         $owner->emergency_contact_number = $data['emergency_contact_number'];
+        $owner->cleaning_rota_receipts = $data['cleaning_rota_receipts'];
+        $owner->bank_account_number = $data['bank_account_number'];
+        $owner->bank_account_short_code = $data['bank_account_short_code'];
 
         return $owner;
     }

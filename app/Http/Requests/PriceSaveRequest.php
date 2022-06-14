@@ -7,24 +7,32 @@ use Illuminate\Foundation\Http\FormRequest;
 class PriceSaveRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {
         return [
-            //
+            'price_category_id' => 'required',
+            'type_id' => 'required',
+            'price_seven_night' => 'required|numeric',
+            'price_monday_to_friday' => 'required|numeric',
+            'price_friday_to_monday' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function messages(): array
+    {
+        return [
+            'price_category_id.required' => 'This field is required',
+            'type_id.required' => 'This field is required',
+            'price_seven_night.required' => 'This field is required',
+            'price_monday_to_friday.required' => 'This field is required',
+            'price_friday_to_monday.required' => 'This field is required',
         ];
     }
 }

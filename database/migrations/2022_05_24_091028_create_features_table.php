@@ -16,10 +16,9 @@ class CreateFeaturesTable extends Migration
         Schema::create('features', function (Blueprint $table) {
             $table->id();
             $table->string('feature_name');
-            $table->timestamp('check_in_time');
-            $table->timestamp('check_out_time')->nullable();
-            $table->string('minimum_nights');
+
             $table->timestamps();
+
         });
     }
 

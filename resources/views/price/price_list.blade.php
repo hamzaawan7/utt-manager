@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('content')
 
-    @section('title') {{'Feature List'}} @endsection
     <div class="content-wrapper">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="page-header">
@@ -9,16 +8,15 @@
                     <div class="col-md-6 col-sm-6>
                     <nav aria-label=" breadcrumb role="navigation">
                     <ol class="breadcrumb float-sm-left">
-                        <li class="breadcrumb-item"><h4><a href="#">Property Feature List</a></h4></li>
+                        <li class="breadcrumb-item"><h4><a href="#">Price List</a></h4></li>
                     </ol>
                     </nav>
                 </div>
-
                 <div class="col-md-6 col-sm-6>
              <nav aria-label=" breadcrumb role="navigation">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Feature List</li>
+                    <li class="breadcrumb-item active" aria-current="page">Price List</li>
                 </ol>
                 </nav>
             </div>
@@ -27,16 +25,18 @@
 
     <div class="card-box mb-30">
         <div class="pd-20">
-            <a href="" data-toggle="modal" data-target="#feature-modal" class="reset_feature">
-                <button type="button" class="btn btn-success">Add Property Feature</button>
+            <a href="" data-toggle="modal" data-target="#price-modal" class="reset_price">
+                <button type="button" class="btn btn-success">Add Price</button>
             </a>
         </div>
         <div class="pb-20">
-            <table id="" class="get_feature table stripe hover nowrap">
+            <table id="" class="get_price table stripe hover nowrap">
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>Feature Name</th>
+                    <th>price monday-friday</th>
+                    <th>price friday-monday</th>
+                    <th>price 7 nights</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -46,6 +46,5 @@
             </table>
         </div>
     </div>
-
-    @include('property.feature_modal')
+    @include('price.price_modal')
 @endsection

@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Repositories\Eloquent;
-use App\Models\Price;
 
-class PriceRepository
+use App\Models\TypePriceCategory;
+use App\Repositories\PriceRepositoryInterface;
+
+class PriceRepository implements PriceRepositoryInterface
 {
 
-    /** @var Price $price */
-    public function __construct(Price $price)
+    /** @var TypePriceCategory $price */
+    public function __construct(TypePriceCategory $price)
     {
         $this->price = $price;
     }
@@ -18,61 +20,62 @@ class PriceRepository
      */
     public function save($data): string
     {
-        try {
-            $priceSeason = new $this->price;
-            $priceSeason->name = $data['name'];
-            $priceSeason->type = $data['type'];
-            $priceSeason->from_date = $data['from_date'];
-            $priceSeason->to_date = $data['to_date'];
-            $priceSeason->save();
-            return $priceSeason;
-        } catch (\Exception $e) {
-            return $e->getMessage();
+        if (!is_null($data['price_id'])) {
+            try {
+                $price = $this->propertyCategory->find($data['price_id']);
+                $price = $this->getCommonFields($price, $data);
+                $price->update();
+
+                return "Data Updated Successfully";
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
+
+        } else {
+            try {
+                $price = new $this->price;
+                $price = $this->getCommonFields($price, $data);
+                $price->save();
+
+                return "Data Saved Successfully";
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         }
+    }
+
+    /**
+     * @param $price
+     * @param $data
+     * @return mixed
+     */
+    public function getCommonFields($price, $data)
+    {
+        $price->price_category_id = $data['price_category_id'];
+        $price->type_id = $data['type_id'];
+        $price->price_seven_night = $data['price_seven_night'];
+        $price->price_monday_to_friday = $data['price_monday_to_friday'];
+        $price->price_friday_to_monday = $data['price_friday_to_monday'];
+
+        return $price;
     }
 
     /**
      * @param int $id
      * @return mixed
      */
-    public function edit(int $id)
+    public function find(int $id)
     {
-        return $this->price::where('id', $id)->first();
+        $ass = $this->price->find($id);
+        dd($ass->with('categories')->get());
     }
 
-    /**
-     * @param $data
-     * @return string
-     */
-    public function update($data): string
-    {
-        try {
-            $priceSeason = $this->price::where('id', intval($data['season_id']))->first();
-            $priceSeason->name = $data['name'];
-            $priceSeason->type = $data['type'];
-            $priceSeason->from_date = $data['from_date'];
-            $priceSeason->to_date = $data['to_date'];
-            $priceSeason->update();
-            return $priceSeason;
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-    }
-
-    /**
+    /**$ass
      * @return mixed
      */
     public function all()
     {
-        return $this->price::all();
-    }
-
-    /**
-     * @return void
-     */
-    public function get()
-    {
-        // TODO: Implement get() method.
+        return $this->price->all();
     }
 
     /**
@@ -82,7 +85,9 @@ class PriceRepository
     public function delete(int $id): string
     {
         try {
-            return $this->price::where('id', $id)->delete();
+            $this->price->find($id)->delete();
+
+            return "Data Deleted Successfully";
         } catch (\Exception $e) {
             return $e->getMessage();
         }

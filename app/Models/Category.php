@@ -4,19 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Property;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class Category
  * @package App\Models
  * @property string category_name
- * @property string standard_guests
- * @property string minimum_guest
- * @property string room_layout
- * @property string childs
- * @property string infants
- * @property string pets
+ * @property integer include_in_search_filter
+ * @property integer include_in_header
  */
 class Category extends Model
 {
@@ -27,18 +23,15 @@ class Category extends Model
      */
     protected $fillable = [
         'name',
-        'standard_guests',
-        'minimum_guest',
-        'room_layout',
-        'childs',
-        'infants',
-        'pets',
+        'include_in_search_filter',
+        'include_in_header',
+
     ];
 
     /**
      * @return mixed
      */
-    public function properties()
+    public function properties(): BelongsToMany
     {
         return $this->belongsToMany(Property::class);
     }

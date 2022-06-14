@@ -62,6 +62,7 @@
                                 <li><a href="{{route('price-list')}}">Pricing Overview</a></li>
                                 <li><a href="{{route('price-season-list')}}">Set Princing Seasons</a></li>
                                 <li><a href="{{route('price-category-list')}}">Set Pricing Categories</a></li>
+                                <li><a href="{{route('price-type-list')}}">Pricing Types</a></li>
                                 <li><a href="ui-modals.html">Booking Confirmation</a></li>
                                 <li><a href="ui-tabs.html">Manage Users</a></li>
                             </ul>

@@ -4,29 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Type;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class PriceCategory
  * @package App\Models
- * @property string category
+ * @property integer category_name
  */
 class PriceCategory extends Model
 {
     use HasFactory;
 
+    protected $table = 'price_categories';
+
     /**
      * @var string[]
      */
     protected $fillable = [
-        'category',
+        'category_name',
     ];
 
     /**
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function property(): BelongsTo
+    public function types(): BelongsToMany
     {
-        return $this->belongsTo(Property::class);
+        return $this->belongsToMany(Type::class,'price_category_type');
     }
 }

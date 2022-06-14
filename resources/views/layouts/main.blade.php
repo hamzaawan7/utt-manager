@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/icon-font.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/datatables/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/datatables/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/jquery-steps/jquery.steps.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/style.css')}}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('src/styles/my_style.css')}}">
@@ -58,7 +59,6 @@
 <script src="{{asset('src/plugins/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('src/plugins/datatables/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('src/plugins/datatables/js/responsive.bootstrap4.min.js')}}"></script>
-
 <!-- buttons for Export datatable -->
 <script src="{{asset('src/plugins/datatables/js/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('src/plugins/datatables/js/buttons.print.min.js')}}"></script>
