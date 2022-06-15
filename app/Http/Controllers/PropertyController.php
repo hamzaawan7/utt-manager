@@ -143,11 +143,11 @@ class PropertyController extends Controller
             }
             $property->update();
 
-            $starRating = StarRating::where('id',$request->property_id)->update([
-                 'star_rating_luxury' => $request->star_rating_luxury,
-                 'star_rating_heritage'=> $request->star_rating_heritage,
-                 'star_rating_unique' => $request->star_rating_unique,
-                  'star_rating_green' => $request->star_rating_green,
+            $starRating = StarRating::where('id', $request->property_id)->update([
+                'star_rating_luxury' => $request->star_rating_luxury,
+                'star_rating_heritage' => $request->star_rating_heritage,
+                'star_rating_unique' => $request->star_rating_unique,
+                'star_rating_green' => $request->star_rating_green,
                 'star_rating_price' => $request->star_rating_price,
             ]);
 
@@ -336,7 +336,7 @@ class PropertyController extends Controller
         $priceCategory = PriceCategory::all();
         $starRating = StarRating::all();
 
-        return view('property.edit_property', compact('property','starRating','priceCategory', 'propertyList', 'category', 'owners', 'features', 'seasonList'));
+        return view('property.edit_property', compact('property', 'starRating', 'priceCategory', 'propertyList', 'category', 'owners', 'features', 'seasonList'));
     }
 
     /**

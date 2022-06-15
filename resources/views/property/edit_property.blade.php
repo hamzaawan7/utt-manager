@@ -312,11 +312,21 @@
                                 <label>Star Rating Luxury</label>
                                 <select class="form-control" name="star_rating_luxury">
                                     <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_luxury == 2 ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_luxury == 3 ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_luxury == 4 ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_luxury == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>
+                                        1
+                                    </option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_luxury == 2 ? 'selected' : '' }}>
+                                        2
+                                    </option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_luxury == 3 ? 'selected' : '' }}>
+                                        3
+                                    </option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_luxury == 4 ? 'selected' : '' }}>
+                                        4
+                                    </option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_luxury == 5 ? 'selected' : '' }}>
+                                        5
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -325,11 +335,21 @@
                                 <label>Star Rating Heritage</label>
                                 <select class="form-control" name="star_rating_heritage">
                                     <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_heritage == 1 ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_heritage == 2 ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_heritage == 3 ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_heritage == 4 ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_heritage == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_heritage == 1 ? 'selected' : '' }}>
+                                        1
+                                    </option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_heritage == 2 ? 'selected' : '' }}>
+                                        2
+                                    </option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_heritage == 3 ? 'selected' : '' }}>
+                                        3
+                                    </option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_heritage == 4 ? 'selected' : '' }}>
+                                        4
+                                    </option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_heritage == 5 ? 'selected' : '' }}>
+                                        5
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -340,11 +360,21 @@
                                 <label>Star Rating Unique</label>
                                 <select class="form-control" name="star_rating_unique">
                                     <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_unique == 1 ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_unique == 2 ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_unique == 3 ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_unique == 4 ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_unique == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_unique == 1 ? 'selected' : '' }}>
+                                        1
+                                    </option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_unique == 2 ? 'selected' : '' }}>
+                                        2
+                                    </option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_unique == 3 ? 'selected' : '' }}>
+                                        3
+                                    </option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_unique == 4 ? 'selected' : '' }}>
+                                        4
+                                    </option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_unique == 5 ? 'selected' : '' }}>
+                                        5
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -353,11 +383,21 @@
                                 <label>Star Rating Green</label>
                                 <select class="form-control" name="star_rating_green">
                                     <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_green == 1 ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_green == 2 ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_green == 3 ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_green == 4 ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_green == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_green == 1 ? 'selected' : '' }}>
+                                        1
+                                    </option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_green == 2 ? 'selected' : '' }}>
+                                        2
+                                    </option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_green == 3 ? 'selected' : '' }}>
+                                        3
+                                    </option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_green == 4 ? 'selected' : '' }}>
+                                        4
+                                    </option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_green == 5 ? 'selected' : '' }}>
+                                        5
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -368,11 +408,21 @@
                                 <label>Star Rating Price</label>
                                 <select class="form-control" name="star_rating_price">
                                     <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_price == 1 ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_price == 2 ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_price == 3 ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_price == 4 ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_price == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_price == 1 ? 'selected' : '' }}>
+                                        1
+                                    </option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_price == 2 ? 'selected' : '' }}>
+                                        2
+                                    </option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_price == 3 ? 'selected' : '' }}>
+                                        3
+                                    </option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_price == 4 ? 'selected' : '' }}>
+                                        4
+                                    </option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_price == 5 ? 'selected' : '' }}>
+                                        5
+                                    </option>
                                 </select>
                             </div>
                         </div>

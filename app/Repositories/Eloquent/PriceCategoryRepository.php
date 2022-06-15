@@ -53,7 +53,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
                     for ($i = 0; $i <= 5; $i++) {
                         $this->priceCategoryType->where('price_category_id', $categoryId)
                             ->update([
-                                'year' => $data['year_' . $i],
+                                'year' => $data['year_'. $i],
                                 'price_seven_night' => $data['priceSevenNights_' . $i],
                                 'price_monday_to_friday' => $data['mondayToFriday_' . $i],
                                 'price_friday_to_monday' => $data['fridayToMonday_' . $i]
@@ -63,7 +63,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
                     if ($categoryName === 'flexible') {
                         for ($i = 0; $i <= 5; $i++) {
                             $this->priceCategoryType->where('price_category_id', $categoryId)->update([
-                                'year' => $data['year_' . $i],
+                                'year' => $data['year_'. $i],
                                 'price_standing_charge' => $data['standingCharge_' . $i],
                                 'price_sunday_to_thursday' => $data['sundayToThursday_' . $i],
                                 'price_friday_to_saturday' => $data['fridayToSaturday_' . $i],
