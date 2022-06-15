@@ -291,7 +291,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Price Category</label>
                                 <select class="form-control" id="price_category_id" name="price_category_id">
@@ -433,7 +433,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Commission Rate</label>
+                                <label>Commission Rate %</label>
                                 <input type="number" name="commission_rate" id="commission_rate" class="form-control">
                             </div>
                         </div>
