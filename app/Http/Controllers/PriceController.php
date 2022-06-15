@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\PriceCategory;
+use App\Models\PriceCategoryType;
 use App\Models\Type;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -21,12 +22,16 @@ class PriceController extends Controller
 {
     /** @var PriceRepositoryInterface $priceRepository */
     private $priceRepository;
-    /** @var TypePriceCategory $price */
-    private $price;
+    /** @var PriceCategoryType $priceCategoryType */
+    private $priceCategoryType;
 
-    public function __construct(PriceRepositoryInterface $priceRepository)
+    public function __construct(
+        PriceRepositoryInterface $priceRepository,
+        PriceCategoryType  $priceCategoryType
+    )
     {
         $this->priceRepository = $priceRepository;
+        $this->priceCategoryType = $priceCategoryType;
     }
 
     /**
@@ -35,9 +40,9 @@ class PriceController extends Controller
     public function index()
     {
         $category = PriceCategory::all();
-        $type     = Type::all();
+        $types     = Type::all();
 
-        return view('price.price_list',compact('category','type'));
+        return view('price.price_list',compact('category','types'));
     }
 
     /**
@@ -60,7 +65,11 @@ class PriceController extends Controller
     public function getPrice(Request $request)
     {
         if ($request->ajax()) {
-            $price = $this->priceRepository->all();
+            $price = $this->priceCategoryType
+                ->join('price_categories', 'price_categories.id', '=', 'price_category_type.price_category_id')
+                ->join('types', 'types.id', '=', 'price_category_type.type_id')
+                ->select('*','price_categories.category_name','types.type')
+                ->get();
             return Datatables::of($price)
                 ->addIndexColumn()
                 ->addColumn('action', function ($price) {

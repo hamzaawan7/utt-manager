@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class PropertyCategoryRepository
@@ -30,7 +31,7 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     {
         if(!is_null($data['category_id'])) {
             try {
-                $category = $this->propertyCategory::find($data['category_id']);
+                $category = $this->propertyCategory->find($data['category_id']);
                 $category = $this->getCommonFields($category,$data);
                 $category->update();
 

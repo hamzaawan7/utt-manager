@@ -3,9 +3,14 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\PriceCategory;
+use App\Models\PriceCategoryType;
 use App\Repositories\PriceCategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class PriceCategoryRepository
+ * @package App\Repositories\Eloquent
+ */
 class PriceCategoryRepository implements PriceCategoryRepositoryInterface
 {
     /**
@@ -13,10 +18,22 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
      */
     private $priceCategory;
 
-    /** @var PriceCategory $priceCategory */
-    public function __construct(PriceCategory $priceCategory)
+    /**
+     * @var PriceCategoryType
+     */
+    private $priceCategoryType;
+
+    /**
+     * @var PriceCategoryType $priceCategoryType
+     * @var PriceCategory $priceCategory
+     */
+    public function __construct(
+        PriceCategoryType $priceCategoryType,
+        PriceCategory     $priceCategory
+    )
     {
         $this->priceCategory = $priceCategory;
+        $this->priceCategoryType = $priceCategoryType;
     }
 
     /**
@@ -25,11 +42,37 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
      */
     public function save($data)
     {
-        if (!is_null($data['category_id'])) {
+        if (!is_null(intval($data['price_category_id']))) {
             try {
-                $category = $this->priceCategory->find($data['category_id']);
-                $category->category_name = $data['category_name'];
-                $category->update();
+                $value = explode('_', $data['category_id']);
+                $categoryId = $value[0];
+                $array = explode(' ', $value[1]);
+                $categoryName = strtolower($array[0]);
+
+                if ($categoryName === 'standard') {
+                    for ($i = 0; $i <= 5; $i++) {
+                        $this->priceCategoryType->where('price_category_id', $categoryId)
+                            ->update([
+                                'year' => $data['year_' . $i],
+                                'price_seven_night' => $data['priceSevenNights_' . $i],
+                                'price_monday_to_friday' => $data['mondayToFriday_' . $i],
+                                'price_friday_to_monday' => $data['fridayToMonday_' . $i]
+                            ]);
+                    }
+                } else {
+                    if ($categoryName === 'flexible') {
+                        for ($i = 0; $i <= 5; $i++) {
+                            $this->priceCategoryType->where('price_category_id', $categoryId)->update([
+                                'year' => $data['year_' . $i],
+                                'price_standing_charge' => $data['standingCharge_' . $i],
+                                'price_sunday_to_thursday' => $data['sundayToThursday_' . $i],
+                                'price_friday_to_saturday' => $data['fridayToSaturday_' . $i],
+                                'price_seven_night' => $data['sevenNightsPrice_' . $i],
+                                'weekend_friday_to_monday' => $data['weekendPrice_' . $i]
+                            ]);
+                        }
+                    }
+                }
 
                 return "Data Updated Successfully";
             } catch (\Exception $e) {
@@ -45,7 +88,12 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     public function find(int $id)
     {
         try {
-            return $this->priceCategory->find($id);
+            return $this->priceCategoryType
+                ->join('price_categories', 'price_categories.id', '=', 'price_category_type.price_category_id')
+                ->join('types', 'types.id', '=', 'price_category_type.type_id')
+                ->select('price_category_type.*', 'types.type', 'price_categories.category_name')
+                ->where('price_category_type.price_category_id', $id)
+                ->get();
         } catch (\Exception $e) {
             return $e->getMessage();
         }

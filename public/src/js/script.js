@@ -18,8 +18,8 @@ toastr.options = {
 
 
 //Property Form Submit
-$("a[href='#finish']").click(function(){
-     $('#property_form').submit();
+$("a[href='#finish']").click(function () {
+    $('#property_form').submit();
 });
 
 //Empty Customer Forms
@@ -686,8 +686,7 @@ function findPriceSeason(url) {
 }
 
 //Delete Price Seasons
-function deletePriceSeason(url)
-{
+function deletePriceSeason(url) {
     Swal.fire({
         title: 'Are you sure?',
         text: 'Record will be deleted.?',
@@ -761,18 +760,132 @@ function AddPriceCategory() {
 }
 
 //Find Price Category
-function findPriceCategory(url)
-{
+function findPriceCategory(url) {
     $.ajax({
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response, function (index, value) {
-                $('#' + index).val(value);
+            var data = response[0].category_name;
+            var category = data[0].toString().toLowerCase();
+            html = '';
+            $('.standard-main').html(' ');
+            $('.flexible-main').html(' ');
+            if (category == 's') {
+                $.each(response, function (index, value) {
+                    html += '<div class="row">\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Type</label>\n' +
+                        '                                    <input type="text" name="type_'+index+'" id="type"\n' +
+                        '                                           value='+value.type+'_'+value.type_id+' class="form-control" readonly>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Year</label>\n' +
+                        '                                    <input type="text" name="year_'+index+'"\n' +
+                        '                                           id="year" class="form-control year" value='+value.year+' readonly>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Price Seven Nights</label>\n' +
+                        '                                    <input type="number" name="priceSevenNights_'+index+'"\n' +
+                        '                                           id="utt_star_rating" value='+value.price_seven_night+' class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Price Monday To Friday</label>\n' +
+                        '                                    <input type="number" name="mondayToFriday_'+index+'"\n' +
+                        '                                           id="utt_star_rating" value='+value.price_monday_to_friday+' class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Price Friday To Monday</label>\n' +
+                        '                                    <input type="number" name="fridayToMonday_'+index+'"\n' +
+                        '                                           id="utt_star_rating" value='+value.price_friday_to_monday+' class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Category</label>\n' +
+                        '                                    <input type="text" name="category"\n' +
+                        '                                           id="category" value='+value.category_name+' class="form-control" readonly>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>';
+                });
 
-                $('#category_id').val(response.id);
-            });
+                $('.standard-main').html(html);
+            } else {
+                $.each(response, function(index, value) {
+                    html += '<div class="row">\n' +
+                        '                            <div class="col-md-1">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Type</label>\n' +
+                        '                                    <input type="text" name="type_'+index+'" id="type"\n' +
+                        '                                           value='+value.type+'_'+value.type_id+' class="form-control" readonly>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-1">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Year</label>\n' +
+                        '                                    <input type="text" name="year_'+index+'"\n' +
+                        '                                           id="year" value='+value.year+' class="form-control year">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Standing Charge</label>\n' +
+                        '                                    <input type="number" name="standingCharge_'+index+'"\n' +
+                        '                                          value='+value.price_standing_charge+' id="utt_star_rating" class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Sunday-to-Thursday</label>\n' +
+                        '                                    <input type="number" name="sundayToThursday_'+index+'"\n' +
+                        '                                         value='+value.price_sunday_to_thursday+'  id="utt_star_rating" class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Friday-to-Saturday</label>\n' +
+                        '                                    <input type="number" name="fridayToSaturday_'+index+'"\n' +
+                        '                                         value='+value.price_friday_to_saturday+'  id="utt_star_rating" class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-2">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Price-Seven-Nights</label>\n' +
+                        '                                    <input type="number" name="sevenNightsPrice_'+index+'"\n' +
+                        '                                          value='+value.price_seven_night+' id="utt_star_rating" class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-1">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Weekend</label>\n' +
+                        '                                    <input type="number" name="weekendPrice_'+index+'"\n' +
+                        '                                          value='+value.weekend_friday_to_monday+' id="utt_star_rating" class="form-control">\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="col-md-1">\n' +
+                        '                                <div class="form-group">\n' +
+                        '                                    <label>Category</label>\n' +
+                        '                                    <input type="text" name="category"\n' +
+                        '                                          value='+value.category_name+' id="category" class="form-control" readonly>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>';
+                });
 
+                $('.flexible-main').html(html);
+            }
+            
+            $('#price_category_id').val(response[0].price_category_id)
+            $('#category_price_id').val(response[0].price_category_id)
             $('#price-category').modal('show');
         }
     });
@@ -799,8 +912,7 @@ function getPriceCategory() {
 }
 
 //Delete Price Category
-function deletePriceCategory(url)
-{
+function deletePriceCategory(url) {
     Swal.fire({
         title: 'Are you sure?',
         text: 'Record will be deleted.?',
@@ -826,7 +938,7 @@ function deletePriceCategory(url)
     });
 }
 
-//Add Or Update Price
+/*//Add Or Update Price
 function addPrice() {
     var data = $("#price").serialize();
     var url  = $("#price").attr('action');
@@ -854,7 +966,7 @@ function addPrice() {
             });
         }
     });
-}
+}*/
 
 //Get Price Data In DataTable
 function getPrice() {
@@ -879,8 +991,7 @@ function getPrice() {
 }
 
 //Find Price
-function findPrice(url)
-{
+function findPrice(url) {
     $.ajax({
         url: url,
         method: 'get',
@@ -897,9 +1008,9 @@ function findPrice(url)
 }
 
 //Add Or Update Price Type
-function addType() {
+function addPrice() {
     var data = $("#type_form").serialize();
-    var url  = $("#type_form").attr('action');
+    var url = $("#type_form").attr('action');
     var type = $("#type_form").attr('method');
     $.ajaxSetup({
         headers: {
@@ -926,8 +1037,7 @@ function addType() {
 }
 
 //Find Type
-function findType(url)
-{
+function findType(url) {
     $.ajax({
         url: url,
         method: 'get',
@@ -945,17 +1055,16 @@ function findType(url)
 
 //Get Price Type Data In DataTable
 function getPrice() {
-    $(".get_type").DataTable().clear().destroy();
-    return $('.get_type').DataTable({
+    $(".get_price").DataTable().clear().destroy();
+    return $('.get_price').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/price/type/get",
+        ajax: "/price/get",
         columns: [
             {data: 'id', name: 'id'},
+            {data: 'category_name', name: 'category_name'},
             {data: 'type', name: 'type'},
             {data: 'price_seven_night', name: 'price_seven_night'},
-            {data: 'price_monday_to_friday', name: 'price_monday_to_friday'},
-            {data: 'price_friday_to_monday', name: 'price_friday_to_monday'},
             {
                 data: 'action',
                 name: 'action',
@@ -967,8 +1076,7 @@ function getPrice() {
 }
 
 //Delete Price Type
-function deleteType(url)
-{
+function deleteType(url) {
     Swal.fire({
         title: 'Are you sure?',
         text: 'Record will be deleted.?',
@@ -1010,28 +1118,22 @@ $(document).ready(function () {
 });
 
 //Select Price Category
-$('#price_category_id').on('change', function() {
-    var data      = $("#price_category_id option:selected").text().split(' ');
+$('#price_category_id').on('change', function () {
+    var data = $("#price_category_id option:selected").text().split(' ');
     var $category = data[0].toString().toLowerCase();
     if ($category == 'standard') {
-       $('.main-standard').removeClass('hide');
-       $('.main-flexible').addClass('hide');
-    }else{
+        $('.main-standard').removeClass('hide');
+        $('.main-flexible').addClass('hide');
+    } else {
         $('.main-flexible').removeClass('hide');
         $('.main-standard').addClass('hide');
     }
 });
 
 $(".year").datepicker({
-    language:"en",
-    minView:"years",
-    view:"years",
-    autoClose:!0,
-    dateFormat:"yyyy"
+    language: "en",
+    minView: "years",
+    view: "years",
+    autoClose: !0,
+    dateFormat: "yyyy"
 });
-
-//Submit Add Property Form
-/*
-$("a[href='#finish']").click(function(){
-    $("#add_property").submit();
-});*/

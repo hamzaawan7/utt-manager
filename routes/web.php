@@ -90,13 +90,7 @@ Route::prefix('price')->group(function () {
     Route::post('/save', [PriceController::class, 'save'])->name('price-save');
     Route::get('/find/{id}', [PriceController::class, 'find']);
     Route::get('/delete/{id}', [PriceController::class, 'delete']);
-
-    Route::get('/type/list', [TypeController::class, 'index'])->name('price-type-list');
-    Route::get('/type/get', [TypeController::class, 'getPrice']);
-    Route::post('/type/save', [TypeController::class, 'save'])->name('price-type-save');
-    Route::get('/type/find/{id}', [TypeController::class, 'find']);
-    Route::get('/type/delete/{id}', [TypeController::class, 'delete']);
-
+    
     Route::get('/category/list', [PriceCategoryController::class, 'index'])->name('price-category-list');
     Route::get('/category/get', [PriceCategoryController::class, 'getPriceCategory']);
     Route::post('/category/save', [PriceCategoryController::class, 'save'])->name('price-category-save');

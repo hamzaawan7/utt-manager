@@ -29,7 +29,7 @@ class ReviewRepository implements ReviewRepositoryInterface
             try {
                 $accept = 0;
                 $show = 0;
-                $review = $this->review::find($data['review_id']);
+                $review = $this->review->find($data['review_id']);
                 $review->comment = $data['comment'];
                 $review->star_rating = $data['star_rating'];
                 if (isset($data['is_accept'])){

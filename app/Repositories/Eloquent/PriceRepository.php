@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\TypePriceCategory;
+use App\Models\PriceCategoryType;
 use App\Repositories\PriceRepositoryInterface;
 
 class PriceRepository implements PriceRepositoryInterface
 {
 
-    /** @var TypePriceCategory $price */
-    public function __construct(TypePriceCategory $price)
+    /** @var PriceCategoryType $price */
+    public function __construct(PriceCategoryType $price)
     {
         $this->price = $price;
     }
@@ -22,9 +22,9 @@ class PriceRepository implements PriceRepositoryInterface
     {
         if (!is_null($data['price_id'])) {
             try {
-                $price = $this->propertyCategory->find($data['price_id']);
-                $price = $this->getCommonFields($price, $data);
-                $price->update();
+                $type = $this->price->find($data['price_id']);
+                $type = $this->getCommonFields($type, $data);
+                $type->update();
 
                 return "Data Updated Successfully";
             } catch (\Exception $e) {
@@ -33,9 +33,42 @@ class PriceRepository implements PriceRepositoryInterface
 
         } else {
             try {
-                $price = new $this->price;
-                $price = $this->getCommonFields($price, $data);
-                $price->save();
+                $value = explode('_', $data['price_category_id']);
+                $categoryId = $value[0];
+                $array = explode(' ', $value[1]);
+                $categoryName = strtolower($array[0]);
+
+                if ($categoryName === 'standard') {
+                    for ($i = 0; $i <= 5; $i++) {
+                        $value   = explode('_', $data['type_'.$i]);
+                        $typeId  = $value[1];
+                        $price   = new $this->price;
+                        $price->price_category_id = $categoryId;
+                        $price->type_id = $typeId;
+                        $price->year = $data['year_'.$i];
+                        $price->price_seven_night = $data['priceSevenNights_' .$i];
+                        $price->price_monday_to_friday = $data['mondayToFriday_' . $i];
+                        $price->price_friday_to_monday = $data['fridayToMonday_' . $i];
+                        $price->save();
+                    }
+                } else {
+                    if ($categoryName === 'flexible') {
+                        for ($i = 0; $i <= 5; $i++) {
+                            $value  = explode('_', $data['type_'.$i]);
+                            $typeId = $value[1];
+                            $price  = new $this->price;
+                            $price->price_category_id      = $categoryId;
+                            $price->type_id                = $typeId;
+                            $price->year                   = $data['year_' . $i];
+                            $price->price_standing_charge  = $data['standingCharge_' . $i];
+                            $price->price_sunday_to_thursday = $data['sundayToThursday_' . $i];
+                            $price->price_friday_to_saturday = $data['fridayToSaturday_' . $i];
+                            $price->price_seven_night = $data['sevenNightsPrice_' . $i];
+                            $price->weekend_friday_to_monday = $data['weekendPrice_' . $i];
+                            $price->save();
+                        }
+                    }
+                }
 
                 return "Data Saved Successfully";
             } catch (\Exception $e) {

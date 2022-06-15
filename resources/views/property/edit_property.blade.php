@@ -125,15 +125,7 @@
                                 <div class="text-danger clear-error" id="special_category_error"></div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Utt Star Rating</label>
-                                <input type="number" name="utt_star_rating" id="utt_star_rating" class="form-control"
-                                       value="{{$property->utt_star_rating}}">
-                                <div class="text-danger clear-error" id="utt_star_rating_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input"
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="is_visible"
@@ -295,6 +287,110 @@
                                 <label class="form-check-label" for="min_seven_night_stay"
                                        style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Minimum Seven Night
                                     Stay</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Price Category</label>
+                                <select class="form-control" id="price_category_id" name="price_category_id">
+                                    <option>Select Price Category</option>
+                                    @foreach($priceCategory as $item)
+                                        <option value="{{$item->id}}" {{ $property->price_category_id == $item->id ? 'selected' : '' }}>{{$item->category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <h5>Utt Star Rating</h5>
+                <section>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Star Rating Luxury</label>
+                                <select class="form-control" name="star_rating_luxury">
+                                    <option>Select Rating</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_luxury == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_luxury == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_luxury == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_luxury == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Star Rating Heritage</label>
+                                <select class="form-control" name="star_rating_heritage">
+                                    <option>Select Rating</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_heritage == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_heritage == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_heritage == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_heritage == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_heritage == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Star Rating Unique</label>
+                                <select class="form-control" name="star_rating_unique">
+                                    <option>Select Rating</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_unique == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_unique == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_unique == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_unique == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_unique == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Star Rating Green</label>
+                                <select class="form-control" name="star_rating_green">
+                                    <option>Select Rating</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_green == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_green == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_green == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_green == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_green == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Star Rating Price</label>
+                                <select class="form-control" name="star_rating_price">
+                                    <option>Select Rating</option>
+                                    <option value="1" {{ $property->starRatings[0]->star_rating_price == 1 ? 'selected' : '' }}>1</option>
+                                    <option value="2" {{ $property->starRatings[0]->star_rating_price == 2 ? 'selected' : '' }}>2</option>
+                                    <option value="3" {{ $property->starRatings[0]->star_rating_price == 3 ? 'selected' : '' }}>3</option>
+                                    <option value="4" {{ $property->starRatings[0]->star_rating_price == 4 ? 'selected' : '' }}>4</option>
+                                    <option value="5" {{ $property->starRatings[0]->star_rating_price == 5 ? 'selected' : '' }}>5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <h5>Property Setting</h5>
+                <section>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Commission Rate</label>
+                                <input type="number" name="commission_rate" id="commission_rate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Booking Fee</label>
+                                <input type="number" name="booking_fee" id="booking_fee" class="form-control">
                             </div>
                         </div>
                     </div>

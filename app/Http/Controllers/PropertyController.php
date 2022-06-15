@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PropertySaveRequest;
 use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
+use App\Models\PriceCategory;
 use App\Models\Property;
-use App\Models\Season;
 use App\Models\PropertyImage;
+use App\Models\Season;
+use App\Models\StarRating;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Repositories\OwnerRepositoryInterface;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\PropertyRepositoryInterface;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
-use App\Http\Requests\PropertySaveRequest;
 
 /**
  * Class PropertyController
@@ -78,15 +80,15 @@ class PropertyController extends Controller
         PropertyImage                       $propertyImages
     )
     {
-        $this->propertyRepository         = $propertyRepository;
+        $this->propertyRepository = $propertyRepository;
         $this->propertyCategoryRepository = $propertyCategoryRepository;
-        $this->propertyFeatureRepository  = $propertyFeatureRepository;
-        $this->ownerRepository            = $ownerRepository;
-        $this->property                   = $property;
-        $this->propertyCategory           = $propertyCategory;
-        $this->feature                    = $feature;
-        $this->nearbyProperty             = $nearbyProperty;
-        $this->propertyImages             = $propertyImages;
+        $this->propertyFeatureRepository = $propertyFeatureRepository;
+        $this->ownerRepository = $ownerRepository;
+        $this->property = $property;
+        $this->propertyCategory = $propertyCategory;
+        $this->feature = $feature;
+        $this->nearbyProperty = $nearbyProperty;
+        $this->propertyImages = $propertyImages;
     }
 
     /**
@@ -94,9 +96,9 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $category     = $this->propertyCategoryRepository->all();
-        $features     = $this->propertyFeatureRepository->all();
-        $owners       = $this->ownerRepository->all();
+        $category = $this->propertyCategoryRepository->all();
+        $features = $this->propertyFeatureRepository->all();
+        $owners = $this->ownerRepository->all();
         $propertyList = $this->propertyRepository->all();
 
         return view('property.list', compact('category', 'propertyList', 'features', 'owners'));
@@ -107,13 +109,14 @@ class PropertyController extends Controller
      */
     public function addProperty()
     {
-        $category     = $this->propertyCategoryRepository->all();
-        $features     = $this->propertyFeatureRepository->all();
-        $owners       = $this->ownerRepository->all();
+        $category = $this->propertyCategoryRepository->all();
+        $features = $this->propertyFeatureRepository->all();
+        $owners = $this->ownerRepository->all();
         $propertyList = $this->propertyRepository->all();
-        $seasonList   = Season::all();
+        $seasonList = Season::all();
+        $priceCategory = PriceCategory::all();
 
-        return view('property.add_property',compact('category','seasonList','features','owners','propertyList'));
+        return view('property.add_property', compact('category', 'priceCategory', 'seasonList', 'features', 'owners', 'propertyList'));
     }
 
     /**
@@ -124,25 +127,34 @@ class PropertyController extends Controller
     {
         if (!is_null($request->property_id)) {
             $property = $this->property->find($request->property_id);
-            $property = $this->getCommonFields($property,$request);
+            $property = $this->getCommonFields($property, $request);
+
 
             if ($request->hasFile('main_image')) {
                 $destination = public_path('images/main/' . $property->main_image);
                 if (File::exists($destination)) {
                     File::delete($destination);
                 }
-                $file      = $request->file('main_image');
+                $file = $request->file('main_image');
                 $extention = $file->getClientOriginalExtension();
-                $filename  = time() . '.' . $extention;
+                $filename = time() . '.' . $extention;
                 $file->move(public_path('images/main'), $filename);
                 $property->main_image = $filename;
             }
-
             $property->update();
+
+            $starRating = StarRating::where('id',$request->property_id)->update([
+                 'star_rating_luxury' => $request->star_rating_luxury,
+                 'star_rating_heritage'=> $request->star_rating_heritage,
+                 'star_rating_unique' => $request->star_rating_unique,
+                  'star_rating_green' => $request->star_rating_green,
+                'star_rating_price' => $request->star_rating_price,
+            ]);
+
             if ($request->file('images')) {
                 foreach ($request->file('images') as $file) {
-                    $name = time().rand(1,100).'.'.$file->extension();
-                    $file->move(public_path('/images/multiple/'),$name);
+                    $name = time() . rand(1, 100) . '.' . $file->extension();
+                    $file->move(public_path('/images/multiple/'), $name);
                     $propertyImages = new $this->propertyImages;
                     $propertyImages->images = $name;
                     $propertyImages->property_id = $request->general_id;
@@ -155,7 +167,7 @@ class PropertyController extends Controller
 
             if ($request->category_name) {
                 foreach ($request->category_name as $item) {
-                    $category              = new $this->propertyCategory;
+                    $category = new $this->propertyCategory;
                     $category->property_id = $request->property_id;
                     $category->category_id = $item;
                     $category->save();
@@ -164,9 +176,9 @@ class PropertyController extends Controller
 
             if ($request->feature_name) {
                 foreach ($request->feature_name as $item) {
-                    $feature              = new $this->feature;
+                    $feature = new $this->feature;
                     $feature->property_id = $request->property_id;
-                    $feature->feature_id  = $item;
+                    $feature->feature_id = $item;
                     $feature->save();
                 }
             }
@@ -180,24 +192,33 @@ class PropertyController extends Controller
                 }
             }
 
-            return redirect()->route('property-list')->with('message','Data Updated Successfully');
-        }
+            return redirect()->route('property-list')->with('message', 'Data Updated Successfully');
+        } else {
             $property = new $this->property;
-            $property = $this->getCommonFields($property,$request);
+            $property = $this->getCommonFields($property, $request);
             if ($request->hasfile('main_image')) {
-                $file      = $request->file('main_image');
+                $file = $request->file('main_image');
                 $extension = $file->getClientOriginalExtension();
-                $filename  = time() . '.' . $extension;
+                $filename = time() . '.' . $extension;
                 $file->move(public_path('images/main'), $filename);
                 $property->main_image = $filename;
             }
             $property->save();
             $property_id = $property->id;
 
+            $starRating = new StarRating;
+            $starRating->property_id = $property_id;
+            $starRating->star_rating_luxury = $request->star_rating_luxury;
+            $starRating->star_rating_heritage = $request->star_rating_heritage;
+            $starRating->star_rating_unique = $request->star_rating_unique;
+            $starRating->star_rating_green = $request->star_rating_green;
+            $starRating->star_rating_price = $request->star_rating_price;
+            $starRating->save();
+
             if ($request->file('images')) {
                 foreach ($request->file('images') as $file) {
-                    $name = time().rand(1,100).'.'.$file->extension();
-                    $file->move(public_path('/images/multiple/'),$name);
+                    $name = time() . rand(1, 100) . '.' . $file->extension();
+                    $file->move(public_path('/images/multiple/'), $name);
                     $propertyImages = new $this->propertyImages;
                     $propertyImages->images = $name;
                     $propertyImages->property_id = $property_id;
@@ -207,33 +228,34 @@ class PropertyController extends Controller
 
             if ($request->category_name) {
                 foreach ($request->category_name as $item) {
-                    $category              = new $this->propertyCategory;
+                    $category = new $this->propertyCategory;
                     $category->property_id = $property_id;
                     $category->category_id = $item;
                     $category->save();
                 }
             }
 
-            if ($request->feature_name){
+            if ($request->feature_name) {
                 foreach ($request->feature_name as $item) {
-                    $feature              = new $this->feature;
+                    $feature = new $this->feature;
                     $feature->property_id = $property_id;
-                    $feature->feature_id  = $item;
+                    $feature->feature_id = $item;
                     $feature->save();
                 }
             }
 
             if ($request->nearby_property) {
                 foreach ($request->nearby_property as $item) {
-                    $nearByProperty                     = new $this->nearbyProperty;
-                    $nearByProperty->property_id        = $property_id;
+                    $nearByProperty = new $this->nearbyProperty;
+                    $nearByProperty->property_id = $property_id;
                     $nearByProperty->nearby_property_id = $item;
                     $nearByProperty->save();
                 }
             }
 
-            return redirect()->route('property-list')->with('message','Data Saved Successfully');
+            return redirect()->route('property-list')->with('message', 'Data Saved Successfully');
         }
+    }
 
     /**
      * @param $property
@@ -242,35 +264,35 @@ class PropertyController extends Controller
      */
     public function getCommonFields($property, $request)
     {
-        $isVisible      = 0;
+        $isVisible = 0;
         $sevenNightStay = 0;
-        $property->name                = $request->name;
-        $property->owner_id            = $request->owner_name;
-        $property->season_id            = $request->season_id;
-        $property->short_code          = $request->short_code;
-        $property->phone               = $request->phone;
-        $property->address             = $request->address;
-        $property->post_code           = $request->post_code;
-        $property->special_category    = $request->special_category;
-        $property->utt_star_rating     = $request->utt_star_rating;
-        $property->standard_guests     = $request->standard_guests;
-        $property->minimum_guest       = $request->minimum_guest;
-        $property->room_layouts        = $request->room_layouts;
-        $property->check_in_time       = dateFormat($request->check_in_time);
-        $property->check_out_time      = dateFormat($request->check_out_time);
-        $property->minimum_nights      = $request->minimum_nights;
-        $property->childs              = $request->childs;
-        $property->infants             = $request->infants;
-        $property->pets                = $request->pets;
-        $property->special_start_days  = dateFormat($request->special_start_days);
-        if (isset($request->is_visible)){
+        $property->name = $request->name;
+        $property->owner_id = $request->owner_name;
+        $property->season_id = $request->season_id;
+        $property->price_category_id = $request->price_category_id;
+        $property->short_code = $request->short_code;
+        $property->phone = $request->phone;
+        $property->address = $request->address;
+        $property->post_code = $request->post_code;
+        $property->special_category = $request->special_category;
+        $property->standard_guests = $request->standard_guests;
+        $property->minimum_guest = $request->minimum_guest;
+        $property->room_layouts = $request->room_layouts;
+        $property->check_in_time = dateFormat($request->check_in_time);
+        $property->check_out_time = dateFormat($request->check_out_time);
+        $property->minimum_nights = $request->minimum_nights;
+        $property->childs = $request->childs;
+        $property->infants = $request->infants;
+        $property->pets = $request->pets;
+        $property->special_start_days = dateFormat($request->special_start_days);
+        if (isset($request->is_visible)) {
             $isVisible = 1;
         }
-        if (isset($request->min_seven_night_stay)){
+        if (isset($request->min_seven_night_stay)) {
             $sevenNightStay = 1;
         }
-        $property->is_visible                 = $isVisible;
-        $property->min_seven_night_stay       = $sevenNightStay;
+        $property->is_visible = $isVisible;
+        $property->min_seven_night_stay = $sevenNightStay;
 
         return $property;
     }
@@ -282,40 +304,39 @@ class PropertyController extends Controller
     public function find(int $id)
     {
         $property = $this->propertyRepository->getPropertyWithRelationship($id);
-        $categories       = [];
-        $features         = [];
+        $categories = [];
+        $features = [];
         $nearbyProperties = [];
         if (!empty($property->categories)) {
-            foreach ($property->categories as $item)
-            {
+            foreach ($property->categories as $item) {
                 $categories[] = $item->id;
             }
         }
 
         if (!empty($property->features)) {
-            foreach ($property->features as $item)
-            {
+            foreach ($property->features as $item) {
                 $features[] = $item->id;
             }
         }
 
         if (!empty($property->nearbyProperties)) {
-            foreach ($property->nearbyProperties as $item)
-            {
+            foreach ($property->nearbyProperties as $item) {
                 $nearbyProperties[] = $item->nearby_property_id;
             }
         }
 
-        $property->categories       = $categories;
-        $property->features         = $features;
+        $property->categories = $categories;
+        $property->features = $features;
         $property->nearbyProperties = $nearbyProperties;
-        $category                   = $this->propertyCategoryRepository->all();
-        $features                   = $this->propertyFeatureRepository->all();
-        $owners                     = $this->ownerRepository->all();
-        $propertyList               = $this->propertyRepository->all();
-        $seasonList                 = Season::all();
+        $category = $this->propertyCategoryRepository->all();
+        $features = $this->propertyFeatureRepository->all();
+        $owners = $this->ownerRepository->all();
+        $propertyList = $this->propertyRepository->all();
+        $seasonList = Season::all();
+        $priceCategory = PriceCategory::all();
+        $starRating = StarRating::all();
 
-        return view('property.edit_property',compact('property','propertyList','category','owners','features','seasonList'));
+        return view('property.edit_property', compact('property','starRating','priceCategory', 'propertyList', 'category', 'owners', 'features', 'seasonList'));
     }
 
     /**
@@ -325,7 +346,7 @@ class PropertyController extends Controller
     public function deleteImage(int $id): JsonResponse
     {
         $propertyImages = $this->propertyImages->find($id);
-        $image_path     = public_path() . '/images/multiple/' . $propertyImages->images;
+        $image_path = public_path() . '/images/multiple/' . $propertyImages->images;
         unlink($image_path);
         $propertyImages->delete();
 

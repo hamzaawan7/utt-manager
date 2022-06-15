@@ -31,7 +31,9 @@ class PriceCategoryController extends Controller
      */
     public function index()
     {
-        return view('price.price_category_list');
+        $categories = $this->priceCategoryRepository->all();
+
+        return view('price.price_category_list',compact('categories'));
     }
 
     /**

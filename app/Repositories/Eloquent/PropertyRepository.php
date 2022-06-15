@@ -75,7 +75,7 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     public function getPropertyWithRelationship(int $id)
     {
-        return $this->property->where('id', $id)->with('categories','features','images','nearbyProperties')->first();
+        return $this->property->where('id', $id)->with('categories','starRatings','features','images','nearbyProperties')->first();
     }
 
     /**

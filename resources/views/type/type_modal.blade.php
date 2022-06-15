@@ -42,7 +42,7 @@
                                         <div class="form-group">
                                             <label>Select Year</label>
                                             <input type="text" name="year_{{$key}}"
-                                                   id="year" class="form-control">
+                                                   id="year" class="form-control year">
                                             <div class="text-danger clear-error" id="year_error"></div>
                                         </div>
                                     </div>

@@ -47,6 +47,14 @@ class Property extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function starRatings(): HasMany
+    {
+        return $this->hasMany(StarRating::class);
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function features(): BelongsToMany

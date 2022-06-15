@@ -39,7 +39,7 @@ class TypeRepository implements TypeRepositoryInterface
 
                 for ($i =0; $i<5; $i++) {
                     if ($categoryName === 'standard') {
-                        $type->type = $data['type_'.$i];
+                        //$type->year = $data['type_'.$i];
                         $type->price_seven_night = $data['priceSevenNights_'.$i];
                         $type->price_monday_to_friday = $data['mondayToFriday_'.$i];
                         $type->price_friday_to_monday = $data['fridayToMonday_'.$i];

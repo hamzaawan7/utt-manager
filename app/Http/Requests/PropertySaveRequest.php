@@ -23,7 +23,6 @@ class PropertySaveRequest extends FormRequest
             'address' => 'required|string|max:255',
             'post_code' => 'required|numeric',
             'special_category' => 'required',
-            'utt_star_rating' => 'required|numeric',
             'is_visible' => 'required',
         ];
     }
@@ -44,7 +43,6 @@ class PropertySaveRequest extends FormRequest
             'address.required' => 'This field is reuired',
             'post_code.required' => 'This field is reuired',
             'special_category.required' => 'This field is reuired',
-            'utt_star_rating.required' => 'This field is reuired',
             'is_visible.required' => 'This field is reuired',
             //'main_image.required' => 'This field is reuired',
             //'images.required' => 'This field is reuired',

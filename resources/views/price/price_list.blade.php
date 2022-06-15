@@ -25,7 +25,7 @@
 
     <div class="card-box mb-30">
         <div class="pd-20">
-            <a href="" data-toggle="modal" data-target="#price-modal" class="reset_price">
+            <a href="" data-toggle="modal" data-target="#type-modal" class="reset_price">
                 <button type="button" class="btn btn-success">Add Price</button>
             </a>
         </div>
@@ -34,8 +34,8 @@
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>price monday-friday</th>
-                    <th>price friday-monday</th>
+                    <th>Category Name</th>
+                    <th>Type</th>
                     <th>price 7 nights</th>
                     <th>Action</th>
                 </tr>

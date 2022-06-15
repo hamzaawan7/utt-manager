@@ -14,7 +14,7 @@ class PriceCategorySaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_name' => 'required',
+            //'category_name' => 'required',
         ];
     }
 }
