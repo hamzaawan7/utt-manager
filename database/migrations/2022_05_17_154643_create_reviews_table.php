@@ -15,14 +15,15 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('review_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('property_id')->nullable();
             $table->string('comment');
-            $table->string('star_rating');
-            $table->string('is_accept');
-            $table->string('is_show');
+            $table->string('approve');
 
             $table->timestamps();
 
+            $table->foreign('property_id')->references('id')->on('properties');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

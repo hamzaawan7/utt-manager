@@ -19,10 +19,14 @@ class SuperAdminSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'Super Admin',
-            'email' => 'hello@pobl.tech',
-            'password' => Hash::make('secret'),
-        ]);
+        $user =  [
+            [
+                'name' => 'Super Admin',
+                'email' => 'hello@pobl.tech',
+                'password' => Hash::make('secret'),
+            ],
+        ];
+
+        User::insert($user);
     }
 }

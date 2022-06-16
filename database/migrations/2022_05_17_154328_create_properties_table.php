@@ -17,9 +17,9 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('owner_id');
-            $table->unsignedBigInteger('season_id');
-            $table->unsignedBigInteger('price_category_id');
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->unsignedBigInteger('season_id')->nullable();
+            $table->unsignedBigInteger('price_category_id')->nullable();
             $table->string('name');
             $table->string('short_code');
             $table->string('phone');
@@ -41,7 +41,7 @@ class CreatePropertiesTable extends Migration
             $table->timestamp('special_start_days')->nullable();
             $table->integer('is_visible');
             $table->integer('min_seven_night_stay');
-            $table->string('main_image');
+            $table->string('main_image')->nullable();
 
             $table->timestamps();
 

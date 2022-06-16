@@ -157,7 +157,7 @@ class PropertyController extends Controller
                     $file->move(public_path('/images/multiple/'), $name);
                     $propertyImages = new $this->propertyImages;
                     $propertyImages->images = $name;
-                    $propertyImages->property_id = $request->general_id;
+                    $propertyImages->property_id = $request->property_id;
                     $propertyImages->save();
                 }
             }
