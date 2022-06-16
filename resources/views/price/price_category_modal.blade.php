@@ -13,8 +13,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Select Category</label>
-                                <select class="custom-select2 form-control" name="category_id"
-                                        id="category_id" style="width: 100%; height: 38px;">
+                                <select class="custom-select2 form-control" name="category_price_id"
+                                        id="category_price_id" style="width: 100%; height: 38px;">
                                     @foreach($categories as $item)
                                         <optgroup>
                                             <option value="{{$item->id.'_'.$item->category_name}}">{{$item->category_name}}</option>

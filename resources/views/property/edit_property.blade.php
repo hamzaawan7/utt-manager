@@ -439,10 +439,44 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Booking Fee</label>
+                                <label>Booking Fee %</label>
                                 <input type="number" name="booking_fee" id="booking_fee" class="form-control">
                             </div>
                         </div>
+                    </div>
+                </section>
+                <h5>Airbnb Sync</h5>
+                <section>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>airbnb import - calendar url</label>
+                                <input type="number" name="commission_rate" id="commission_rate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                       style="width: 20px; height: 20px; margin-top: 39px;" id="is_visible"
+                                       name="is_visible">
+                                <label class="form-check-label" for="is_visible"
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">airbnb export</label>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>airbnb export - password</label>
+                                    <input type="number" name="commission_rate" id="commission_rate" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>airbnb export - url</label>
+                                    <input type="number" name="commission_rate" id="commission_rate" class="form-control" readonly>
+                                </div>
+                            </div>
                     </div>
                 </section>
             </form>

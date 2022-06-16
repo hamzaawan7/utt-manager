@@ -21,7 +21,6 @@
                                             <optgroup>
                                                 <option value="{{$item->id.'_'.$item->category_name}}">{{$item->category_name}}</option>
                                             </optgroup>
-                                            <div class="text-danger clear-error" id="price_category_id_error"></div>
                                         @endforeach
                                     </select>
                                 </div>
@@ -33,7 +32,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Type</label>
-                                            <input type="text" name="type_{{$key}}" id="type"
+                                            <input type="text" name="types_{{$key}}" id="type"
                                                    value="{{$item->type.'_'.$item->id}}" class="form-control" readonly>
                                             <div class="text-danger clear-error" id="type_error"></div>
                                         </div>
@@ -41,7 +40,8 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Year</label>
-                                            <input type="text" name="year_{{$key}}"
+                                            <label for="year">Year</label>
+                                            <input type="text" name="years_{{$key}}"
                                                    id="year" class="form-control year">
                                             <div class="text-danger clear-error" id="year_error"></div>
                                         </div>
@@ -88,7 +88,7 @@
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             <label>Year</label>
-                                            <input type="text" name="year_{{$key}}"
+                                            <input type="text" name="yearf_{{$key}}"
                                                    id="year" class="form-control year">
                                             <div class="text-danger clear-error" id="year_error"></div>
                                         </div>

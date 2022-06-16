@@ -44,7 +44,8 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
     {
         if (!is_null(intval($data['price_category_id']))) {
             try {
-                $value = explode('_', $data['category_id']);
+                //dd($data);
+                $value = explode('_', $data['category_price_id']);
                 $categoryId = $value[0];
                 $array = explode(' ', $value[1]);
                 $categoryName = strtolower($array[0]);
@@ -52,8 +53,9 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
                 if ($categoryName === 'standard') {
                     for ($i = 0; $i <= 5; $i++) {
                         $this->priceCategoryType->where('price_category_id', $categoryId)
+                            ->where('type_id', )
                             ->update([
-                                'year' => $data['year_'. $i],
+                                //'year' => $data['years_'. $i],
                                 'price_seven_night' => $data['priceSevenNights_' . $i],
                                 'price_monday_to_friday' => $data['mondayToFriday_' . $i],
                                 'price_friday_to_monday' => $data['fridayToMonday_' . $i]
@@ -63,7 +65,7 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
                     if ($categoryName === 'flexible') {
                         for ($i = 0; $i <= 5; $i++) {
                             $this->priceCategoryType->where('price_category_id', $categoryId)->update([
-                                'year' => $data['year_'. $i],
+                                //'year' => $data['yearf_'. $i],
                                 'price_standing_charge' => $data['standingCharge_' . $i],
                                 'price_sunday_to_thursday' => $data['sundayToThursday_' . $i],
                                 'price_friday_to_saturday' => $data['fridayToSaturday_' . $i],

@@ -776,14 +776,14 @@ function findPriceCategory(url) {
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
-                        '                                    <input type="text" name="type_'+index+'" id="type"\n' +
-                        '                                           value='+value.type+'_'+value.type_id+' class="form-control" readonly>\n' +
+                        '                                    <input type="text" name="type" id="type"\n' +
+                        '                                           value='+value.type+' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Year</label>\n' +
-                        '                                    <input type="text" name="year_'+index+'"\n' +
+                        '                                    <input type="text" name="years_'+index+'"\n' +
                         '                                           id="year" class="form-control year" value='+value.year+' readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
@@ -825,14 +825,14 @@ function findPriceCategory(url) {
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
-                        '                                    <input type="text" name="type_'+index+'" id="type"\n' +
-                        '                                           value='+value.type+'_'+value.type_id+' class="form-control" readonly>\n' +
+                        '                                    <input type="text" name="type" id="type"\n' +
+                        '                                           value='+value.type+' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Year</label>\n' +
-                        '                                    <input type="text" name="year_'+index+'"\n' +
+                        '                                    <input type="text" name="yearf_'+index+'"\n' +
                         '                                           id="year" value='+value.year+' class="form-control year">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
@@ -883,9 +883,10 @@ function findPriceCategory(url) {
 
                 $('.flexible-main').html(html);
             }
-            
-            $('#price_category_id').val(response[0].price_category_id)
-            $('#category_price_id').val(response[0].price_category_id)
+
+            $('#price_category_id').val(response[0].price_category_id);
+            //$('#category_price_id').val(response[0].price_category_id);
+            $('#category_price_id').val(response[0].price_category_id+'_'+response[0].category_name).trigger('change');
             $('#price-category').modal('show');
         }
     });

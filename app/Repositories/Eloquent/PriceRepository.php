@@ -20,19 +20,8 @@ class PriceRepository implements PriceRepositoryInterface
      */
     public function save($data): string
     {
-        if (!is_null($data['price_id'])) {
             try {
-                $type = $this->price->find($data['price_id']);
-                $type = $this->getCommonFields($type, $data);
-                $type->update();
-
-                return "Data Updated Successfully";
-            } catch (\Exception $e) {
-                return $e->getMessage();
-            }
-
-        } else {
-            try {
+                //dd($data);
                 $value = explode('_', $data['price_category_id']);
                 $categoryId = $value[0];
                 $array = explode(' ', $value[1]);
@@ -45,7 +34,7 @@ class PriceRepository implements PriceRepositoryInterface
                         $price   = new $this->price;
                         $price->price_category_id = $categoryId;
                         $price->type_id = $typeId;
-                        $price->year = $data['year_'.$i];
+                        $price->year = $data['years_'.$i];
                         $price->price_seven_night = $data['priceSevenNights_' .$i];
                         $price->price_monday_to_friday = $data['mondayToFriday_' . $i];
                         $price->price_friday_to_monday = $data['fridayToMonday_' . $i];
@@ -59,7 +48,7 @@ class PriceRepository implements PriceRepositoryInterface
                             $price  = new $this->price;
                             $price->price_category_id      = $categoryId;
                             $price->type_id                = $typeId;
-                            $price->year                   = $data['year_' . $i];
+                            $price->year                   = $data['yearf_' . $i];
                             $price->price_standing_charge  = $data['standingCharge_' . $i];
                             $price->price_sunday_to_thursday = $data['sundayToThursday_' . $i];
                             $price->price_friday_to_saturday = $data['fridayToSaturday_' . $i];
@@ -75,7 +64,6 @@ class PriceRepository implements PriceRepositoryInterface
                 return $e->getMessage();
             }
         }
-    }
 
     /**
      * @param $price
