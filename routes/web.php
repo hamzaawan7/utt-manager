@@ -12,6 +12,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,4 +103,14 @@ Route::prefix('price')->group(function () {
     Route::post('/season/save', [PriceSeasonController::class, 'save'])->name('price-season-save');
     Route::get('/season/find/{id}', [PriceSeasonController::class, 'find']);
     Route::get('/season/delete/{id}', [PriceSeasonController::class, 'delete']);
+});
+
+//Discount Route
+Route::prefix('discount')->group(function () {
+    Route::get('/list', [DiscountController::class, 'index'])->name('discount-list');
+    Route::get('/get', [DiscountController::class, 'getDiscount']);
+    Route::post('/save', [DiscountController::class, 'save'])->name('discount-save');
+    Route::get('/find/{id}', [DiscountController::class, 'find']);
+    Route::get('/delete/{id}', [DiscountController::class, 'delete']);
+
 });

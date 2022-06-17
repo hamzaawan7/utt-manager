@@ -19,6 +19,11 @@ use App\Models\PriceCategory;
 class TypeController extends Controller
 {
     /**
+     * @var TypeRepositoryInterface
+     */
+    private $typeRepository;
+
+    /**
      * @param TypeRepositoryInterface $typeRepository
      */
     public function __construct(TypeRepositoryInterface $typeRepository)
@@ -37,6 +42,8 @@ class TypeController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return void
      * @throws Exception
      */
     public function getPrice(Request $request)

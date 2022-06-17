@@ -7,6 +7,7 @@ use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
 use App\Models\PropertyImage;
+use App\Models\StarRating;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -23,6 +24,12 @@ class PropertyRepository implements PropertyRepositoryInterface
     /**
      * @var CategoryProperty
      */
+
+    private $starRating;
+    /**
+     * @var StarRating
+     */
+
     private $propertyCategory;
     /**
      * @var PropertyImage
@@ -43,13 +50,15 @@ class PropertyRepository implements PropertyRepositoryInterface
      * @var CategoryProperty $propertyCategory
      * @var NearbyProperty $nearbyProperty
      * @var PropertyImage $imageProperty
+     * @var StarRating $starRating
      */
     public function __construct(
         Property                 $property,
         FeatureProperty          $feature,
         CategoryProperty $propertyCategory,
         NearbyProperty $nearbyProperty,
-        PropertyImage $imageProperty
+        PropertyImage $imageProperty,
+        StarRating $starRating
 
     )
     {
@@ -58,11 +67,12 @@ class PropertyRepository implements PropertyRepositoryInterface
         $this->feature          = $feature;
         $this->nearbyProperty  = $nearbyProperty;
         $this->imageProperty  = $imageProperty;
+        $this->starRating  = $starRating;
     }
 
     /**
      * @param $data
-     * @return mixed
+     * @return void
      */
     public function save($data)
     {
@@ -75,7 +85,7 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     public function getPropertyWithRelationship(int $id)
     {
-        return $this->property->where('id', $id)->with('categories','starRatings','features','images','nearbyProperties')->first();
+        return $this->property->where('id', $id)->with('categories','starRatings','features','images','nearbyProperties','owners')->first();
     }
 
     /**
@@ -97,6 +107,8 @@ class PropertyRepository implements PropertyRepositoryInterface
             $this->propertyCategory->where('property_id', $id)->delete();
             $this->imageProperty->where('property_id', $id)->delete();
             $this->nearbyProperty->where('property_id', $id)->delete();
+            $this->nearbyProperty->where('property_id', $id)->delete();
+            $this->starRating->where('property_id', $id)->delete();
             $this->property->find($id)->delete();
 
             return "Data Deleted Successfully";

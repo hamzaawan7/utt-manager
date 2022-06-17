@@ -77,4 +77,13 @@ class Property extends Model
     {
         return $this->hasMany(NearbyProperty::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function owners(): HasMany
+    {
+        return $this->hasMany(OwnerProperty::class);
+    }
+
 }

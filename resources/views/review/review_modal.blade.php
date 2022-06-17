@@ -18,30 +18,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Star Rating</label>
-                                <input type="number" name="star_rating" id="star_rating" class="form-control">
-                                <div class="text-danger" id="category_error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input checkbox1"
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="is_accept"
                                        name="is_accept">
                                 <label class="form-check-label" for="is_accept"
-                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Is Accept</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input checkbox1"
-                                       style="width: 20px; height: 20px; margin-top: 39px;" id="is_show"
-                                       name="is_show">
-                                <label class="form-check-label" for="is_show"
-                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Is Show</label>
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Approve</label>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\OwnerRepositoryInterface;
 use App\Models\Owner;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -20,9 +21,10 @@ class OwnerRepository implements OwnerRepositoryInterface
      * @var User
      */
     private $user;
+
     /**
      * @param Owner $owner
-     * @var User $user
+     * @param User $user
      */
     public function __construct(
         Owner  $owner,
@@ -93,8 +95,6 @@ class OwnerRepository implements OwnerRepositoryInterface
         $owner->emergency_contact_name   = $data['emergency_contact_name'];
         $owner->emergency_contact_number = $data['emergency_contact_number'];
         $owner->cleaning_rota_receipts = $data['cleaning_rota_receipts'];
-        $owner->bank_account_number = $data['bank_account_number'];
-        $owner->bank_account_short_code = $data['bank_account_short_code'];
 
         return $owner;
     }
@@ -109,7 +109,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection|Owner[]
      */
     public function all()
     {

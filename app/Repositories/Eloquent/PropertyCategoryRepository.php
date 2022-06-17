@@ -4,7 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
+use App\Models\CategoryProperty;
 
 /**
  * Class PropertyCategoryRepository
@@ -17,10 +17,17 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      */
     private $propertyCategory;
 
-    /** @var Category $propertyCategory */
-    public function __construct(Category  $propertyCategory)
+    /**
+     * @param CategoryProperty $categoryProperty
+     * @var Category $propertyCategory
+     */
+    public function __construct(
+        Category  $propertyCategory,
+        CategoryProperty $categoryProperty
+    )
     {
         $this->propertyCategory = $propertyCategory;
+        $this->categoryProperty = $categoryProperty;
     }
 
     /**
@@ -99,13 +106,14 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
     public function delete(int $id)
     {
         try {
-            if (!$this->propertyCategory->where('id', $id)->get()) {
+            $category = $this->categoryProperty->where('category_id',$id)->count();
+            if ($category > 0) {
+                $message = "Category Used not Deleted";
+                $status  = 400;
+            } else {
                 $this->propertyCategory->find($id)->delete();
                 $message = "Data Deleted Successfully";
                 $status  = 200;
-            } else {
-                 $message = "Category Used not Deleted";
-                $status   = 400;
             }
 
             return response()->json([

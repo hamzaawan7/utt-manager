@@ -29,9 +29,9 @@ class UserRepository implements UserRepositoryInterface
     private $customer;
 
     /**
+     * @param User $user
      * @param Owner $owner
      * @param Customer $customer
-     * @var User $user
      */
     public function __construct(
         User      $user,
@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface
     {
         if(!is_null($data['user_id'])) {
             try {
-                $user = $this->user::find($data['user_id']);
+                $user = $this->user->find($data['user_id']);
                 $user->name     = $data['name'];
                 $user->email    = $data['email'];
                 $user->update();

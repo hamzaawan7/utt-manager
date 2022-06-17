@@ -24,6 +24,19 @@ class PropertySaveRequest extends FormRequest
             'post_code' => 'required|numeric',
             'special_category' => 'required',
             'is_visible' => 'required',
+            'standard_guests' => 'required|numeric',
+            'minimum_guest' => 'required|numeric',
+            'room_layouts' => 'required',
+            'check_in_time' => 'required',
+            'check_out_time' => 'required',
+            'minimum_nights' => 'required|numeric',
+            'childs' => 'required|numeric',
+            'infants' => 'required|numeric',
+            'pets' => 'required|numeric',
+            'season_id' => 'required',
+            'special_start_days' => 'required',
+            'price_category_id' => 'required',
+            'bank_account_number' => 'required|numeric',
         ];
     }
 
@@ -44,8 +57,6 @@ class PropertySaveRequest extends FormRequest
             'post_code.required' => 'This field is reuired',
             'special_category.required' => 'This field is reuired',
             'is_visible.required' => 'This field is reuired',
-            //'main_image.required' => 'This field is reuired',
-            //'images.required' => 'This field is reuired',
         ];
     }
 }

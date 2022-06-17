@@ -26,8 +26,6 @@ class CreateOwnersTable extends Migration
             $table->string('emergency_contact_name');
             $table->string('emergency_contact_number');
             $table->string('cleaning_rota_receipts');
-            $table->bigInteger('bank_account_number');
-            $table->bigInteger('bank_account_short_code');
 
             $table->timestamps();
 

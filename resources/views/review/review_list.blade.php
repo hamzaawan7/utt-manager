@@ -7,8 +7,7 @@
             <div class="page-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-6>
-                    <nav aria-label=" breadcrumb
-                    " role="navigation">
+                    <nav aria-label=" breadcrumb role="navigation">
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><h4><a href="#">Review List</a></h4></li>
                     </ol>
@@ -16,8 +15,7 @@
                 </div>
 
                 <div class="col-md-6 col-sm-6>
-             <nav aria-label=" breadcrumb
-                " role="navigation">
+             <nav aria-label=" breadcrumb role="navigation">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Review List</li>
@@ -36,9 +34,7 @@
                 <tr>
                     <th>id</th>
                     <th>Comment</th>
-                    <th>Star Rating</th>
-                    <th>Is Accept</th>
-                    <th>Is Show</th>
+                    <th>Approve</th>
                     <th>Action</th>
                 </tr>
                 </thead>

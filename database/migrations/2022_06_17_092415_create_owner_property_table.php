@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration
+class CreateOwnerPropertyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('owner_property', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('property_id')->nullable();
-            $table->string('comment');
-            $table->string('approve');
+            $table->unsignedBigInteger('property_id');
+            $table->unsignedBigInteger('owner_id');
 
             $table->timestamps();
 
             $table->foreign('property_id')->references('id')->on('properties');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('owners');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('owner_property');
     }
 }

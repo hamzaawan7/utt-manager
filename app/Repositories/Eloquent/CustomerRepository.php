@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class CustomerRepository implements CustomerRepositoryInterface
 {
-
-    /** @var Customer $customer */
     /**
      * @var Customer
      */
@@ -26,7 +24,7 @@ class CustomerRepository implements CustomerRepositoryInterface
 
     /**
      * @param Customer $customer
-     * @var User $user
+     * @param User $user
      */
     public function __construct (
         Customer $customer,
@@ -108,7 +106,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection|Customer[]
      */
     public function all()
     {

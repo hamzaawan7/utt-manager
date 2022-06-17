@@ -40,7 +40,7 @@
                                 <li><a href="advanced-components.html">All Bookings</a></li>
                                 <li><a href="form-wizard.html">Late Availability</a></li>
                                 <li><a href="html5-editor.html">Cleaning Rota</a></li>
-                                <li><a href="form-pickers.html">Discount Code Manager</a></li>
+                                <li><a href="{{route('discount-list')}}">Discount Code Manager</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

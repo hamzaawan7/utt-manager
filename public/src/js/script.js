@@ -122,6 +122,8 @@ function findPropertyCategory(url) {
         url: url,
         method: 'get',
         success: function (response) {
+            $("#include_in_search_filter").prop("checked", false);
+            $("#include_in_header").prop("checked", false);
             if (response.include_in_search_filter === 1) {
                 $("#include_in_search_filter").prop("checked", true);
             }
@@ -307,11 +309,9 @@ function findReview(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            if (response.is_accept === '1') {
+            $("#is_accept").prop("checked", false);
+            if (response.approve === '1') {
                 $("#is_accept").prop("checked", true);
-            }
-            if (response.is_show === '1') {
-                $("#is_show").prop("checked", true);
             }
             $.each(response, function (index, value) {
                 $('#' + index).val(value);
@@ -358,9 +358,7 @@ function getReview() {
         columns: [
             {data: 'id', name: 'id'},
             {data: 'comment', name: 'comment'},
-            {data: 'star_rating', name: 'star_rating'},
-            {data: 'is_accept', name: 'is_accept'},
-            {data: 'is_show', name: 'is_show'},
+            {data: 'approve', name: 'approve'},
             {
                 data: 'action',
                 name: 'action',
@@ -1115,6 +1113,10 @@ $(document).ready(function () {
     getPrice();
     $("#nearby_property").select2({
         maximumSelectionLength: 3
+    });
+
+    $("#type").select2({
+        maximumSelectionLength: 1
     });
 });
 

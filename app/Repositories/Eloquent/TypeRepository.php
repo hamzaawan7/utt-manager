@@ -3,10 +3,22 @@
 namespace App\Repositories\Eloquent;
 use App\Models\Type;
 use App\Repositories\TypeRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class TypeRepository
+ * @package App\Repositories\Eloquent
+ */
 class TypeRepository implements TypeRepositoryInterface
 {
-    /** @var Type $type */
+    /**
+     * @var Type
+     */
+    private $type;
+
+    /**
+     * @param Type $type
+     */
     public function __construct(Type $type)
     {
         $this->type = $type;
@@ -65,7 +77,7 @@ class TypeRepository implements TypeRepositoryInterface
     }
 
     /**$ass
-     * @return mixed
+     * @return Collection|Type[]
      */
     public function all()
     {

@@ -4,11 +4,22 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\PriceCategoryType;
 use App\Repositories\PriceRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class PriceRepository
+ * @package App\Repositories\Eloquent
+ */
 class PriceRepository implements PriceRepositoryInterface
 {
+    /**
+     * @var PriceCategoryType
+     */
+    private $price;
 
-    /** @var PriceCategoryType $price */
+    /**
+     * @param PriceCategoryType $price
+     */
     public function __construct(PriceCategoryType $price)
     {
         $this->price = $price;
@@ -21,7 +32,6 @@ class PriceRepository implements PriceRepositoryInterface
     public function save($data): string
     {
             try {
-                //dd($data);
                 $value = explode('_', $data['price_category_id']);
                 $categoryId = $value[0];
                 $array = explode(' ', $value[1]);
@@ -87,12 +97,11 @@ class PriceRepository implements PriceRepositoryInterface
      */
     public function find(int $id)
     {
-        $ass = $this->price->find($id);
-        dd($ass->with('categories')->get());
+        return $this->price->find($id);
     }
 
     /**$ass
-     * @return mixed
+     * @return Collection|PriceCategoryType[]
      */
     public function all()
     {

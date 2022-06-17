@@ -40,10 +40,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Owner</label>
-                                <select class="custom-select" name="owner_name" id="owner_id">
-                                    <option selected="">Select Owner</option>
+                                <select class="custom-select2 form-control" id="owner_id"
+                                        name="owner_name[]"
+                                        multiple="multiple" style="width: 100%;">
                                     @foreach($owners as $item)
-                                        <option value="{{$item->id}}" {{ $property->owner_id == $item->id ? 'selected' : '' }}>{{$item->owner_name}} </option>
+                                        <optgroup>
+                                            <option value="{{$item->id}}" {{ in_array($item->id, $property->owners) ? 'selected="selected"' : '' }}>{{$item->owner_name}}</option>
+                                        </optgroup>
                                     @endforeach
                                 </select>
                             </div>
@@ -261,7 +264,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Select Owner</label>
+                                <label>Select Season</label>
                                 <select class="custom-select" name="season_id" id="season_id">
                                     <option selected="">Select Season</option>
                                     @foreach($seasonList as $item)
@@ -300,6 +303,15 @@
                                         <option value="{{$item->id}}" {{ $property->price_category_id == $item->id ? 'selected' : '' }}>{{$item->category_name}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Bank Account Number</label>
+                                <input type="text" name="bank_account_number" value="{{$property->bank_account_number}}" class="form-control">
+                                @error('bank_account_number')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
