@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PriceSeasonSaveRequest;
-use http\Env\Response;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use App\Repositories\PriceSeasonRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -23,6 +22,10 @@ class PriceSeasonController extends Controller
 {
     /** @var PriceSeasonRepositoryInterface $priceSeasonRepository */
     private $priceCategoryRepository;
+    /**
+     * @var PriceSeasonRepositoryInterface
+     */
+    private $priceSeasonRepository;
 
     /**
      * @param PriceSeasonRepositoryInterface $priceSeasonRepository
@@ -42,6 +45,11 @@ class PriceSeasonController extends Controller
         return view('price.price_season_list',compact('type'));
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     * @throws Exception
+     */
     public function getSeason(Request $request)
     {
         if ($request->ajax()) {

@@ -60,6 +60,8 @@ class PriceController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return void
      * @throws Exception
      */
     public function getPrice(Request $request)

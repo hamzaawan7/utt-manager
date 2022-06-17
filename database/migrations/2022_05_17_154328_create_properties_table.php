@@ -17,9 +17,8 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('owner_id')->nullable();
-            $table->unsignedBigInteger('season_id')->nullable();
-            $table->unsignedBigInteger('price_category_id')->nullable();
+            $table->unsignedBigInteger('season_id');
+            $table->unsignedBigInteger('price_category_id');
             $table->string('name');
             $table->string('short_code');
             $table->string('phone');
@@ -30,7 +29,7 @@ class CreatePropertiesTable extends Migration
             $table->timestamp('check_out_time')->nullable();
             $table->integer('minimum_nights');
             $table->integer('standard_guests');
-            $table->string('minimum_guest');
+            $table->integer('minimum_guest');
             $table->enum('room_layouts', [
                 RoomLayout::SINGLE_BED,
                 RoomLayout::DOUBLE_BED,
@@ -41,11 +40,11 @@ class CreatePropertiesTable extends Migration
             $table->timestamp('special_start_days')->nullable();
             $table->integer('is_visible');
             $table->integer('min_seven_night_stay');
-            $table->string('main_image')->nullable();
+            $table->bigInteger('bank_account_number');
+            $table->string('main_image');
 
             $table->timestamps();
 
-            $table->foreign('owner_id')->references('id')->on('owners');
             $table->foreign('season_id')->references('id')->on('seasons');
             $table->foreign('price_category_id')->references('id')->on('price_categories');
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerSaveRequest;
 use App\Repositories\CustomerRepositoryInterface;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -37,6 +38,7 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * @return void
+     * @throws Exception
      */
     public function getCustomer(Request $request)
     {

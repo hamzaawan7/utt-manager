@@ -37,6 +37,8 @@ class PriceCategoryController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return void
      * @throws Exception
      */
     public function getPriceCategory(Request $request)

@@ -115,24 +115,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Bank Account Number</label>
-                                <input type="number" name="bank_account_number" id="bank_account_number"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="bank_account_number_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Bank Account Short Code</label>
-                                <input type="text" name="bank_account_short_code" id="bank_account_short_code"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="bank_account_short_code_error"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -17,15 +17,14 @@ class PriceCategoryRepository implements PriceCategoryRepositoryInterface
      * @var PriceCategory
      */
     private $priceCategory;
-
     /**
      * @var PriceCategoryType
      */
     private $priceCategoryType;
 
     /**
-     * @var PriceCategoryType $priceCategoryType
-     * @var PriceCategory $priceCategory
+     * @param PriceCategoryType $priceCategoryType
+     * @param PriceCategory $priceCategory
      */
     public function __construct(
         PriceCategoryType $priceCategoryType,

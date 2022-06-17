@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Repositories\ReviewRepositoryInterface;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,6 +22,10 @@ class ReviewController extends Controller
     /** @var Review $review */
     /** @var ReviewRepositoryInterface $reviewRepository */
     private $reviewRepository;
+    /**
+     * @var Review
+     */
+    private $review;
 
     public function __construct(
         ReviewRepositoryInterface $reviewRepository,
@@ -42,6 +47,7 @@ class ReviewController extends Controller
     /**
      * @param Request $request
      * @return void
+     * @throws Exception
      */
     public function getReview(Request $request)
     {

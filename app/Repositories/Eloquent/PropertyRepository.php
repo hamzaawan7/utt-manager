@@ -72,7 +72,7 @@ class PropertyRepository implements PropertyRepositoryInterface
 
     /**
      * @param $data
-     * @return mixed
+     * @return void
      */
     public function save($data)
     {
@@ -85,7 +85,7 @@ class PropertyRepository implements PropertyRepositoryInterface
      */
     public function getPropertyWithRelationship(int $id)
     {
-        return $this->property->where('id', $id)->with('categories','starRatings','features','images','nearbyProperties')->first();
+        return $this->property->where('id', $id)->with('categories','starRatings','features','images','nearbyProperties','owners')->first();
     }
 
     /**

@@ -39,12 +39,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Owner</label>
-                                <select class="custom-select" name="owner_name" id="owner_id">
-                                    <option selected="">Select Owner</option>
+                                <select class="custom-select2 form-control" id="owner_id"
+                                        name="owner_name[]"
+                                        multiple="multiple" style="width: 100%;">
                                     @foreach($owners as $item)
-                                        <option value="{{$item->id}}">{{$item->owner_name}} </option>
+                                        <optgroup>
+                                            <option value="{{$item->id}}">{{$item->owner_name}}</option>
+                                        </optgroup>
                                     @endforeach
                                 </select>
+                                @error('owner_name')
+                                <div class="text-danger"> {{$message}} </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -70,6 +76,9 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
+                                @error('category_name')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -84,6 +93,9 @@
                                         </optgroup>
                                     @endforeach
                                 </select>
+                                @error('feature_name')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -180,7 +192,7 @@
                                 <label>Minimum Guest</label>
                                 <input type="number" name="minimum_guest" id="minimum_guest" class="form-control">
                                 @error('minimum_guest')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -192,6 +204,9 @@
                                     <option value="single_bed">Single Bed</option>
                                     <option value="double_bed">Double Bed</option>
                                 </select>
+                                @error('room_layouts')
+                                  <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -202,7 +217,7 @@
                                 <input type="text" name="check_in_time" id="checkInTime"
                                        class="form-control datetimepicker" autocomplete="off">
                                 @error('check_in_time')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -212,7 +227,7 @@
                                 <input type="text" name="check_out_time" id="checkOutTime"
                                        class="form-control datetimepicker" autocomplete="off">
                                 @error('check_out_time')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -221,7 +236,7 @@
                                 <label>Minimum Nights</label>
                                 <input type="number" name="minimum_nights" id="minimum_nights" class="form-control">
                                 @error('minimum_nights')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -232,7 +247,7 @@
                                 <label>Childs</label>
                                 <input type="number" name="childs" id="childs" class="form-control">
                                 @error('childs')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -241,7 +256,7 @@
                                 <label>Infants</label>
                                 <input type="number" name="infants" id="infants" class="form-control">
                                 @error('infants')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -250,7 +265,7 @@
                                 <label>Pets</label>
                                 <input type="number" name="pets" id="pets" class="form-control">
                                 @error('pets')
-                                <div class="text-danger">{{$message}}</div>
+                                  <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -265,6 +280,9 @@
                                         <option value="{{$item->id}}">{{$item->season_name}} </option>
                                     @endforeach
                                 </select>
+                                @error('season_id')
+                                  <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -273,7 +291,7 @@
                                 <input type="text" name="special_start_days" id="special_start_days"
                                        class="form-control datetimepicker" autocomplete="off">
                                 @error('special_start_days')
-                                <div class="text-danger">{{$message}}</div>
+                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -299,6 +317,18 @@
                                         <option value="{{$item->id}}">{{$item->category_name}}</option>
                                     @endforeach
                                 </select>
+                                @error('price_category_id')
+                                  <div class="text-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Bank Account Number</label>
+                                <input type="text" name="bank_account_number" class="form-control">
+                                @error('bank_account_number')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -383,7 +413,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Commission Rate %</label>
-                                <input type="number" min="1" max="100" name="commission_rate" id="commission_rate" class="form-control">
+                                <input type="number" min="1" max="100" name="commission_rate" id="commission_rate"
+                                       class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -410,7 +441,8 @@
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="is_visible"
                                        name="is_visible">
                                 <label class="form-check-label" for="is_visible"
-                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">airbnb export</label>
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">airbnb
+                                    export</label>
                             </div>
                         </div>
                     </div>
@@ -424,7 +456,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>airbnb export - url</label>
-                                <input type="number" name="commission_rate" id="commission_rate" class="form-control" readonly>
+                                <input type="number" name="commission_rate" id="commission_rate" class="form-control"
+                                       readonly>
                             </div>
                         </div>
                     </div>

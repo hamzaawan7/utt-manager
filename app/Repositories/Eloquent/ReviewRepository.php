@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 use App\Repositories\ReviewRepositoryInterface;
 use App\Models\Review;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class ReviewRepository
@@ -14,6 +15,10 @@ class ReviewRepository implements ReviewRepositoryInterface
      * @var Review
      */
     private $review;
+
+    /**
+     * @param Review $review
+     */
     public function __construct(Review $review)
     {
         $this->review = $review;
@@ -53,7 +58,7 @@ class ReviewRepository implements ReviewRepositoryInterface
     }
 
     /**
-     * @return mixed
+     * @return Collection|Review[]
      */
     public function all()
     {
@@ -62,9 +67,9 @@ class ReviewRepository implements ReviewRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
         try {
              $this->review->find($id)->delete();

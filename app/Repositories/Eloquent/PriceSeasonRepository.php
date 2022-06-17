@@ -6,10 +6,25 @@ use App\Repositories\PriceSeasonRepositoryInterface;
 use App\Models\Season;
 use App\Models\TypeSeason;
 
+/**
+ * Class PriceSeasonRepository
+ * @package App\Repositories\Eloquent
+ */
 class PriceSeasonRepository implements PriceSeasonRepositoryInterface
 {
-    /** @var Season $season */
-    /** @var TypeSeason $typeSeason */
+    /**
+     * @var Season
+     */
+    private $season;
+    /**
+     * @var TypeSeason
+     */
+    private $typeSeason;
+
+    /**
+     * @param Season $season
+     * @param TypeSeason $typeSeason
+     */
     public function __construct(
         Season $season,
         TypeSeason  $typeSeason

@@ -24,9 +24,6 @@ class OwnerSaveRequest extends FormRequest
             'secondary_contact_number' => 'required|numeric',
             'emergency_contact_name' => 'required|string|max:255',
             'emergency_contact_number' => 'required|numeric',
-            /*'cleaning_rota_receipts' => 'required|email',*/
-            'bank_account_number' => 'required|numeric',
-            'bank_account_short_code' => 'required|numeric',
         ];
     }
 

@@ -17,6 +17,10 @@ class FeatureRepository implements FeatureRepositoryInterface
      * @var Feature
      */
     private $feature;
+
+    /**
+     * @param Feature $feature
+     */
     public function __construct(Feature  $feature)
     {
         $this->feature = $feature;
