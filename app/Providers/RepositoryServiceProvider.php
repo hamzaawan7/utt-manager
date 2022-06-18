@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\DiscountRepositoryInterface;
+use App\Repositories\Eloquent\DiscountRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\Eloquent\PropertyCategoryRepository;
@@ -46,6 +48,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
         $this->app->bind(TypeRepositoryInterface::class, TypeRepository::class);
+        $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
     }
 
     /**

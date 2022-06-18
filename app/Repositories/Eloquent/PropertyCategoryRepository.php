@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Models\Category;
 use App\Models\CategoryProperty;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class PropertyCategoryRepository
@@ -16,10 +17,14 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
      * @var Category
      */
     private $propertyCategory;
+    /**
+     * @var CategoryProperty
+     */
+    private $categoryProperty;
 
     /**
+     * @param Category $propertyCategory
      * @param CategoryProperty $categoryProperty
-     * @var Category $propertyCategory
      */
     public function __construct(
         Category  $propertyCategory,
@@ -32,9 +37,9 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
 
     /**
      * @param $data
-     * @return string
+     * @return JsonResponse
      */
-    public function save($data): string
+    public function save($data): JsonResponse
     {
         if(!is_null($data['category_id'])) {
             try {
@@ -42,9 +47,12 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
                 $category = $this->getCommonFields($category,$data);
                 $category->update();
 
-                return "Data Updated Successfully";
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Updated Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
 
         } else {
@@ -53,9 +61,12 @@ class PropertyCategoryRepository implements PropertyCategoryRepositoryInterface
                 $category = $this->getCommonFields($category,$data);
                 $category->save();
 
-                return "Data Saved Successfully";
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Saved Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
         }
     }

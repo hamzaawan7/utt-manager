@@ -70,16 +70,11 @@ class OwnerController extends Controller
 
     /**
      * @param OwnerSaveRequest $request
-     * @return JsonResponse
+     * @return string|void
      */
-    public function save(OwnerSaveRequest $request): JsonResponse
+    public function save(OwnerSaveRequest $request)
     {
-        $message = $this->ownerRepository->save($request->input());
-
-            return response()->json([
-                'status' => 200,
-                'message' => $message
-            ]);
+        return $this->ownerRepository->save($request->input());
     }
 
     /**

@@ -16,14 +16,9 @@ class OwnerSaveRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|unique:users,email,' .$request->owner_id,
-            'address' => 'required|string|max:255',
-            'main_contact_name' => 'required|string|max:255',
-            'main_contact_number' => 'required|numeric',
-            'secondary_contact_name' => 'required|string|max:255',
-            'secondary_contact_number' => 'required|numeric',
-            'emergency_contact_name' => 'required|string|max:255',
-            'emergency_contact_number' => 'required|numeric',
+            'email' => 'required|unique:owners,email,' .$request->owner_id,
+            'address' => 'required',
+            'phone' => 'required|numeric',
         ];
     }
 
@@ -36,12 +31,7 @@ class OwnerSaveRequest extends FormRequest
             'name.required' => 'This field is reuired',
             'email.required' => 'This field is reuired',
             'address.required' => 'This field is reuired',
-            'main_contact_name.required' => 'This field is reuired',
-            'main_contact_number.required' => 'This field is reuired',
-            'secondary_contact_name.required' => 'This field is reuired',
-            'secondary_contact_number.required' => 'This field is reuired',
-            'emergency_contact_name.required' => 'This field is reuired',
-            'emergency_contact_number.required' => 'This field is reuired',
+            'phone.required' => 'This field is reuired',
         ];
     }
 }

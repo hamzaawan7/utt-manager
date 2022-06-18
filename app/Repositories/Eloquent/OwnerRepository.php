@@ -5,6 +5,7 @@ use App\Repositories\OwnerRepositoryInterface;
 use App\Models\Owner;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -37,44 +38,38 @@ class OwnerRepository implements OwnerRepositoryInterface
 
     /**
      * @param $data
-     * @return string|void
+     * @return JsonResponse|void
      */
     public function save($data)
     {
         if(!is_null($data['owner_id'])) {
             try {
                 if (empty($data['password'])) {
-                    $user = $this->user->where('id', $data['owner_id'])->first();
-                    $user->name = $data['name'];
-                    $user->email = $data['email'];
-                    $user->update();
-                    $owner = $this->owner->where('user_id', $data['owner_id'])->first();
-                    $this->getCommonFields($data,$owner);
+                    $owner = $this->owner->find($data['owner_id']);
+                    $owner = $this->getCommonFields($data,$owner);
                     $owner->update();
 
-                    return 'Data Updated successfully.';
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Data Updated Successfully'
+                    ]);
                 }
             } catch (\Exception $e){
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
 
         } else {
             try {
-                $user           = new $this->user;
-                $user->name     = $data['name'];
-                $user->email    = $data['email'];
-                $user->password = Hash::make($data['password']);
-                $user->save();
-                $user->syncRoles('owner');
-                $user_id                         = $user->id;
-                $owner                           = new $this->owner;
-                $this->getCommonFields($data,$owner);
-                $owner->user_id                  = $user_id;
+                $owner = new $this->owner;
+                $owner = $this->getCommonFields($data,$owner);
                 $owner->save();
 
-                return "Data Saved Successfully";
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Saved Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
         }
     }
@@ -86,15 +81,11 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function getCommonFields($data,$owner)
     {
-        $owner->owner_name               = $data['name'];
-        $owner->address                  = $data['address'];
-        $owner->main_contact_name        = $data['main_contact_name'];
-        $owner->main_contact_number      = $data['main_contact_number'];
-        $owner->secondary_contact_name   = $data['secondary_contact_name'];
-        $owner->secondary_contact_number = $data['secondary_contact_number'];
-        $owner->emergency_contact_name   = $data['emergency_contact_name'];
-        $owner->emergency_contact_number = $data['emergency_contact_number'];
-        $owner->cleaning_rota_receipts = $data['cleaning_rota_receipts'];
+        $owner->name     = $data['name'];
+        $owner->email    = $data['email'];
+        $owner->password = Hash::make($data['password']);
+        $owner->address  = $data['address'];
+        $owner->phone    = $data['phone'];
 
         return $owner;
     }
@@ -123,10 +114,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function delete(int $id): string
     {
         try {
-            $owner = $this->owner->find($id);
-            $user_id  = $owner->user_id;
             $this->owner->find($id)->delete();
-            $this->user->where('id',$user_id)->delete();
 
             return "Data Deleted Successfully";
         }catch (\Exception $e){

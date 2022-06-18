@@ -45,7 +45,7 @@
                                         multiple="multiple" style="width: 100%;">
                                     @foreach($owners as $item)
                                         <optgroup>
-                                            <option value="{{$item->id}}" {{ in_array($item->id, $property->owners) ? 'selected="selected"' : '' }}>{{$item->owner_name}}</option>
+                                            <option value="{{$item->id}}" {{ in_array($item->id, $property->owners) ? 'selected="selected"' : '' }}>{{$item->name}}</option>
                                         </optgroup>
                                     @endforeach
                                 </select>
@@ -308,7 +308,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Bank Account Number</label>
-                                <input type="text" name="bank_account_number" value="{{$property->bank_account_number}}" class="form-control">
+                                <input type="text" name="bank_account_number" value="{{$property->bank_account_number}}"
+                                       class="form-control">
                                 @error('bank_account_number')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
@@ -457,6 +458,66 @@
                         </div>
                     </div>
                 </section>
+                <h5>Contact Details</h5>
+                <section>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Main Contact Name</label>
+                                <input type="text" name="main_contact_name" value="{{$property->main_contact_name}}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Main Contact Number</label>
+                                <input type="number" name="main_contact_number" value="{{$property->main_contact_number}}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Secondary Contact Name</label>
+                                <input type="text" name="secondary_contact_name" value="{{$property->secondary_contact_name}}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Secondary Contact Number</label>
+                                <input type="number" name="secondary_contact_number" value="{{$property->secondary_contact_number}}"
+                                       class="form-control">
+                                <div class="text-danger clear-error" id="secondary_contact_number_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Emergency Contact Name</label>
+                                <input type="text" name="emergency_contact_name" value="{{$property->emergency_contact_name}}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Emergency Contact Number</label>
+                                <input type="number" name="emergency_contact_number" value="{{$property->emergency_contact_number}}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Cleaning Rota Receipts</label>
+                                <input type="text" name="cleaning_rota_receipts" value="{{$property->cleaning_rota_receipts}}"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <h5>Airbnb Sync</h5>
                 <section>
                     <div class="row">
@@ -472,23 +533,25 @@
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="is_visible"
                                        name="is_visible">
                                 <label class="form-check-label" for="is_visible"
-                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">airbnb export</label>
+                                       style="font-size: 20px; margin-left: 5px; margin-top: 34px;">airbnb
+                                    export</label>
                             </div>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>airbnb export - password</label>
-                                    <input type="number" name="commission_rate" id="commission_rate" class="form-control">
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>airbnb export - password</label>
+                                <input type="number" name="commission_rate" id="commission_rate" class="form-control">
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>airbnb export - url</label>
-                                    <input type="number" name="commission_rate" id="commission_rate" class="form-control" readonly>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>airbnb export - url</label>
+                                <input type="number" name="commission_rate" id="commission_rate" class="form-control"
+                                       readonly>
                             </div>
+                        </div>
                     </div>
                 </section>
             </form>

@@ -73,14 +73,9 @@ class FeatureController extends Controller
      * @param FeatureSaveRequest $request
      * @return JsonResponse
      */
-    public function save(FeatureSaveRequest $request): JsonResponse
+    public function save(FeatureSaveRequest $request)
     {
-        $message = $this->propertyFeatureRepository->save($request->input());
-
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+        return $this->propertyFeatureRepository->save($request->input());
     }
 
     /**

@@ -13,9 +13,9 @@ class PropertyImage extends Model
 
 
     /**
-     * @return belongTo
+     * @return BelongsTo
      */
-    public function properties():belongTo
+    public function properties(): BelongsTo
     {
         return $this->belongsTo(Property::class);
     }

@@ -71,16 +71,11 @@ class PropertyCategoryController extends Controller
 
     /**
      * @param PropertyCategorySaveRequest $request
-     * @return JsonResponse
+     * @return string|void
      */
-    public function save(PropertyCategorySaveRequest $request): JsonResponse
+    public function save(PropertyCategorySaveRequest $request)
     {
-        $message = $this->propertyCategoryRepository->save($request->input());
-
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+        return $this->propertyCategoryRepository->save($request->input());
     }
 
     /**

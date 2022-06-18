@@ -69,6 +69,7 @@ class UserRepository implements UserRepositoryInterface
                 $user->password      = Hash::make($data['password']);
                 $user->save();
                 $user->syncRoles($data['role']);
+
                 return "Data Inserted Successfully";
             } catch (\Exception $e) {
                 return $e->getMessage();
@@ -82,7 +83,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->user->where('id', $id)->first();
+        return $this->user->find($id);
     }
 
     /**
@@ -99,6 +100,6 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete(int $id)
     {
-        return $this->user::where('id',$id)->delete();
+        return $this->user->find($id)->delete();
     }
 }

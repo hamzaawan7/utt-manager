@@ -15,20 +15,17 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('property_id');
             $table->integer('is_active');
             $table->string('reference_code');
             $table->string('code_type');
             $table->integer('value');
-            $table->integer('all_property');
+            $table->integer('expiry_date');
             $table->timestamp('holiday_must_start_after')->nullable();
             $table->timestamp('holiday_must_start_by')->nullable();
             $table->string('email');
             $table->string('reason');
 
             $table->timestamps();
-
-            $table->foreign('property_id')->references('id')->on('properties');
         });
     }
 

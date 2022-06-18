@@ -29,7 +29,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" name="password" id="password" class="form-control" autocomplete="off">
+                                <input type="password" name="password" id="passwords" class="form-control" autocomplete="off">
                                 <div class="text-danger clear-error" id="password_error"></div>
                             </div>
                         </div>

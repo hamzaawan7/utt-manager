@@ -37,9 +37,9 @@
                 <tr>
                     <th>id</th>
                     <th>Name</th>
+                    <th>Email</th>
                     <th>Address</th>
-                    <th>Contact Name </th>
-                    <th>Contact Number</th>
+                    <th>Phone Number</th>
                     <th>Action</th>
                 </tr>
                 </thead>

@@ -42,7 +42,6 @@
                     <th>Address</th>
                     <th>Post Code</th>
                     <th>Special Category</th>
-                    <th>Utt Star Rating</th>
                     <th>Is Visible</th>
                     <th>Action</th>
                 </tr>
@@ -61,7 +60,6 @@
                             <td>{{ $item->address }}</td>
                             <td>{{ $item->post_code }}</td>
                             <td>{{ $item->special_category }}</td>
-                            <td>{{ $item->utt_star_rating }}</td>
                             <td>{{ $item->is_visible }}</td>
                             <td>
                                 <div class="dropdown">

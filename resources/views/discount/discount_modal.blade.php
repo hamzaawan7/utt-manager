@@ -6,21 +6,21 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Add Discount</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form id="review_feature" method="post" action="{{route('discount-save')}}">
-                <input type="hidden" name="review_id" id="review_id">
+            <form id="discount" method="post" action="{{route('discount-save')}}">
+                <input type="hidden" name="discount_id" id="discount_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Code</label>
-                                <input type="text" name="code" id="code" class="form-control">
-                                <div class="text-danger" id="code_error"></div>
+                                <input type="text" name="code" id="reference_code" class="form-control">
+                                <div class="text-danger" id="reference_code_error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Code Type</label>
-                                <select class="form-control" name="code_type">
+                                <select class="form-control" name="code_type" id="code_type">
                                     <option>Select Code Type</option>
                                     <option value="One off - Percentage">One off - Percentage</option>
                                     <option value="One off - Fixed amount">One off - Fixed amount</option>
@@ -28,6 +28,7 @@
                                     <option value="Persistent - Fixed amount">Persistent - Fixed amount</option>
                                     <option value="Payment Voucher">Payment Voucher</option>
                                 </select>
+                                <div class="text-danger" id="code_type_error"></div>
                             </div>
                         </div>
                     </div>
@@ -49,16 +50,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label>Properties</label>
-                                <select class="form-control" name="code_type">
-                                    <option>Select Property</option>
-                                    <option value="">One off - Percentage</option>
+                                <label>Select Property</label>
+                                <select class="custom-select2 form-control" id="property_id"
+                                        name="property_id[]"
+                                        multiple="multiple" style="width: 100%;">
+                                    @foreach($property as $item)
+                                        <optgroup>
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        </optgroup>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input checkbox1"
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="all_property"
@@ -67,7 +73,17 @@
                                        style="font-size: 20px; margin-left: 5px; margin-top: 34px;">All Estate</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" name="email" id="email"
+                                       class="form-control">
+                                <div class="text-danger" id="email_error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input checkbox1"
                                        style="width: 20px; height: 20px; margin-top: 39px;" id="is_active"
@@ -81,7 +97,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Holiday Start After</label>
-                                <input type="text" name="holiday_start_after" id="holiday_start_after"
+                                <input type="text" name="holiday_start_after" id="holiday_must_start_after"
                                        class="form-control datetimepicker">
                                 <div class="text-danger" id="holiday_start_after_error"></div>
                             </div>
@@ -92,6 +108,16 @@
                                 <input type="text" name="holiday_must_start_by" id="holiday_must_start_by"
                                        class="form-control datetimepicker">
                                 <div class="text-danger" id="holiday_must_start_by_error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <input type="text" name="reason" id="reason"
+                                       class="form-control">
+                                <div class="text-danger" id="reason_error"></div>
                             </div>
                         </div>
                     </div>

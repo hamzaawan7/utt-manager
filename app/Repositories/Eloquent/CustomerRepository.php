@@ -53,10 +53,13 @@ class CustomerRepository implements CustomerRepositoryInterface
                     $customer = $this->getCommonFields($customer,$data);
                     $customer->update();
 
-                    return 'Data updated successfully.';
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Data Updated Successfully'
+                    ]);
                 }
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
 
         } else {
@@ -72,10 +75,12 @@ class CustomerRepository implements CustomerRepositoryInterface
                 $customer          = $this->getCommonFields($customer,$data);
                 $customer->user_id = $user_id;
                 $customer->save();
-
-                return "Data Saved Successfully";
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Saved Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
         }
     }

@@ -7,6 +7,7 @@ use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
 use App\Models\PropertyImage;
+use App\Models\OwnerProperty;
 use App\Models\StarRating;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -43,6 +44,10 @@ class PropertyRepository implements PropertyRepositoryInterface
      * @var NearbyProperty
      */
     private $nearbyProperty;
+    /**
+     * @var OwnerProperty
+     */
+    private $ownerProperty;
 
     /**
      * @param Property $property
@@ -51,6 +56,7 @@ class PropertyRepository implements PropertyRepositoryInterface
      * @var NearbyProperty $nearbyProperty
      * @var PropertyImage $imageProperty
      * @var StarRating $starRating
+     * @var OwnerProperty $ownerProperty
      */
     public function __construct(
         Property                 $property,
@@ -58,16 +64,18 @@ class PropertyRepository implements PropertyRepositoryInterface
         CategoryProperty $propertyCategory,
         NearbyProperty $nearbyProperty,
         PropertyImage $imageProperty,
-        StarRating $starRating
+        StarRating $starRating,
+        OwnerProperty $ownerProperty
 
     )
     {
         $this->property         = $property;
         $this->propertyCategory = $propertyCategory;
         $this->feature          = $feature;
-        $this->nearbyProperty  = $nearbyProperty;
-        $this->imageProperty  = $imageProperty;
-        $this->starRating  = $starRating;
+        $this->nearbyProperty   = $nearbyProperty;
+        $this->imageProperty    = $imageProperty;
+        $this->starRating       = $starRating;
+        $this->ownerProperty       = $ownerProperty;
     }
 
     /**
@@ -109,6 +117,7 @@ class PropertyRepository implements PropertyRepositoryInterface
             $this->nearbyProperty->where('property_id', $id)->delete();
             $this->nearbyProperty->where('property_id', $id)->delete();
             $this->starRating->where('property_id', $id)->delete();
+            $this->ownerProperty->where('property_id', $id)->delete();
             $this->property->find($id)->delete();
 
             return "Data Deleted Successfully";

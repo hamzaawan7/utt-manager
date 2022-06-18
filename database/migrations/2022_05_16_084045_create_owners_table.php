@@ -15,22 +15,13 @@ class CreateOwnersTable extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-
-            $table->string('owner_name');
+            $table->string('name');
+            $table->string('email');
+            $table->string('password');
             $table->string('address');
-            $table->string('main_contact_name');
-            $table->string('main_contact_number');
-            $table->string('secondary_contact_name');
-            $table->string('secondary_contact_number');
-            $table->string('emergency_contact_name');
-            $table->string('emergency_contact_number');
-            $table->string('cleaning_rota_receipts');
+            $table->string('phone');
 
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 

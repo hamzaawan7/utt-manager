@@ -86,4 +86,11 @@ class Property extends Model
         return $this->hasMany(OwnerProperty::class);
     }
 
+    /**
+     * @return mixed
+     */
+    public function discounts(): BelongsToMany
+    {
+        return $this->belongsToMany(Discount::class);
+    }
 }

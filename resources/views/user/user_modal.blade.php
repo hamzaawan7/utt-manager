@@ -30,7 +30,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" id="password" class="form-control" name="password">
+                                <input type="password" id="passwords" class="form-control" name="password">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -41,24 +41,25 @@
                             </div>
                         </div>
                     </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Roles</label>
-                            <select class="form-control" name="role" id="role">
-                                <option> Select Role</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                @endforeach
-                            </select>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Roles</label>
+                                <select class="form-control" name="role" id="role">
+                                    <option> Select Role</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="addUser()">Save</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="addUser()">Save</button>
-                </div>
+            </form>
         </div>
-        </form>
     </div>
 </div>

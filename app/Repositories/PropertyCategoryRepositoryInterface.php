@@ -10,9 +10,9 @@ interface PropertyCategoryRepositoryInterface
 {
     /**
      * @param $data
-     * @return string
+     * @return string|void
      */
-    public function save($data): string;
+    public function save($data);
 
     /**
      * @param int $id

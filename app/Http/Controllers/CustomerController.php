@@ -70,16 +70,11 @@ class CustomerController extends Controller
 
     /**
      * @param CustomerSaveRequest $request
-     * @return JsonResponse
+     * @return string|void
      */
-    public function save(CustomerSaveRequest $request): JsonResponse
+    public function save(CustomerSaveRequest $request)
     {
-        $message = $this->customerRepository->save($request->input());
-
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
+        return $this->customerRepository->save($request->input());
     }
 
     /**

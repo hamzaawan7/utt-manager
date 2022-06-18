@@ -312,6 +312,13 @@ class PropertyController extends Controller
         $property->pets = $request->pets;
         $property->special_start_days = dateFormat($request->special_start_days);
         $property->bank_account_number = $request->bank_account_number;
+        $property->main_contact_name = $request->main_contact_name;
+        $property->main_contact_number = $request->main_contact_number;
+        $property->secondary_contact_name = $request->secondary_contact_name;
+        $property->secondary_contact_number = $request->secondary_contact_number;
+        $property->emergency_contact_name = $request->emergency_contact_name;
+        $property->emergency_contact_number = $request->emergency_contact_number;
+        $property->cleaning_rota_receipts = $request->cleaning_rota_receipts;
         if (isset($request->is_visible)) {
             $isVisible = 1;
         }

@@ -29,7 +29,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" name="password" id="password" class="form-control">
+                                <input type="password" name="password" id="passwords" class="form-control" autocomplete="off">
                                 <div class="text-danger clear-error" id="password_error"></div>
                             </div>
                         </div>
@@ -52,66 +52,9 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Main Contact Name</label>
-                                <input type="text" name="main_contact_name" id="main_contact_name" class="form-control">
-                                <div class="text-danger clear-error" id="main_contact_name_error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Main Contact Number</label>
-                                <input type="number" name="main_contact_number" id="main_contact_number"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="main_contact_number_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Secondary Contact Name</label>
-                                <input type="text" name="secondary_contact_name" id="secondary_contact_name"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="secondary_contact_name_error"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Secondary Contact Number</label>
-                                <input type="number" name="secondary_contact_number" id="secondary_contact_number"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="secondary_contact_number_error"></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Emergency Contact Name</label>
-                                <input type="text" name="emergency_contact_name" id="emergency_contact_name"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="emergency_contact_name_error"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Emergency Contact Number</label>
-                                <input type="number" name="emergency_contact_number" id="emergency_contact_number"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="emergency_contact_number_error"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Cleaning Rota Receipts</label>
-                                <input type="text" name="cleaning_rota_receipts" id="cleaning_rota_receipts"
-                                       class="form-control">
-                                <div class="text-danger clear-error" id="cleaning_rota_receipts_error"></div>
+                                <label>Owner Contact Number</label>
+                                <input type="text" name="phone" id="phone" class="form-control">
+                                <div class="text-danger clear-error" id="phone_error"></div>
                             </div>
                         </div>
                     </div>

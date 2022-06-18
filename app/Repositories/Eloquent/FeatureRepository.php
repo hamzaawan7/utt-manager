@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 use App\Repositories\FeatureRepositoryInterface;
 use App\Models\Feature;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -28,35 +29,36 @@ class FeatureRepository implements FeatureRepositoryInterface
 
     /**
      * @param $data
-     * @return string
+     * @return JsonResponse
      */
-    public function save($data): string
+    public function save($data): JsonResponse
     {
         if (!is_null($data['feature_id'])) {
             try {
                 $feature                 = $this->feature::find($data['feature_id']);
                 $feature->feature_name   = $data['feature_name'];
-                /*$checkIn                  = Carbon::parse($data['check_in_time']);
-                $checkOut                 = Carbon::parse($data['check_out_time']);
-                $feature->check_in_time  = $checkIn->format('Y-m-d H:i:s');
-                $feature->check_out_time = $checkOut->format('Y-m-d H:i:s');
-                $feature->minimum_nights = $data['minimum_nights'];*/
                 $feature->update();
 
-                return 'Data update successfully.';
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Updated Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
 
         } else {
             try {
                 $feature                 = new $this->feature;
-                $feature->feature_name   = $data['feature_name'];
+                $feature->feature_name  = $data['feature_name'];
                 $feature->save();
 
-                return "Data Save Successfully";
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data Saved Successfully'
+                ]);
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
         }
     }
@@ -68,7 +70,6 @@ class FeatureRepository implements FeatureRepositoryInterface
     public function find(int $id)
     {
       return $this->feature->find($id);
-          /*return $this->feature::select("*",DB::raw("DATE_FORMAT(check_in_time, '%d-%b-%Y') as checkInTime"),DB::raw("DATE_FORMAT(check_out_time, '%d-%b-%Y') as checkOutTime"))->where('id', $id)->first();*/
     }
 
     /**

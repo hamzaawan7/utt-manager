@@ -41,6 +41,14 @@ class CreatePropertiesTable extends Migration
             $table->integer('is_visible');
             $table->integer('min_seven_night_stay');
             $table->bigInteger('bank_account_number');
+            $table->string('main_contact_name');
+            $table->string('main_contact_number');
+            $table->string('secondary_contact_name');
+            $table->string('secondary_contact_number');
+            $table->string('emergency_contact_name');
+            $table->string('emergency_contact_number');
+            $table->string('cleaning_rota_receipts');
+
             $table->string('main_image');
 
             $table->timestamps();

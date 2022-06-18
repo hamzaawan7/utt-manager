@@ -24,6 +24,7 @@ $("a[href='#finish']").click(function () {
 
 //Empty Customer Forms
 $('.reset-customer-form').click(function () {
+    $("#passwords").removeAttr('readonly');
     $("#customer-form")[0].reset();
     $("#customer_id").val("");
     $(".clear-error").html('');
@@ -31,6 +32,8 @@ $('.reset-customer-form').click(function () {
 
 //Empty Owner Forms
 $('.reset_owner').click(function () {
+    $("#passwords").removeAttr('readonly');
+    $("#password_confirmation").removeAttr('readonly');
     $("#owner-form")[0].reset();
     $("#owner_id").val('');
     $(".clear-error").html('');
@@ -52,6 +55,8 @@ $('.reset_feature').click(function () {
 
 //Empty User Form
 $('.reset_user').click(function () {
+    $("#passwords").removeAttr("readonly");
+    $("#confirm_password").removeAttr("readonly");
     $("#user_form")[0].reset();
     $(".clear-error").html('');
 });
@@ -104,8 +109,10 @@ function addCategory() {
             if (response.status === 200) {
                 $('#property_category')[0].reset();
                 $('#category').modal('hide');
-                getCategory();
                 toastr.success('' + response.message + '', 'Success');
+                getCategory();
+            } else {
+                toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
@@ -159,8 +166,10 @@ function deletePropertyCategory(url) {
                     if (response.status === 200) {
                         getCategory();
                         toastr.success('' + response.message + '', 'Success');
-                    } else
+                    }
+                    if (response.status === 422) {
                         toastr.warning('' + response.message + '', 'warning');
+                    }
                 }
             });
         }
@@ -210,6 +219,8 @@ function addFeature() {
                 $('#feature-modal').modal('hide');
                 getFeature();
                 toastr.success('' + response.message + '', 'Success');
+            }  else {
+                toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
@@ -389,6 +400,8 @@ function addCustomer() {
                 $('#customer-modal').modal('hide');
                 toastr.success('' + response.message + '', 'Success');
                 getCustomer();
+            }else {
+                toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
@@ -405,6 +418,10 @@ function findCustomer(url) {
         url: url,
         method: 'get',
         success: function (response) {
+            if (response[0].user_id) {
+                $("#passwords").prop("readonly", true);
+                $('#passwords').val('');
+            }
             $.each(response[0], function (index, value) {
 
                 $('#' + index).val(value);
@@ -491,6 +508,8 @@ function addOwner() {
                 $('#owner-form')[0].reset();
                 $('#owner-modal').modal('hide');
                 getOwner();
+            } else {
+                toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
@@ -507,10 +526,15 @@ function findOwner(url) {
         url: url,
         method: 'get',
         success: function (response) {
+            if (response[0].id) {
+                $("#passwords").prop("readonly", true);
+                $('#passwords').val('');
+                $("#password_confirmation").prop("readonly", true);
+            }
             $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
-                $('#owner_id').val(response[0].user_id);
+                $('#owner_id').val(response[0].id);
             });
             $.each(response[0].user, function (index, value) {
                 $('#' + index).val(value);
@@ -556,10 +580,10 @@ function getOwner() {
         ajax: "/owner/get",
         columns: [
             {data: 'id', name: 'id'},
-            {data: 'owner_name', name: 'owner_name'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
             {data: 'address', name: 'address'},
-            {data: 'main_contact_name', name: 'main_contact_name'},
-            {data: 'main_contact_number', name: 'main_contact_number'},
+            {data: 'phone', name: 'phone'},
             {
                 data: 'action',
                 name: 'action',
@@ -605,6 +629,11 @@ function findUser(id) {
         url: url,
         method: 'get',
         success: function (response) {
+            if (response.id) {
+                $("#passwords").prop("readonly", true);
+                $('#passwords').val('');
+                $("#confirm_password").prop("readonly", true);
+            }
             $.each(response, function (index, value) {
                 $('#' + index).val(value);
                 $('#user_id').val(response.id);
@@ -937,36 +966,6 @@ function deletePriceCategory(url) {
     });
 }
 
-/*//Add Or Update Price
-function addPrice() {
-    var data = $("#price").serialize();
-    var url  = $("#price").attr('action');
-    var type = $("#price").attr('method');
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        url: url,
-        method: type,
-        data: data,
-        success: function (response) {
-            if (response.status === 200) {
-                $('#price')[0].reset();
-                $('#price-modal').modal('hide');
-                getPrice();
-                toastr.success('' + response.message + '', 'Success');
-            }
-        }, error: function (reject) {
-            var response = $.parseJSON(reject.responseText);
-            $.each(response.errors, function (key, val) {
-                $("#" + key + "_error").text(val[0]);
-            });
-        }
-    });
-}*/
-
 //Get Price Data In DataTable
 function getPrice() {
     $(".get_price").DataTable().clear().destroy();
@@ -1111,6 +1110,7 @@ $(document).ready(function () {
     getSeason();
     getPriceCategory();
     getPrice();
+    getDiscount();
     $("#nearby_property").select2({
         maximumSelectionLength: 3
     });
@@ -1133,6 +1133,7 @@ $('#price_category_id').on('change', function () {
     }
 });
 
+//Display Only Years
 $(".year").datepicker({
     language: "en",
     minView: "years",
@@ -1140,3 +1141,79 @@ $(".year").datepicker({
     autoClose: !0,
     dateFormat: "yyyy"
 });
+
+//Add Or Update Discount
+function addDiscount() {
+    var data = $("#discount").serialize();
+    var url = $("#discount").attr('action');
+    var type = $("#discount").attr('method');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#discount')[0].reset();
+                $('#discount-modal').modal('hide');
+                getDiscount();
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Find Discount
+function findDiscount(url) {
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            console.log(response);
+            $.each(response, function (index, value) {
+                $('#' + index).val(value);
+
+                $('#discount_id').val(response.id);
+            });
+            var property = [];
+            $.each(response.properties[0], function (index, value) {
+                property.push(value.property_id);
+            });
+            $('#property_id').val(property).trigger('change');
+            $('#discount-modal').modal('show');
+        }
+    });
+}
+
+//Get Discount Data In DataTable
+function getDiscount() {
+    $(".get_discount").DataTable().clear().destroy();
+    return $('.get_discount').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/discount/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'reference_code', name: 'reference_code'},
+            {data: 'is_active', name: 'is_active'},
+            {data: 'value', name: 'value'},
+            {data: 'expiry_date', name: 'expiry_date'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
