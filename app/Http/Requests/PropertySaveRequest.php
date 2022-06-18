@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PropertySaveRequest extends FormRequest
@@ -11,8 +12,10 @@ class PropertySaveRequest extends FormRequest
      *
      * @return string[]
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
+        $image = 'required';
+        $multiple_image = 'required';
         return [
             'name' => 'required|string|max:255',
             'owner_name' => 'required',
@@ -24,6 +27,8 @@ class PropertySaveRequest extends FormRequest
             'post_code' => 'required|numeric',
             'special_category' => 'required',
             'is_visible' => 'required',
+            'main_image' => $request->property_id ? '' : $image,
+            'images' => $request->property_id ? '' : $multiple_image,
             'standard_guests' => 'required|numeric',
             'minimum_guest' => 'required|numeric',
             'room_layouts' => 'required',
@@ -37,6 +42,18 @@ class PropertySaveRequest extends FormRequest
             'special_start_days' => 'required',
             'price_category_id' => 'required',
             'bank_account_number' => 'required|numeric',
+            'star_rating_luxury' => 'required',
+            'star_rating_heritage' => 'required',
+            'star_rating_unique' => 'required',
+            'star_rating_green' => 'required',
+            'star_rating_price' => 'required',
+            'main_contact_name' => 'required|string|max:255',
+            'main_contact_number' => 'required|numeric',
+            'secondary_contact_name' => 'required|string|max:255',
+            'secondary_contact_number' => 'required|numeric',
+            'emergency_contact_name' => 'required|string|max:255',
+            'emergency_contact_number' => 'required|string|max:255',
+            'cleaning_rota_receipts' => 'required',
         ];
     }
 

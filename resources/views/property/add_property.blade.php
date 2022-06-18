@@ -4,7 +4,6 @@
         <div class="clearfix">
             <a type="submit" class="btn btn-primary" href="{{route('property-list')}}">Back</a>
         </div>
-
         <div class="wizard-content">
             <form class="tab-wizard wizard-circle wizard vertical"
                   method="post" action="{{route('property-save')}}" id="property_form" enctype="multipart/form-data">
@@ -157,6 +156,7 @@
                                 <input class="form-control-file form-control height-auto img-tag" type="file"
                                        id="main_image"
                                        name="main_image">
+                                @error('main_image')<div class="text-danger">{{$message}}</div> @enderror
                             </div>
                             <div class="main-images">
 
@@ -168,6 +168,7 @@
                                 <input class="form-control-file form-control height-auto img-tag" id="images"
                                        name="images[]"
                                        type="file" multiple>
+                                @error('images')<div class="text-danger">{{$message}}</div> @enderror
                             </div>
                             <div class="multi_images_main row">
 
@@ -199,13 +200,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Room Layout</label>
-                                <select class="form-control" id="room_layouts" name="room_layouts">
-                                    <option>Select</option>
+                                <select class="form-control" name="room_layouts">
+                                    <option value="">Select</option>
                                     <option value="single_bed">Single Bed</option>
                                     <option value="double_bed">Double Bed</option>
                                 </select>
                                 @error('room_layouts')
-                                  <div class="text-danger">{{$message}}</div>
+                                <div class="text-danger">{{$message}}</div>
                                 @enderror
                             </div>
                         </div>
@@ -305,6 +306,9 @@
                                        style="font-size: 20px; margin-left: 5px; margin-top: 34px;">Minimum Seven
                                     Night Stay</label>
                             </div>
+                            @error('min_seven_night_stay')
+                            <div class="text-danger">{{$message}}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row">
@@ -312,7 +316,7 @@
                             <div class="form-group">
                                 <label>Price Category</label>
                                 <select class="form-control" id="price_category_id" name="price_category_id">
-                                    <option>Select Price Category</option>
+                                    <option value="">Select Price Category</option>
                                     @foreach($priceCategory as $item)
                                         <option value="{{$item->id}}">{{$item->category_name}}</option>
                                     @endforeach
@@ -340,26 +344,32 @@
                             <div class="form-group">
                                 <label>Star Rating Luxury</label>
                                 <select class="form-control" name="star_rating_luxury">
-                                    <option>Select Rating</option>
+                                    <option value="">Select Rating</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
+                                @error('star_rating_luxury')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Heritage</label>
                                 <select class="form-control" name="star_rating_heritage">
-                                    <option>Select Rating</option>
+                                    <option value="">Select Rating</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
+                                @error('star_rating_heritage')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -368,26 +378,32 @@
                             <div class="form-group">
                                 <label>Star Rating Unique</label>
                                 <select class="form-control" name="star_rating_unique">
-                                    <option>Select Rating</option>
+                                    <option value="">Select Rating</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
+                                @error('star_rating_unique')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Green</label>
                                 <select class="form-control" name="star_rating_green">
-                                    <option>Select Rating</option>
+                                    <option value="">Select Rating</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
+                                @error('star_rating_green')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -396,13 +412,16 @@
                             <div class="form-group">
                                 <label>Star Rating Price</label>
                                 <select class="form-control" name="star_rating_price">
-                                    <option>Select Rating</option>
+                                    <option value="">Select Rating</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
+                                @error('star_rating_price')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -432,7 +451,9 @@
                             <div class="form-group">
                                 <label>Main Contact Name</label>
                                 <input type="text" name="main_contact_name" id="main_contact_name" class="form-control">
-                                <div class="text-danger clear-error" id="main_contact_name_error"></div>
+                                @error('main_contact_name')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -440,7 +461,9 @@
                                 <label>Main Contact Number</label>
                                 <input type="number" name="main_contact_number" id="main_contact_number"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="main_contact_number_error"></div>
+                                @error('main_contact_number')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -450,7 +473,9 @@
                                 <label>Secondary Contact Name</label>
                                 <input type="text" name="secondary_contact_name" id="secondary_contact_name"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="secondary_contact_name_error"></div>
+                                @error('secondary_contact_name')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -458,7 +483,9 @@
                                 <label>Secondary Contact Number</label>
                                 <input type="number" name="secondary_contact_number" id="secondary_contact_number"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="secondary_contact_number_error"></div>
+                                @error('secondary_contact_number')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -468,7 +495,9 @@
                                 <label>Emergency Contact Name</label>
                                 <input type="text" name="emergency_contact_name" id="emergency_contact_name"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="emergency_contact_name_error"></div>
+                                @error('emergency_contact_name')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -476,7 +505,9 @@
                                 <label>Emergency Contact Number</label>
                                 <input type="number" name="emergency_contact_number" id="emergency_contact_number"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="emergency_contact_number_error"></div>
+                                @error('emergency_contact_number')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -486,7 +517,9 @@
                                 <label>Cleaning Rota Receipts</label>
                                 <input type="text" name="cleaning_rota_receipts" id="cleaning_rota_receipts"
                                        class="form-control">
-                                <div class="text-danger clear-error" id="cleaning_rota_receipts_error"></div>
+                                @error('cleaning_rota_receipts')
+                                <div class="text-danger">{{$message}}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>

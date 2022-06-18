@@ -146,6 +146,7 @@
                                        id="main_image"
                                        name="main_image">
                             </div>
+                            @error('main_image') <div class="text-danger">{{$message}}</div> @enderror
                             <div class="main-images">
                                 <div class="image_div col-lg-4" id="{{$property->id}}">
                                     <img src="{{asset('images/main/'.$property->main_image)}}" width="200px">

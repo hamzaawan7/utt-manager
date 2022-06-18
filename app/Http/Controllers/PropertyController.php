@@ -117,11 +117,11 @@ class PropertyController extends Controller
      */
     public function addProperty()
     {
-        $category = $this->propertyCategoryRepository->all();
-        $features = $this->propertyFeatureRepository->all();
-        $owners = $this->ownerRepository->all();
-        $propertyList = $this->propertyRepository->all();
-        $seasonList = Season::all();
+        $category      = $this->propertyCategoryRepository->all();
+        $features      = $this->propertyFeatureRepository->all();
+        $owners        = $this->ownerRepository->all();
+        $propertyList  = $this->propertyRepository->all();
+        $seasonList    = Season::all();
         $priceCategory = PriceCategory::all();
 
         return view('property.add_property', compact('category', 'priceCategory', 'seasonList', 'features', 'owners', 'propertyList'));
@@ -337,10 +337,10 @@ class PropertyController extends Controller
      */
     public function find(int $id)
     {
-        $property = $this->propertyRepository->getPropertyWithRelationship($id);
+        $property   = $this->propertyRepository->getPropertyWithRelationship($id);
         $categories = [];
-        $features = [];
-        $owners = [];
+        $features   = [];
+        $owners     = [];
         $nearbyProperties = [];
         if (!empty($property->categories)) {
             foreach ($property->categories as $item) {
@@ -350,7 +350,7 @@ class PropertyController extends Controller
 
         if (!empty($property->owners)) {
             foreach ($property->owners as $item) {
-                $owners[] = $item->id;
+                $owners[] = $item->owner_id;
             }
         }
 
@@ -366,17 +366,17 @@ class PropertyController extends Controller
             }
         }
 
-        $property->categories = $categories;
-        $property->features   = $features;
-        $property->owners     = $owners;
+        $property->categories       = $categories;
+        $property->features         = $features;
+        $property->owners           = $owners;
         $property->nearbyProperties = $nearbyProperties;
-        $category = $this->propertyCategoryRepository->all();
-        $features = $this->propertyFeatureRepository->all();
-        $owners = $this->ownerRepository->all();
-        $propertyList = $this->propertyRepository->all();
-        $seasonList = Season::all();
-        $priceCategory = PriceCategory::all();
-        $starRating = StarRating::all();
+        $category                   = $this->propertyCategoryRepository->all();
+        $features                   = $this->propertyFeatureRepository->all();
+        $owners                     = $this->ownerRepository->all();
+        $propertyList               = $this->propertyRepository->all();
+        $seasonList                 = Season::all();
+        $priceCategory              = PriceCategory::all();
+        $starRating                 = StarRating::all();
 
         return view('property.edit_property', compact('property', 'starRating', 'priceCategory', 'propertyList', 'category', 'owners', 'features', 'seasonList'));
     }
@@ -388,7 +388,7 @@ class PropertyController extends Controller
     public function deleteImage(int $id): JsonResponse
     {
         $propertyImages = $this->propertyImages->find($id);
-        $image_path = public_path() . '/images/multiple/' . $propertyImages->images;
+        $image_path     = public_path() . '/images/multiple/' . $propertyImages->images;
         unlink($image_path);
         $propertyImages->delete();
 
