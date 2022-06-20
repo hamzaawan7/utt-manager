@@ -16,7 +16,7 @@ class OwnerSaveRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|unique:owners,email,' .$request->owner_id,
+            'email' => 'required|unique:users,email,' .$request->owner_id,
             'address' => 'required',
             'phone' => 'required|numeric',
         ];

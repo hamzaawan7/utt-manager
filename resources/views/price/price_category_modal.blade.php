@@ -7,7 +7,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <form id="price_category" method="post" action="{{route('price-category-save')}}">
-                <input type="hidden" name="price_category_id" id="price_category_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">

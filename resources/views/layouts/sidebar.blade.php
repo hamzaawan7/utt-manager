@@ -36,7 +36,7 @@
                                 <span class="micon fa fa-pencil"></span><span class="mtext">Bookings</span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="form-basic.html">All Availability</a></li>
+                                <li><a href="{{route('availability-list')}}">All Availability</a></li>
                                 <li><a href="advanced-components.html">All Bookings</a></li>
                                 <li><a href="form-wizard.html">Late Availability</a></li>
                                 <li><a href="html5-editor.html">Cleaning Rota</a></li>

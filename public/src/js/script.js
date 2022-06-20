@@ -534,7 +534,7 @@ function findOwner(url) {
             $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
-                $('#owner_id').val(response[0].id);
+                $('#owner_id').val(response[0].user_id);
             });
             $.each(response[0].user, function (index, value) {
                 $('#' + index).val(value);
@@ -580,8 +580,7 @@ function getOwner() {
         ajax: "/owner/get",
         columns: [
             {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
+            {data: 'owner_name', name: 'owner_name'},
             {data: 'address', name: 'address'},
             {data: 'phone', name: 'phone'},
             {
@@ -797,13 +796,14 @@ function findPriceCategory(url) {
             html = '';
             $('.standard-main').html(' ');
             $('.flexible-main').html(' ');
-            if (category == 's') {
+            if (category === 's') {
                 $.each(response, function (index, value) {
                     html += '<div class="row">\n' +
+                        '<input type="hidden" name="price_category_id[]" value="'+value.id+'">\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
-                        '                                    <input type="text" name="type" id="type"\n' +
+                        '                                    <input type="text" name="type" id="type1"\n' +
                         '                                           value='+value.type+' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
@@ -839,7 +839,7 @@ function findPriceCategory(url) {
                         '                                <div class="form-group">\n' +
                         '                                    <label>Category</label>\n' +
                         '                                    <input type="text" name="category"\n' +
-                        '                                           id="category" value='+value.category_name+' class="form-control" readonly>\n' +
+                        '                                            value='+value.category_name+' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>';
@@ -849,6 +849,7 @@ function findPriceCategory(url) {
             } else {
                 $.each(response, function(index, value) {
                     html += '<div class="row">\n' +
+                        '<input type="hidden" name="price_category_id[]" value="'+value.id+'">\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
@@ -1124,7 +1125,7 @@ $(document).ready(function () {
 $('#price_category_id').on('change', function () {
     var data = $("#price_category_id option:selected").text().split(' ');
     var $category = data[0].toString().toLowerCase();
-    if ($category == 'standard') {
+    if ($category === 'standard') {
         $('.main-standard').removeClass('hide');
         $('.main-flexible').addClass('hide');
     } else {
@@ -1217,3 +1218,47 @@ function getDiscount() {
         ]
     });
 }
+
+//Check Booking availability
+$('#availability').on('change', function () {
+    var category = $("#availability option:selected").text().toLowerCase();
+    if (category === 'standard') {
+        $('.standard-availability').removeClass('hide');
+        $('.flexible-availability').addClass('hide');
+        $('.seven-night').addClass('hide');
+    } else {
+        $('.flexible-availability').removeClass('hide');
+        $('.standard-availability').addClass('hide');
+        $('.seven-night').addClass('hide');
+    }
+});
+
+//Check Booking availability
+$('#standardselect').on('change', function () {
+    var data = $("#standardselect option:selected").text().split(' ');
+    var category = data[0].toString().toLowerCase();
+    if (category === 'seven') {
+        $('.seven-night').removeClass('hide');
+    }
+});
+
+//DateTimePicker
+$(".datesevennight").datepicker({
+    timepicker:!0,
+    language:"en",
+    autoClose:!0,
+    dateFormat:"dd MM yyyy",
+    format: {
+        toDisplay: function (date, format, language) {
+            var d = new Date(date);
+            d.setDate(d.getDate() - 7);
+            return d.toISOString();
+        },
+        toValue: function (date, format, language) {
+            var d = new Date(date);
+            d.setDate(d.getDate() + 7);
+            return new Date(d);
+        }
+    }
+
+});

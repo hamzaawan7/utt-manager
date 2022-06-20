@@ -32,7 +32,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Type</label>
-                                            <input type="text" name="types_{{$key}}" id="type"
+                                            <input type="text" name="types_{{$key}}"
                                                    value="{{$item->type.'_'.$item->id}}" class="form-control" readonly>
                                             <div class="text-danger clear-error" id="type_error"></div>
                                         </div>

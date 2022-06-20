@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PriceCategoryController;
@@ -11,8 +13,6 @@ use App\Http\Controllers\PropertyCategoryController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TypeController;
-use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ Route::prefix('price')->group(function () {
     Route::post('/save', [PriceController::class, 'save'])->name('price-save');
     Route::get('/find/{id}', [PriceController::class, 'find']);
     Route::get('/delete/{id}', [PriceController::class, 'delete']);
-    
+
     Route::get('/category/list', [PriceCategoryController::class, 'index'])->name('price-category-list');
     Route::get('/category/get', [PriceCategoryController::class, 'getPriceCategory']);
     Route::post('/category/save', [PriceCategoryController::class, 'save'])->name('price-category-save');
@@ -112,5 +112,15 @@ Route::prefix('discount')->group(function () {
     Route::post('/save', [DiscountController::class, 'save'])->name('discount-save');
     Route::get('/find/{id}', [DiscountController::class, 'find']);
     Route::get('/delete/{id}', [DiscountController::class, 'delete']);
+
+});
+
+//All Availability Route
+Route::prefix('availability')->group(function () {
+    Route::get('/list', [AvailabilityController::class, 'index'])->name('availability-list');
+    Route::get('/get', [AvailabilityController::class, 'getDiscount']);
+    Route::post('/save', [AvailabilityController::class, 'save'])->name('availability-save');
+    Route::get('/find/{id}', [AvailabilityController::class, 'find']);
+    Route::get('/delete/{id}', [AvailabilityController::class, 'delete']);
 
 });

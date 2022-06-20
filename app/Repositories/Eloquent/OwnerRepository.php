@@ -45,8 +45,13 @@ class OwnerRepository implements OwnerRepositoryInterface
         if(!is_null($data['owner_id'])) {
             try {
                 if (empty($data['password'])) {
-                    $owner = $this->owner->find($data['owner_id']);
-                    $owner = $this->getCommonFields($data,$owner);
+                    $user = $this->user->where('id' ,intval($data['owner_id']))->first();
+                    $user = $this->getCommonFields($data,$user);
+                    $user->update();
+                    $owner = $this->owner->where('user_id', $data['owner_id'])->first();
+                    $owner->owner_name = $data['name'];
+                    $owner->address    = $data['address'];
+                    $owner->phone      = $data['phone'];
                     $owner->update();
 
                     return response()->json([
@@ -60,8 +65,16 @@ class OwnerRepository implements OwnerRepositoryInterface
 
         } else {
             try {
+                $user  = new $this->user;
+                $owner = $this->getCommonFields($data,$user);
+                $user->save();
+                $user->syncRoles('owner');
+                $user_id = $user->id;
                 $owner = new $this->owner;
-                $owner = $this->getCommonFields($data,$owner);
+                $owner->user_id  = $user_id;
+                $owner->owner_name = $data['name'];
+                $owner->address    = $data['address'];
+                $owner->phone      = $data['phone'];
                 $owner->save();
 
                 return response()->json([
@@ -79,15 +92,13 @@ class OwnerRepository implements OwnerRepositoryInterface
      * @param $owner
      * @return mixed
      */
-    public function getCommonFields($data,$owner)
+    public function getCommonFields($data,$user)
     {
-        $owner->name     = $data['name'];
-        $owner->email    = $data['email'];
-        $owner->password = Hash::make($data['password']);
-        $owner->address  = $data['address'];
-        $owner->phone    = $data['phone'];
+        $user->name     = $data['name'];
+        $user->email    = $data['email'];
+        $user->password = Hash::make($data['password']);
 
-        return $owner;
+        return $user;
     }
 
     /**
@@ -114,7 +125,10 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function delete(int $id): string
     {
         try {
+            $user = $this->owner->find($id);
+            $userId = $user->user_id;
             $this->owner->find($id)->delete();
+            $this->user->find($userId)->delete();
 
             return "Data Deleted Successfully";
         }catch (\Exception $e){
