@@ -45,7 +45,7 @@
                                         multiple="multiple" style="width: 100%;">
                                     @foreach($owners as $item)
                                         <optgroup>
-                                            <option value="{{$item->id}}" {{ in_array($item->id, $property->owners) ? 'selected="selected"' : '' }}>{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{ in_array($item->id, $property->owners) ? 'selected="selected"' : '' }}>{{$item->owner_name}}</option>
                                         </optgroup>
                                     @endforeach
                                 </select>

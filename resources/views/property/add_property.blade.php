@@ -43,7 +43,7 @@
                                         multiple="multiple" style="width: 100%;">
                                     @foreach($owners as $item)
                                         <optgroup>
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}">{{$item->owner_name}}</option>
                                         </optgroup>
                                     @endforeach
                                 </select>
