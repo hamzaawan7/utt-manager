@@ -98,8 +98,17 @@ class DiscountController extends Controller
         return response()->json($this->discountRepository->find($id));
     }
 
-    public function delete(int $id)
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function delete(int $id): JsonResponse
     {
-        $this->discountRepository->delete($id);
+        $message = $this->discountRepository->delete($id);
+
+        return response()->json([
+            'status'  => 200,
+            'message' => $message
+        ]);
     }
 }

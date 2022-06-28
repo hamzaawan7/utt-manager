@@ -44,13 +44,11 @@ class DiscountRepository implements DiscountRepositoryInterface
     {
         if(!is_null($data['discount_id'])) {
             try {
-                if (empty($data['password'])) {
                     $discount = $this->discount->where('id', $data['discount_id'])->first();
                     $discount = $this->getCommonFields($data,$discount);
                     $discount->update();
 
                     return 'Data Updated successfully.';
-                }
             } catch (\Exception $e){
                 return $e->getMessage();
             }
@@ -84,7 +82,7 @@ class DiscountRepository implements DiscountRepositoryInterface
 
                 return "Data Saved Successfully";
             } catch (\Exception $e) {
-                return $e->getMessage();
+                return catchException($e->getMessage());
             }
         }
     }
@@ -120,7 +118,7 @@ class DiscountRepository implements DiscountRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->discount->where('id',$id)->with('properties')->first();
+        return $this->discount->where('id',$id)->with('properties')->get();
     }
 
     /**
@@ -133,10 +131,17 @@ class DiscountRepository implements DiscountRepositoryInterface
 
     /**
      * @param int $id
-     * @return mixed
+     * @return string
      */
-    public function delete(int $id)
+    public function delete(int $id): string
     {
-        return $this->discount->find($id)->delete();
+        try {
+            $this->discountProperty->where('discount_id', $id)->delete();
+            $this->discount->find($id)->delete();
+
+            return "Data Deleted Successfully";
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }

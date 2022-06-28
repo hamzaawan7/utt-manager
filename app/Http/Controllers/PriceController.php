@@ -82,9 +82,6 @@ class PriceController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="findPrice(\'/price/find/' . $price->id . '\')">
-                                        <i class="dw dw-edit2"></i> Edit
-                                    </a>
                                     <a class="dropdown-item" onclick="deletePrice(\'/price/delete/' . $price->id . '\')">
                                         <i class="dw dw-delete-3" style="cursor: pointer;"> Delete</i>
                                     </a>

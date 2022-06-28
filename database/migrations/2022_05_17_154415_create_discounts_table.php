@@ -19,7 +19,7 @@ class CreateDiscountsTable extends Migration
             $table->string('reference_code');
             $table->string('code_type');
             $table->integer('value');
-            $table->integer('expiry_date');
+            $table->timestamp('expiry_date')->nullable();
             $table->timestamp('holiday_must_start_after')->nullable();
             $table->timestamp('holiday_must_start_by')->nullable();
             $table->string('email');

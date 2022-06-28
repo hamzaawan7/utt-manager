@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PropertySaveRequest;
+use App\Models\Category;
 use App\Models\CategoryProperty;
 use App\Models\FeatureProperty;
 use App\Models\NearbyProperty;
 use App\Models\PriceCategory;
 use App\Models\OwnerProperty;
+use App\Models\PriceCategoryType;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Season;
@@ -37,6 +39,8 @@ class PropertyController extends Controller
      * @var NearbyProperty $nearbyProperty
      * @var PropertyImage $propertyImages
      * @var OwnerProperty $ownerProperty
+     * @var Season $season
+     * @var PriceCategoryType $priceCategoryType
      */
     /** @var PropertyRepositoryInterface $propertyRepository */
     private $propertyRepository;
@@ -49,30 +53,46 @@ class PropertyController extends Controller
 
     /** @var FeatureRepositoryInterface $propertyFeatureRepository */
     private $propertyFeatureRepository;
+
     /**
      * @var Property
      */
     private $property;
+
     /**
      * @var CategoryProperty
      */
     private $propertyCategory;
+
     /**
      * @var FeatureProperty
      */
     private $feature;
+
     /**
      * @var NearbyProperty
      */
     private $nearbyProperty;
+
     /**
      * @var PropertyImage
      */
     private $propertyImages;
+
     /**
      * @var OwnerProperty
      */
     private $ownerProperty;
+
+    /**
+     * @var Season
+     */
+    private $season;
+
+    /**
+     * @var PriceCategoryType
+     */
+    private $priceCategoryType;
 
     public function __construct(
         PropertyRepositoryInterface         $propertyRepository,
@@ -84,19 +104,23 @@ class PropertyController extends Controller
         CategoryProperty                    $propertyCategory,
         NearbyProperty                      $nearbyProperty,
         PropertyImage                       $propertyImages,
-        OwnerProperty                       $ownerProperty
+        OwnerProperty                       $ownerProperty,
+        Season                              $season,
+        PriceCategoryType                   $priceCategoryType
     )
     {
-        $this->propertyRepository = $propertyRepository;
+        $this->propertyRepository         = $propertyRepository;
         $this->propertyCategoryRepository = $propertyCategoryRepository;
-        $this->propertyFeatureRepository = $propertyFeatureRepository;
-        $this->ownerRepository = $ownerRepository;
-        $this->property = $property;
-        $this->propertyCategory = $propertyCategory;
-        $this->feature = $feature;
-        $this->nearbyProperty = $nearbyProperty;
-        $this->propertyImages = $propertyImages;
-        $this->ownerProperty = $ownerProperty;
+        $this->propertyFeatureRepository  = $propertyFeatureRepository;
+        $this->ownerRepository            = $ownerRepository;
+        $this->property                   = $property;
+        $this->propertyCategory           = $propertyCategory;
+        $this->feature                    = $feature;
+        $this->nearbyProperty             = $nearbyProperty;
+        $this->propertyImages             = $propertyImages;
+        $this->ownerProperty              = $ownerProperty;
+        $this->season                     = $season;
+        $this->priceCategoryType          = $priceCategoryType;
     }
 
     /**
@@ -407,5 +431,29 @@ class PropertyController extends Controller
         $message = $this->propertyRepository->delete($id);
 
         return redirect()->route('property-list')->with('message', $message);
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function getCategoryPrice($id): JsonResponse
+    {
+        $property      = $this->property->find($id);
+        $seasonId      = $property['season_id'];
+        $categoryId    = $property['price_category_id'];
+        $categoryDate  = Category::find($categoryId);
+
+        $season        = $this->season->find($seasonId);
+        $typeId        = $season['type_id'];
+        $categoryPrice = $this->priceCategoryType->where('price_category_id',$categoryId)
+                   ->where('type_id', $typeId)->first();
+        $priceCategoryId   = $categoryPrice['price_category_id'];
+        $pricecategoryData = PriceCategory::find($priceCategoryId);
+        $categoryName      = explode(' ', $pricecategoryData['category_name']);
+        $category          = $categoryName[0];
+        $categoryPrice->categoryName = $category;
+
+        return response()->json($categoryPrice);
     }
 }

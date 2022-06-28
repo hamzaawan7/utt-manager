@@ -69,6 +69,14 @@ $('.reset_season').click(function () {
     $(".clear-error").html('');
 });
 
+//Empty Season Form
+$('.reset_discount').click(function () {
+    $("#discount_form")[0].reset();
+    $("#discount_id_id").val('');
+    $('#property_id').val(null).trigger('change');
+    $(".clear-error").html('');
+});
+
 $('#proprty-button').click(function () {
     $('#myLargeModalLabel').html('Add Property');
 });
@@ -219,7 +227,7 @@ function addFeature() {
                 $('#feature-modal').modal('hide');
                 getFeature();
                 toastr.success('' + response.message + '', 'Success');
-            }  else {
+            } else {
                 toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
@@ -400,7 +408,7 @@ function addCustomer() {
                 $('#customer-modal').modal('hide');
                 toastr.success('' + response.message + '', 'Success');
                 getCustomer();
-            }else {
+            } else {
                 toastr.warning('' + response.message + '', 'warning');
             }
         }, error: function (reject) {
@@ -473,6 +481,7 @@ function getCustomer() {
         ajax: "/customer/get",
         columns: [
             {data: 'id', name: 'id'},
+            {data: 'customer_name', name: 'customer_name'},
             {data: 'phone', name: 'phone'},
             {data: 'address', name: 'address'},
             {data: 'post_code', name: 'post_code'},
@@ -696,16 +705,13 @@ function findPriceSeason(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response[0], function (index, value) {
+            $.each(response, function (index, value) {
                 $('#' + index).val(value);
 
-                $('#season_id').val(response[0].id);
+                $('#season_id').val(response.id);
             });
-            var types = [];
-            $.each(response[0].types, function (index, value) {
-                types.push(value.id)
-            });
-            $('#type').val(types).trigger('change');
+
+            $('#type').val(response.type_id).trigger('change');
             $('#season-modal').modal('show');
         }
     });
@@ -799,47 +805,47 @@ function findPriceCategory(url) {
             if (category === 's') {
                 $.each(response, function (index, value) {
                     html += '<div class="row">\n' +
-                        '<input type="hidden" name="price_category_id[]" value="'+value.id+'">\n' +
+                        '<input type="hidden" name="price_category_id[]" value="' + value.id + '">\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
                         '                                    <input type="text" name="type" id="type1"\n' +
-                        '                                           value='+value.type+' class="form-control" readonly>\n' +
+                        '                                           value=' + value.type + ' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Year</label>\n' +
-                        '                                    <input type="text" name="years_'+index+'"\n' +
-                        '                                           id="year" class="form-control year" value='+value.year+' readonly>\n' +
+                        '                                    <input type="text" name="years_' + index + '"\n' +
+                        '                                           id="year" class="form-control year" value=' + value.year + ' readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Price Seven Nights</label>\n' +
-                        '                                    <input type="number" name="priceSevenNights_'+index+'"\n' +
-                        '                                           id="utt_star_rating" value='+value.price_seven_night+' class="form-control">\n' +
+                        '                                    <input type="number" name="priceSevenNights_' + index + '"\n' +
+                        '                                           id="utt_star_rating" value=' + value.price_seven_night + ' class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Price Monday To Friday</label>\n' +
-                        '                                    <input type="number" name="mondayToFriday_'+index+'"\n' +
-                        '                                           id="utt_star_rating" value='+value.price_monday_to_friday+' class="form-control">\n' +
+                        '                                    <input type="number" name="mondayToFriday_' + index + '"\n' +
+                        '                                           id="utt_star_rating" value=' + value.price_monday_to_friday + ' class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Price Friday To Monday</label>\n' +
-                        '                                    <input type="number" name="fridayToMonday_'+index+'"\n' +
-                        '                                           id="utt_star_rating" value='+value.price_friday_to_monday+' class="form-control">\n' +
+                        '                                    <input type="number" name="fridayToMonday_' + index + '"\n' +
+                        '                                           id="utt_star_rating" value=' + value.price_friday_to_monday + ' class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Category</label>\n' +
                         '                                    <input type="text" name="category"\n' +
-                        '                                            value='+value.category_name+' class="form-control" readonly>\n' +
+                        '                                            value=' + value.category_name + ' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>';
@@ -847,63 +853,63 @@ function findPriceCategory(url) {
 
                 $('.standard-main').html(html);
             } else {
-                $.each(response, function(index, value) {
+                $.each(response, function (index, value) {
                     html += '<div class="row">\n' +
-                        '<input type="hidden" name="price_category_id[]" value="'+value.id+'">\n' +
+                        '<input type="hidden" name="price_category_id[]" value="' + value.id + '">\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Type</label>\n' +
                         '                                    <input type="text" name="type" id="type"\n' +
-                        '                                           value='+value.type+' class="form-control" readonly>\n' +
+                        '                                           value=' + value.type + ' class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Year</label>\n' +
-                        '                                    <input type="text" name="yearf_'+index+'"\n' +
-                        '                                           id="year" value='+value.year+' class="form-control year">\n' +
+                        '                                    <input type="text" name="yearf_' + index + '"\n' +
+                        '                                           id="year" value=' + value.year + ' class="form-control year">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Standing Charge</label>\n' +
-                        '                                    <input type="number" name="standingCharge_'+index+'"\n' +
-                        '                                          value='+value.price_standing_charge+' id="utt_star_rating" class="form-control">\n' +
+                        '                                    <input type="number" name="standingCharge_' + index + '"\n' +
+                        '                                          value=' + value.price_standing_charge + ' id="utt_star_rating" class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Sunday-to-Thursday</label>\n' +
-                        '                                    <input type="number" name="sundayToThursday_'+index+'"\n' +
-                        '                                         value='+value.price_sunday_to_thursday+'  id="utt_star_rating" class="form-control">\n' +
+                        '                                    <input type="number" name="sundayToThursday_' + index + '"\n' +
+                        '                                         value=' + value.price_sunday_to_thursday + '  id="utt_star_rating" class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Friday-to-Saturday</label>\n' +
-                        '                                    <input type="number" name="fridayToSaturday_'+index+'"\n' +
-                        '                                         value='+value.price_friday_to_saturday+'  id="utt_star_rating" class="form-control">\n' +
+                        '                                    <input type="number" name="fridayToSaturday_' + index + '"\n' +
+                        '                                         value=' + value.price_friday_to_saturday + '  id="utt_star_rating" class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-2">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Price-Seven-Nights</label>\n' +
-                        '                                    <input type="number" name="sevenNightsPrice_'+index+'"\n' +
-                        '                                          value='+value.price_seven_night+' id="utt_star_rating" class="form-control">\n' +
+                        '                                    <input type="number" name="sevenNightsPrice_' + index + '"\n' +
+                        '                                          value=' + value.price_seven_night + ' id="utt_star_rating" class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Weekend</label>\n' +
-                        '                                    <input type="number" name="weekendPrice_'+index+'"\n' +
-                        '                                          value='+value.weekend_friday_to_monday+' id="utt_star_rating" class="form-control">\n' +
+                        '                                    <input type="number" name="weekendPrice_' + index + '"\n' +
+                        '                                          value=' + value.weekend_friday_to_monday + ' id="utt_star_rating" class="form-control">\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                            <div class="col-md-1">\n' +
                         '                                <div class="form-group">\n' +
                         '                                    <label>Category</label>\n' +
                         '                                    <input type="text" name="category"\n' +
-                        '                                          value='+value.category_name+' id="category" class="form-control" readonly>\n' +
+                        '                                          value=' + value.category_name + ' id="category" class="form-control" readonly>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>';
@@ -914,7 +920,7 @@ function findPriceCategory(url) {
 
             $('#price_category_id').val(response[0].price_category_id);
             //$('#category_price_id').val(response[0].price_category_id);
-            $('#category_price_id').val(response[0].price_category_id+'_'+response[0].category_name).trigger('change');
+            $('#category_price_id').val(response[0].price_category_id + '_' + response[0].category_name).trigger('change');
             $('#price-category').modal('show');
         }
     });
@@ -1145,9 +1151,9 @@ $(".year").datepicker({
 
 //Add Or Update Discount
 function addDiscount() {
-    var data = $("#discount").serialize();
-    var url = $("#discount").attr('action');
-    var type = $("#discount").attr('method');
+    var data = $("#discount_form").serialize();
+    var url = $("#discount_form").attr('action');
+    var type = $("#discount_form").attr('method');
 
     $.ajaxSetup({
         headers: {
@@ -1160,7 +1166,7 @@ function addDiscount() {
         data: data,
         success: function (response) {
             if (response.status === 200) {
-                $('#discount')[0].reset();
+                $('#discount_form')[0].reset();
                 $('#discount-modal').modal('hide');
                 getDiscount();
                 toastr.success('' + response.message + '', 'Success');
@@ -1180,18 +1186,49 @@ function findDiscount(url) {
         url: url,
         method: 'get',
         success: function (response) {
+            //$("#is_active").prop("checked", false);
+            if (response[0].is_active === 1) {
+                $("#is_active").prop("checked", true);
+            }
             console.log(response);
-            $.each(response, function (index, value) {
+            $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
-                $('#discount_id').val(response.id);
+                $('#discount_id').val(response[0].id);
             });
             var property = [];
-            $.each(response.properties[0], function (index, value) {
+            $.each(response[0].properties, function (index, value) {
                 property.push(value.property_id);
             });
             $('#property_id').val(property).trigger('change');
             $('#discount-modal').modal('show');
+        }
+    });
+}
+
+//Delete Discount
+function deleteDiscount(url) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Record will be deleted.?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    if (response.status == 200) {
+                        toastr.success('' + response.message + '', 'Success');
+                        getDiscount();
+                    }
+                }
+            });
         }
     });
 }
@@ -1220,20 +1257,6 @@ function getDiscount() {
 }
 
 //Check Booking availability
-$('#availability').on('change', function () {
-    var category = $("#availability option:selected").text().toLowerCase();
-    if (category === 'standard') {
-        $('.standard-availability').removeClass('hide');
-        $('.flexible-availability').addClass('hide');
-        $('.seven-night').addClass('hide');
-    } else {
-        $('.flexible-availability').removeClass('hide');
-        $('.standard-availability').addClass('hide');
-        $('.seven-night').addClass('hide');
-    }
-});
-
-//Check Booking availability
 $('#standardselect').on('change', function () {
     var data = $("#standardselect option:selected").text().split(' ');
     var category = data[0].toString().toLowerCase();
@@ -1242,23 +1265,150 @@ $('#standardselect').on('change', function () {
     }
 });
 
-//DateTimePicker
-$(".datesevennight").datepicker({
-    timepicker:!0,
-    language:"en",
-    autoClose:!0,
-    dateFormat:"dd MM yyyy",
-    format: {
-        toDisplay: function (date, format, language) {
-            var d = new Date(date);
-            d.setDate(d.getDate() - 7);
-            return d.toISOString();
-        },
-        toValue: function (date, format, language) {
-            var d = new Date(date);
-            d.setDate(d.getDate() + 7);
-            return new Date(d);
-        }
-    }
+//Year Calendar
+new Calendar('#calendar', {
+    style: 'background',
+    minDate: new Date(),
+    options: {
+        disabledDays: Date["2022-06-30"]
+    },
+    clickDay: function(e) {
+        $('#to_date').val('');
+        var d = e.date;
+        console.log(d);
+        var date = d.getDate();
+        console.log(date);
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        var dateStr = year + "-" + month + "-" + date;
+        $('#from_date').val(dateStr);
+        $('#availability-modal').modal('show');
+        var id = $(".property-id").attr("id");
+        var url = '/property/price/get/' + id + '';
+        $.ajax({
+            url: url,
+            method: 'get',
+            success: function (response) {
+                console.log(response);
+                $('.price_main_div').html('');
+                if (response.categoryName === 'Standard') {
+                    var standrad_price = '';
+                    standrad_price += ' <div class="row">\n' +
+                        ' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
+                        ' <input type="radio" id="monday_to_fridar" dateSelect="4" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
+                        ' <input type="radio" id="friday_to_monday" dateSelect="4" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+                        ' \n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' </div>';
+                    $('.price_main_div').append(standrad_price);
 
+                }
+                if (response.categoryName === 'Flexible') {
+                    var flexible_price = '';
+                    flexible_price += ' <div class="row">\n' +
+                        ' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
+                        ' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
+                        ' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
+                        ' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
+                        ' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' <div class="col-lg-4">\n' +
+                        ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+                        ' <div class="custom-control custom-radio">\n' +
+                        ' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="setPrice();">\n' +
+                        ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+                        ' \n' +
+                        ' </div>\n' +
+                        ' </div>\n' +
+                        ' </div>';
+                    $('.price_main_div').append(flexible_price);
+                }
+            }
+        });
+    }
 });
+
+function setPrice() {
+    var days = $("input[name='standrad_price']:checked").attr("dateSelect");
+    var fromDate = $('#from_date').val();
+    var date = new Date(Date.parse(fromDate));
+    date.setDate(date.getDate() + parseInt(days));
+    var d = date;
+    var date    = d.getDate();
+    var month   = d.getMonth() + 1;
+    var year    = d.getFullYear();
+    var dateStr = year + "-" + month + "-" + date;
+    $('#to_date').val(dateStr);
+}
+
+function addGuest() {
+    var data = $("#customer_booking").serialize();
+    var url = $("#customer_booking").attr('action');
+    var type = $("#customer_booking").attr('method');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#customer_booking')[0].reset();
+                $('#availability-modal').modal('hide');
+                toastr.success('' + response.message + '', 'Success');
+            } else {
+                toastr.warning('' + response.message + '', 'warning');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}

@@ -37,7 +37,7 @@
                             </a>
                             <ul class="submenu">
                                 <li><a href="{{route('availability-list')}}">All Availability</a></li>
-                                <li><a href="advanced-components.html">All Bookings</a></li>
+                                <li><a href="{{route('booking-list')}}">All Bookings</a></li>
                                 <li><a href="form-wizard.html">Late Availability</a></li>
                                 <li><a href="html5-editor.html">Cleaning Rota</a></li>
                                 <li><a href="{{route('discount-list')}}">Discount Code Manager</a></li>

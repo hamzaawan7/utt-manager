@@ -80,7 +80,7 @@
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             <label>Type</label>
-                                            <input type="text" name="type_{{$key}}" id="type"
+                                            <input type="text" name="type_{{$key}}" id="type_price"
                                                    value="{{$item->type.'_'.$item->id}}" class="form-control" readonly>
                                             <div class="text-danger clear-error" id="type_error"></div>
                                         </div>

@@ -15,11 +15,14 @@ class CreateSeasonsTable extends Migration
     {
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('type_id');
             $table->string('season_name');
             $table->timestamp('from_date');
             $table->timestamp('to_date')->nullable();
 
             $table->timestamps();
+
+            $table->foreign('type_id')->references('id')->on('types');
         });
     }
 

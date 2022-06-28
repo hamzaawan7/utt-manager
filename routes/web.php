@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
@@ -45,6 +46,7 @@ Route::get('/category/delete/{id}', [PropertyCategoryController::class, 'delete'
 Route::prefix('property')->group(function () {
     Route::get('/list', [PropertyController::class, 'index'])->name('property-list');
     Route::get('/add', [PropertyController::class, 'addProperty'])->name('add-property');
+    Route::get('/price/get/{id}', [PropertyController::class, 'getCategoryPrice']);
     Route::post('/save', [PropertyController::class, 'save'])->name('property-save');
     Route::get('/find/{id}', [PropertyController::class, 'find']);
     Route::get('/delete/{id}', [PropertyController::class, 'delete']);
@@ -119,8 +121,18 @@ Route::prefix('discount')->group(function () {
 Route::prefix('availability')->group(function () {
     Route::get('/list', [AvailabilityController::class, 'index'])->name('availability-list');
     Route::get('/get', [AvailabilityController::class, 'getDiscount']);
+    Route::get('/individual/calendar/{id}', [AvailabilityController::class, 'individualCalendar']);
     Route::post('/save', [AvailabilityController::class, 'save'])->name('availability-save');
     Route::get('/find/{id}', [AvailabilityController::class, 'find']);
     Route::get('/delete/{id}', [AvailabilityController::class, 'delete']);
+
+});
+
+//Booking Route
+Route::prefix('booking')->group(function () {
+    Route::get('/list', [BookingController::class, 'index'])->name('booking-list');
+    Route::post('/save', [BookingController::class, 'save'])->name('booking-save');
+    Route::get('/find/{id}', [BookingController::class, 'find']);
+    Route::get('/delete/{id}', [BookingController::class, 'delete']);
 
 });

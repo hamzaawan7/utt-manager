@@ -20,7 +20,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Select Type</label>
-                                <select class="custom-select2 form-control" id="type" name="type[]"
+                                <select class="custom-select2 form-control" id="type" name="type"
                                         multiple="multiple" style="width: 100%;">
                                     @foreach($type as $item)
                                         <optgroup>

@@ -36,6 +36,7 @@
                 <thead>
                 <tr>
                     <th>id</th>
+                    <th>Customer Name</th>
                     <th>Contact Number</th>
                     <th>Address</th>
                     <th>Post Code</th>

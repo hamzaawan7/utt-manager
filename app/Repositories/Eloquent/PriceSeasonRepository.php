@@ -45,15 +45,6 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
                 $season = $this->season->find($data['season_id']);
                 $season = $this->getCommonFields($data, $season);
                 $season->update();
-                $this->typeSeason->where('season_id', $data['season_id'])->delete();
-                if ($data['type']) {
-                    foreach ($data['type'] as $item) {
-                        $typeSeason            = new $this->typeSeason;
-                        $typeSeason->season_id = $data['season_id'];
-                        $typeSeason->type_id   = $item;
-                        $typeSeason->save();
-                    }
-                }
 
                 return 'Data Updated successfully.';
             } catch (\Exception $e) {
@@ -65,15 +56,6 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
                 $season = new $this->season;
                 $season = $this->getCommonFields($data, $season);
                 $season->save();
-                $seasonId              = $season->id;
-                if ($data['type']) {
-                    foreach ($data['type'] as $item) {
-                        $typeSeason            = new $this->typeSeason;
-                        $typeSeason->season_id = $seasonId;
-                        $typeSeason->type_id   = $item;
-                        $typeSeason->save();
-                    }
-                }
 
                 return "Data Saved Successfully";
             } catch (\Exception $e) {
@@ -84,6 +66,7 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
 
     public function getCommonFields($data, $season)
     {
+        $season->type_id     = $data['type'];
         $season->season_name = $data['season_name'];
         $season->from_date   = dateFormat($data['from_date']);
         $season->to_date     = dateFormat($data['to_date']);
@@ -97,7 +80,7 @@ class PriceSeasonRepository implements PriceSeasonRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->season->where('id', $id)->with('types')->get();
+        return $this->season->find($id);
     }
 
     /**

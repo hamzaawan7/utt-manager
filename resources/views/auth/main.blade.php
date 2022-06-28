@@ -2,7 +2,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>@section('title') {{'Login'}} @endsection</title>
+    <title>@section('title')
+            {{'Login'}}
+        @endsection</title>
 
     <!-- Site favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('admin-dashboard-layout/images/apple-touch-icon.png')}}">
@@ -13,7 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheetssss">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheetssss">
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/core.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/icon-font.min.css')}}">
@@ -23,7 +26,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119386393-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-119386393-1');

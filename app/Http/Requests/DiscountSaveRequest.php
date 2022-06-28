@@ -22,6 +22,8 @@ class DiscountSaveRequest extends FormRequest
             'email' => 'required',
             'holiday_start_after' => 'required',
             'holiday_must_start_by' => 'required',
+            'reason' => 'required',
+            'property_id' => 'required',
         ];
     }
 
@@ -31,13 +33,15 @@ class DiscountSaveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'code.required' => 'This field is reuired',
-            'code_type.required' => 'This field is reuired',
-            'value.required' => 'This field is reuired',
-            'expiry_date.required' => 'This field is reuired',
-            'property.required' => 'This field is reuired',
-            'holiday_start_after.required' => 'This field is reuired',
-            'holiday_must_start_by.required' => 'This field is reuired',
+            'code.required' => 'This field is required',
+            'code_type.required' => 'This field is required',
+            'value.required' => 'This field is required',
+            'expiry_date.required' => 'This field is required',
+            'property.required' => 'This field is required',
+            'holiday_start_after.required' => 'This field is required',
+            'holiday_must_start_by.required' => 'This field is required',
+            'reason.required' => 'This field is required',
+            'property_id.required' => 'This field is required',
         ];
     }
 }
