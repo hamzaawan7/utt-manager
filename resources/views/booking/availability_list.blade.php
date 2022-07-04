@@ -1,9 +1,10 @@
 @extends('layouts.main')
-@section('content')
 
-    @section('title')
-        {{'Availability List'}}
-    @endsection
+@section('title')
+    {{'Availability List'}}
+@endsection
+
+@section('content')
     <div class="content-wrapper">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="page-header">
@@ -13,7 +14,6 @@
                         <ol class="breadcrumb float-sm-left">
                             <li class="breadcrumb-item"><h4><a href="#">Availability List</a></h4></li>
                         </ol>
-                        </nav>
                     </div>
 
                     <div class="col-md-6 col-sm-6>
@@ -22,7 +22,6 @@
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Availability List</li>
                         </ol>
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -41,7 +40,7 @@
                         </tr>
                         </thead>
                         <tbody id="">
-                        @foreach ($availabilityLisy as $item)
+                        @foreach ($availabilityList as $item)
                             <tr>
                                 <td>{{$item->name}}</td>
                                 <td><img src="{{asset('images/main/'.$item->main_image)}}" width="100" height="200">
@@ -63,7 +62,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3"><div class="calendar"></div></td>
+                                <td colspan="3">
+                                    <div class="calendar" id="calendar{{ $item->id }}"></div>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -72,12 +73,20 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('scripts')
     <script src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
     <script>
-        var calendars = new Calendar('.calendar', {
-            style: 'background',
-            minDate: new Date(),
-        });
+        var ids = $(".calendar").map(function () {
+            return this.id;
+        }).get();
+
+        $.each(ids, function (index, id) {
+            new Calendar('#' + id, {
+                style: 'background',
+                minDate: new Date(),
+            });
+        })
     </script>
 @endsection

@@ -44,9 +44,9 @@ class AvailabilityController extends Controller
      */
     public function index()
     {
-        $availabilityLisy = $this->property->all();
+        $availabilityList = $this->property->all();
 
-        return view('booking.availability_list',compact('availabilityLisy'));
+        return view('booking.availability_list',compact('availabilityList'));
     }
 
     /**
