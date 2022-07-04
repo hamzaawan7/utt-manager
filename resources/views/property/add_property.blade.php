@@ -3,7 +3,16 @@
     <div class="pd-20 card-box mb-30">
         <div class="clearfix">
             <a type="submit" class="btn btn-primary" href="{{route('property-list')}}">Back</a>
-        </div>
+        </div> <br>
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="wizard-content">
             <form class="tab-wizard wizard-circle wizard vertical"
                   method="post" action="{{route('property-save')}}" id="property_form" enctype="multipart/form-data">
@@ -111,7 +120,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Address</label>
-                                <input type="text" name="address" id="address" class="form-control">
+                                <input type="text" onkeydown="return /[a-z]/i.test(event.key)" name="address" id="address" class="form-control">
                                 @error('address')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
@@ -120,7 +129,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Post Code</label>
-                                <input type="text" name="post_code" id="post_code" class="form-control">
+                                <input type="number" name="post_code" id="post_code" class="form-control">
                                 @error('post_code')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
@@ -276,7 +285,7 @@
                             <div class="form-group">
                                 <label>Select Season</label>
                                 <select class="custom-select" name="season_id" id="season_id">
-                                    <option selected="">Select Season</option>
+                                    <option value="">Select Season</option>
                                     @foreach($seasonList as $item)
                                         <option value="{{$item->id}}">{{$item->season_name}} </option>
                                     @endforeach
@@ -329,7 +338,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Bank Account Number</label>
-                                <input type="text" name="bank_account_number" class="form-control">
+                                <input type="number" name="bank_account_number" class="form-control">
                                 @error('bank_account_number')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
@@ -450,7 +459,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Main Contact Name</label>
-                                <input type="text" name="main_contact_name" id="main_contact_name" class="form-control">
+                                <input type="text" onkeydown="return /[a-z]/i.test(event.key)" name="main_contact_name" id="main_contact_name" class="form-control">
                                 @error('main_contact_name')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
@@ -471,7 +480,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Secondary Contact Name</label>
-                                <input type="text" name="secondary_contact_name" id="secondary_contact_name"
+                                <input type="text" onkeydown="return /[a-z]/i.test(event.key)" name="secondary_contact_name" id="secondary_contact_name"
                                        class="form-control">
                                 @error('secondary_contact_name')
                                 <div class="text-danger">{{$message}}</div>
@@ -493,7 +502,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Emergency Contact Name</label>
-                                <input type="text" name="emergency_contact_name" id="emergency_contact_name"
+                                <input type="text" onkeydown="return /[a-z]/i.test(event.key)" name="emergency_contact_name" id="emergency_contact_name"
                                        class="form-control">
                                 @error('emergency_contact_name')
                                 <div class="text-danger">{{$message}}</div>
@@ -514,7 +523,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Cleaning Rota Receipts</label>
+                                <label>Cleaning Rota Email</label>
                                 <input type="text" name="cleaning_rota_receipts" id="cleaning_rota_receipts"
                                        class="form-control">
                                 @error('cleaning_rota_receipts')

@@ -38,8 +38,8 @@
                             <ul class="submenu">
                                 <li><a href="{{route('availability-list')}}">All Availability</a></li>
                                 <li><a href="{{route('booking-list')}}">All Bookings</a></li>
-                                <li><a href="form-wizard.html">Late Availability</a></li>
-                                <li><a href="html5-editor.html">Cleaning Rota</a></li>
+                                <li><a href="{{route('late-availability-list')}}">Late Availability</a></li>
+                                <li><a href="{{route('cleaningRotaList')}}">Cleaning Rota</a></li>
                                 <li><a href="{{route('discount-list')}}">Discount Code Manager</a></li>
                             </ul>
                         </li>
@@ -64,7 +64,6 @@
                                 <li><a href="{{route('price-category-list')}}">Set Pricing Categories</a></li>
                                 {{--<li><a href="{{route('price-type-list')}}">Pricing Types</a></li>--}}
                                 <li><a href="ui-modals.html">Booking Confirmation</a></li>
-                                <li><a href="ui-tabs.html">Manage Users</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

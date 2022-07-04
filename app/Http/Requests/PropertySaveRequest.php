@@ -26,7 +26,6 @@ class PropertySaveRequest extends FormRequest
             'address' => 'required|string|max:255',
             'post_code' => 'required|numeric',
             'special_category' => 'required',
-            'is_visible' => 'required',
             'main_image' => $request->property_id ? '' : $image,
             'images' => $request->property_id ? '' : $multiple_image,
             'standard_guests' => 'required|numeric',
@@ -54,26 +53,6 @@ class PropertySaveRequest extends FormRequest
             'emergency_contact_name' => 'required|string|max:255',
             'emergency_contact_number' => 'required|string|max:255',
             'cleaning_rota_receipts' => 'required',
-        ];
-    }
-
-    /**
-     * @return string[]
-     */
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'This field is reuired',
-            'nearby_property.required' => 'This field is reuired',
-            'owner_name.required' => 'This field is reuired',
-            'short_code.required' => 'This field is reuired',
-            'category_name.required' => 'This field is reuired',
-            'feature_name.required' => 'This field is reuired',
-            'phone.required' => 'This field is reuired',
-            'address.required' => 'This field is reuired',
-            'post_code.required' => 'This field is reuired',
-            'special_category.required' => 'This field is reuired',
-            'is_visible.required' => 'This field is reuired',
         ];
     }
 }

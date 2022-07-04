@@ -74,3 +74,19 @@ body {
 .calendar table.month td.day .day-content {
     padding: 5px 8px;
 }
+
+.calendar table.month td {
+    border: 1px solid #ddd !important;
+}
+td.day.disabled {
+    background: #7e1c0a;
+    color: white !important;
+}
+td.day:not(.disabled) {
+    background: #b1bd7d;
+}
+
+
+.custom-view .mbsc-segmented .mbsc-icon {
+    font-size: 20px;
+}

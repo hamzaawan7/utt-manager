@@ -30,6 +30,14 @@ $('.reset-customer-form').click(function () {
     $(".clear-error").html('');
 });
 
+//Empty Late Availability Forms
+$('.reset-late-availability').click(function () {
+    $("#late_availability_form")[0].reset();
+    $("#late_availability_id").val("");
+    $('#property_id').val(null).trigger('change');
+    $(".clear-error").html('');
+});
+
 //Empty Owner Forms
 $('.reset_owner').click(function () {
     $("#passwords").removeAttr('readonly');
@@ -461,7 +469,7 @@ function deleteCustomer(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getCustomer();
                     }
@@ -570,7 +578,7 @@ function deleteOwner(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getOwner();
                     }
@@ -734,7 +742,7 @@ function deletePriceSeason(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getSeason();
                     }
@@ -963,7 +971,7 @@ function deletePriceCategory(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getPriceCategory();
                     }
@@ -1030,6 +1038,7 @@ function addPrice() {
             if (response.status === 200) {
                 $('#type_form')[0].reset();
                 $('#type-modal').modal('hide');
+                getPrice();
                 toastr.success('' + response.message + '', 'Success');
             }
         }, error: function (reject) {
@@ -1097,7 +1106,7 @@ function deleteType(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getPriceCategory();
                     }
@@ -1108,6 +1117,7 @@ function deleteType(url) {
 }
 
 $(document).ready(function () {
+    /*$("#container").simpleCalendar();*/
     getOwner();
     /*getProperty();*/
     getCustomer();
@@ -1118,6 +1128,7 @@ $(document).ready(function () {
     getPriceCategory();
     getPrice();
     getDiscount();
+    getLateAvialability();
     $("#nearby_property").select2({
         maximumSelectionLength: 3
     });
@@ -1223,7 +1234,7 @@ function deleteDiscount(url) {
                 url: url,
                 method: 'get',
                 success: function (response) {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         toastr.success('' + response.message + '', 'Success');
                         getDiscount();
                     }
@@ -1265,128 +1276,10 @@ $('#standardselect').on('change', function () {
     }
 });
 
-//Year Calendar
-new Calendar('#calendar', {
-    style: 'background',
-    minDate: new Date(),
-    options: {
-        disabledDays: Date["2022-06-30"]
-    },
-    clickDay: function(e) {
-        $('#to_date').val('');
-        var d = e.date;
-        console.log(d);
-        var date = d.getDate();
-        console.log(date);
-        var month = d.getMonth() + 1;
-        var year = d.getFullYear();
-        var dateStr = year + "-" + month + "-" + date;
-        $('#from_date').val(dateStr);
-        $('#availability-modal').modal('show');
-        var id = $(".property-id").attr("id");
-        var url = '/property/price/get/' + id + '';
-        $.ajax({
-            url: url,
-            method: 'get',
-            success: function (response) {
-                console.log(response);
-                $('.price_main_div').html('');
-                if (response.categoryName === 'Standard') {
-                    var standrad_price = '';
-                    standrad_price += ' <div class="row">\n' +
-                        ' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
-                        ' <input type="radio" id="monday_to_fridar" dateSelect="4" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
-                        ' <input type="radio" id="friday_to_monday" dateSelect="4" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-                        ' \n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' </div>';
-                    $('.price_main_div').append(standrad_price);
-
-                }
-                if (response.categoryName === 'Flexible') {
-                    var flexible_price = '';
-                    flexible_price += ' <div class="row">\n' +
-                        ' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
-                        ' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
-                        ' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
-                        ' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
-                        ' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' <div class="col-lg-4">\n' +
-                        ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-                        ' <div class="custom-control custom-radio">\n' +
-                        ' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="setPrice();">\n' +
-                        ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-                        ' \n' +
-                        ' </div>\n' +
-                        ' </div>\n' +
-                        ' </div>';
-                    $('.price_main_div').append(flexible_price);
-                }
-            }
-        });
-    }
-});
-
-function setPrice() {
-    var days = $("input[name='standrad_price']:checked").attr("dateSelect");
-    var fromDate = $('#from_date').val();
-    var date = new Date(Date.parse(fromDate));
-    date.setDate(date.getDate() + parseInt(days));
-    var d = date;
-    var date    = d.getDate();
-    var month   = d.getMonth() + 1;
-    var year    = d.getFullYear();
-    var dateStr = year + "-" + month + "-" + date;
-    $('#to_date').val(dateStr);
-}
-
 function addGuest() {
     var data = $("#customer_booking").serialize();
     var url = $("#customer_booking").attr('action');
     var type = $("#customer_booking").attr('method');
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1412,3 +1305,192 @@ function addGuest() {
         }
     });
 }
+
+//Owner Booking
+function addOwnerBooking() {
+    var data = $("#owner_booking").serialize();
+    var url = $("#owner_booking").attr('action');
+    var type = $("#owner_booking").attr('method');
+    alert(url);
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#owner_booking')[0].reset();
+                $('#availability-modal').modal('hide');
+                toastr.success('' + response.message + '', 'Success');
+            } else {
+                toastr.warning('' + response.message + '', 'warning');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Days incremwnt in Date
+function setDate()
+{
+    var days = $("input[name='days']:checked").val();
+    var fromDate = $('#owner_from_date').val();
+    var date = new Date(Date.parse(fromDate));
+    date.setDate(date.getDate() + parseInt(days));
+    var d = date;
+    var date = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    var dateStr = year + "-" + month + "-" + date;
+    $('#owner_to_date').val(dateStr);
+}
+
+//Get Discount Data In DataTable
+function getLateAvialability() {
+    $(".late_availability").DataTable().clear().destroy();
+    return $('.late_availability').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/late/availability/get",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'value', name: 'value'},
+            {data: 'expiry_date', name: 'expiry_date'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
+//Add Or Update Discount
+function addLateAvailability() {
+    var data = $("#late_availability_form").serialize();
+    var url = $("#late_availability_form").attr('action');
+    var type = $("#late_availability_form").attr('method');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                $('#late_availability_form')[0].reset();
+                $('#late-availability-modal').modal('hide');
+                getLateAvialability();
+                toastr.success('' + response.message + '', 'Success');
+            }
+        }, error: function (reject) {
+            var response = $.parseJSON(reject.responseText);
+            $.each(response.errors, function (key, val) {
+                $("#" + key + "_error").text(val[0]);
+            });
+        }
+    });
+}
+
+//Find Discount
+function findlateAvailability(url) {
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            console.log(response);
+            $.each(response[0], function (index, value) {
+                $('#' + index).val(value);
+
+                $('#late_availability_id').val(response[0].id);
+            });
+            var property = [];
+            $.each(response[0].properties, function (index, value) {
+                property.push(value.property_id);
+            });
+            $('#property_id').val(property).trigger('change');
+            $('#late-availability-modal').modal('show');
+        }
+    });
+}
+
+//Delete Discount
+function deleteLateAvailability(url) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Record will be deleted.?',
+        type: 'warning',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: url,
+                method: 'get',
+                success: function (response) {
+                    if (response.status === 200) {
+                        toastr.success('' + response.message + '', 'Success');
+                        getLateAvialability();
+                    }
+                }
+            });
+        }
+    });
+}
+
+//Cleaning Rota
+
+$("#property_id").change(function() {
+    var id = $(this).val();
+    var url = '/cleaning/rota/get/' + id + '';
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+            $.each(response[0]['bookings'], function (index, value) {
+                console.log(value);
+                $('.cleaning-rota').html('');
+
+                var html = '';
+                html += '<tr>\n' +
+                    '                             <td>'+value.booking_id+'</td>\n' +
+                    '                             <td>\n' +
+                    '                                 '+value.from_date+' <br>\n' +
+                    '                                 '+value.to_date+'\n' +
+                    '                             </td>\n' +
+                    '                             <td>'+value.nights+'</td>\n' +
+                    '                             <td>\n' +
+                    '                                 '+value.guests+' guest <br>\n' +
+                    '                                 2 adults <br>\n' +
+                    '                                 '+value.pets+' pets <br>\n' +
+                    '                                 '+value.infants+' infant <br>\n' +
+                    '                                 '+value.childs+' child\n' +
+                    '                             </td>\n' +
+                    '                             <td>\n' +
+                    '                                 guest name: '+value.guest_name+' <br>\n' +
+                    '                                 email: '+value.cleaning_rota_email+' \n' +
+                    '                             </td>\n' +
+                    '                         </tr>';
+
+                $('.cleaning-rota').append(html);
+            });
+        }
+    });
+});

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerBookingSaveRequest;
+use App\Http\Requests\OwnerBookingSaveRequest;
 use App\Models\Booking;
-use App\Models\Customer;
+use App\Models\Property;
 use App\Repositories\CustomerBookingRepositoryInterface;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Yajra\DataTables\DataTables;
+use Illuminate\Http\Request;
 
 /**
  * Class BookingController
@@ -28,24 +28,23 @@ class BookingController extends Controller
      */
     private $booking;
     /**
-     * @var Customer
+     * @var Property
      */
-    private $customer;
+    private $property;
 
     /**
      * @param CustomerBookingRepositoryInterface $customerBookingRepository
      * @param Booking $booking
-     * @param Customer $customer
      */
     public function __construct(
         CustomerBookingRepositoryInterface $customerBookingRepository,
-        Booking                            $booking,
-        Customer                           $customer
+        Booking $booking,
+        Property $property
     )
     {
         $this->customerBookingRepository = $customerBookingRepository;
-        $this->booking = $booking;
-        $this->customer = $customer;
+        $this->booking  = $booking;
+        $this->property = $property;
     }
 
     /**
@@ -68,5 +67,28 @@ class BookingController extends Controller
     public function save(CustomerBookingSaveRequest $request): JsonResponse
     {
         return $this->customerBookingRepository->save($request->input());
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function ownerSave(Request $request): JsonResponse
+    {
+        return $this->customerBookingRepository->save($request->input());
+    }
+
+    public function cleaningRotaList()
+    {
+        $property = Property::all();
+
+        return view('booking.cleaning_rota_list',compact('property'));
+    }
+
+    public function getCleaningRota(int $id)
+    {
+        $data = $this->property->where('id', $id)->with('bookings')->get();
+
+        return $data;
     }
 }

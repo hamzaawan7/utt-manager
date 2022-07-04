@@ -6,6 +6,8 @@ use App\Repositories\CustomerBookingRepositoryInterface;
 use App\Repositories\DiscountRepositoryInterface;
 use App\Repositories\Eloquent\CustomerBookingRepository;
 use App\Repositories\Eloquent\DiscountRepository;
+use App\Repositories\Eloquent\LateAvailabilityRepository;
+use App\Repositories\LateAvailabilityRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\PropertyCategoryRepositoryInterface;
 use App\Repositories\Eloquent\PropertyCategoryRepository;
@@ -52,6 +54,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TypeRepositoryInterface::class, TypeRepository::class);
         $this->app->bind(DiscountRepositoryInterface::class, DiscountRepository::class);
         $this->app->bind(CustomerBookingRepositoryInterface::class, CustomerBookingRepository::class);
+        $this->app->bind(LateAvailabilityRepositoryInterface::class, LateAvailabilityRepository::class);
     }
 
     /**

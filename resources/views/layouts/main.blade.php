@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/jquery-steps/jquery.steps.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/style.css')}}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('src/css/simple-calendar.css')}}" />--}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.css" />
     <link rel="stylesheet" type="text/css" href="{{asset('src/styles/my_style.css')}}">
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -73,8 +74,9 @@
 <script src="{{asset('admin-dashboard-layout/scripts/steps-setting.js')}}"></script>
 <script src="{{asset('admin-dashboard-layout/scripts/layout-settings.js')}}"></script>
 <script src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
+{{--<script type="text/javascript" src="{{asset('src/js/jquery.simple-calendar.js')}}"></script>--}}
+<script src="{{asset('src/js/')}}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{--<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="{{asset('src/js/script.js')}}"></script>
 @include('flash_message')

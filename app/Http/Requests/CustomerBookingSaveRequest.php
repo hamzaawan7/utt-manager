@@ -3,15 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class CustomerBookingSaveRequest extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * @param Request $request
+     * @return string[]
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             'from_date' => 'required',
@@ -29,12 +29,12 @@ class CustomerBookingSaveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'from_date.required' => 'This field is reuired',
-            'to_date.required' => 'This field is reuired',
-            'first_name.required' => 'This field is reuired',
-            'last_name.required' => 'This field is reuired',
-            'email.required' => 'This field is reuired',
-            'guest.required' => 'This field is reuired',
+            'from_date.required' => 'This field is required',
+            'to_date.required' => 'This field is required',
+            'first_name.required' => 'This field is required',
+            'last_name.required' => 'This field is required',
+            'email.required' => 'This field is required',
+            'guest.required' => 'This field is required',
         ];
     }
 }

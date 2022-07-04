@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\FeatureController;
+use App\Http\Controllers\LateAvailabilityController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PriceCategoryController;
 use App\Http\Controllers\PriceController;
@@ -132,7 +133,29 @@ Route::prefix('availability')->group(function () {
 Route::prefix('booking')->group(function () {
     Route::get('/list', [BookingController::class, 'index'])->name('booking-list');
     Route::post('/save', [BookingController::class, 'save'])->name('booking-save');
+    Route::post('/owner/save', [BookingController::class, 'ownerSave'])->name('booking-owner-save');
     Route::get('/find/{id}', [BookingController::class, 'find']);
     Route::get('/delete/{id}', [BookingController::class, 'delete']);
 
+});
+
+//Late Availability Route
+Route::prefix('late')->group(function () {
+    Route::get('/availability/list', [LateAvailabilityController::class, 'index'])->name('late-availability-list');
+    Route::get('/availability/get', [LateAvailabilityController::class, 'getLateAvailability']);
+    Route::post('/availability/save', [LateAvailabilityController::class, 'save'])->name('late-availability-save');
+    Route::get('/availability/find/{id}', [LateAvailabilityController::class, 'find']);
+    Route::get('/availability/delete/{id}', [LateAvailabilityController::class, 'delete']);
+
+});
+
+//Late Availability Route
+Route::prefix('cleaning')->group(function () {
+    Route::get('/rota/list', [BookingController::class, 'cleaningRotaList'])->name('cleaningRotaList');
+    Route::get('/rota/get/{id}', [BookingController::class, 'getCleaningRota']);
+
+});
+
+Route::get("/booking/mail", function(){
+    return view("emails.new_booking_template");
 });

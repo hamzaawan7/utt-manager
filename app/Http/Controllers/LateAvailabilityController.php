@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DiscountSaveRequest;
 use App\Models\Property;
-use App\Repositories\DiscountRepositoryInterface;
+use App\Repositories\LateAvailabilityRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -14,21 +13,20 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 /**
- * Class DiscountController
+ * Class LateAvailabilityController
  * @package App\Http\Controllers
  */
-class DiscountController extends Controller
+class LateAvailabilityController extends Controller
 {
     /**
-     * @var DiscountRepositoryInterface
+     * @var LateAvailabilityRepositoryInterface
      */
+    private $lateAvailabilityRepository;
     private $discountRepository;
 
-    public function __construct(
-        DiscountRepositoryInterface $discountRepository
-    )
+    public function __construct(LateAvailabilityRepositoryInterface $lateAvailabilityRepository)
     {
-        $this->discountRepository = $discountRepository;
+        $this->lateAvailabilityRepository = $lateAvailabilityRepository;
     }
 
     /**
@@ -38,7 +36,21 @@ class DiscountController extends Controller
     {
         $property = Property::all();
 
-        return view('discount.discount_list', compact('property'));
+        return view('lateavailability.late_availability_list', compact('property'));
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function save(Request $request)
+    {
+        $message = $this->lateAvailabilityRepository->save($request->input());
+
+        return response()->json([
+            'status' => 200,
+            'message' => $message
+        ]);
     }
 
     /**
@@ -46,10 +58,10 @@ class DiscountController extends Controller
      * @return void
      * @throws Exception
      */
-    public function getDiscount(Request $request)
+    public function getLateAvailability(Request $request)
     {
         if ($request->ajax()) {
-            $discountList = $this->discountRepository->all();
+            $discountList = $this->lateAvailabilityRepository->all();
             return Datatables::of($discountList)
                 ->addIndexColumn()
                 ->addColumn('action', function ($discountList) {
@@ -60,10 +72,10 @@ class DiscountController extends Controller
                                     <i class="dw dw-more"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item reset_form" href="#" onclick="findDiscount(\'/discount/find/' . $discountList->id . '\')">
+                                    <a class="dropdown-item reset_form" href="#" onclick="findlateAvailability(\'/late/availability/find/' . $discountList->id . '\')">
                                         <i class="dw dw-edit2"></i> Edit
                                     </a>
-                                    <a class="dropdown-item" onclick="deleteDiscount(\'/discount/delete/' . $discountList->id . '\')">
+                                    <a class="dropdown-item" onclick="deleteLateAvailability(\'/late/availability/delete/' . $discountList->id . '\')">
                                         <i class="dw dw-delete-3" style="cursor: pointer;"> Delete</i>
                                     </a>
                                 </div>
@@ -75,26 +87,12 @@ class DiscountController extends Controller
     }
 
     /**
-     * @param DiscountSaveRequest $request
-     * @return JsonResponse
-     */
-    public function save(DiscountSaveRequest $request): JsonResponse
-    {
-        $message = $this->discountRepository->save($request->input());
-
-        return response()->json([
-            'status' => 200,
-            'message' => $message
-        ]);
-    }
-
-    /**
      * @param int $id
      * @return JsonResponse
      */
     public function find(int $id): JsonResponse
     {
-        return response()->json($this->discountRepository->find($id));
+        return response()->json($this->lateAvailabilityRepository->find($id));
     }
 
     /**
@@ -103,7 +101,7 @@ class DiscountController extends Controller
      */
     public function delete(int $id): JsonResponse
     {
-        $message = $this->discountRepository->delete($id);
+        $message = $this->lateAvailabilityRepository->delete($id);
 
         return response()->json([
             'status' => 200,

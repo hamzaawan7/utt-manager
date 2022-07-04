@@ -29,7 +29,7 @@
 
             <div class="card-box mb-30">
                 <div class="pd-20">
-
+                    <div class="rescalendar"></div>
                 </div>
                 <div class="pb-20">
                     <table id="" class="data-table table stripe hover nowrap">
@@ -62,6 +62,9 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="3"><div class="calendar"></div></td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -70,4 +73,11 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
+    <script>
+        var calendars = new Calendar('.calendar', {
+            style: 'background',
+            minDate: new Date(),
+        });
+    </script>
 @endsection
