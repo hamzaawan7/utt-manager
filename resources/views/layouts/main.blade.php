@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('src/plugins/jquery-steps/jquery.steps.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-dashboard-layout/styles/style.css')}}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('src/css/simple-calendar.css')}}" />--}}
+    <link rel="stylesheet" type="text/css" href="{{asset('src/css/rescalendar.css')}}" />
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.css" />
     <link rel="stylesheet" type="text/css" href="{{asset('src/styles/my_style.css')}}">
     <!-- Global site tag (gtag.js) - Google Analytics -->

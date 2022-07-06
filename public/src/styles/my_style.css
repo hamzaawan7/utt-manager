@@ -90,3 +90,80 @@ td.day:not(.disabled) {
 .custom-view .mbsc-segmented .mbsc-icon {
     font-size: 20px;
 }
+
+
+
+.rescalendar_day_cells .dia_semana {
+    display: none;
+}
+.rescalendar_day_cells .mes {
+    display: none;
+}
+
+div#my_calendar {
+    margin: 0px !important;
+    position: relative;
+}
+#my_calendar button.move_to_today {
+    display: none;
+}
+
+#my_calendar button.move_to_next_month {
+    display: none;
+}
+button.move_to_last_month {
+    display: none;
+}
+.rescalendar {
+
+    overflow: hidden;
+    margin-top: 23px;
+
+}
+.move_to_tomorrow {
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    background-color: #f39c12;
+    border-color: #e08e0b;
+    color: white;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+button.move_to_yesterday {
+    position: absolute;
+    left: 0px;
+    top: 2px;
+    background-color: #f39c12;
+    border-color: #e08e0b;
+    color: white;
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+input.refDate {
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 50%;
+    bottom: 0%;
+}
+
+
+.rescalendar_day_cells td.today {
+    background: none;
+    color: #1d8df1;
+}
+.rescalendar_day_cells td.disabledDay {
+    color: #aaa;
+    background: #762b2b;
+    pointer-events: none;
+}
+
+.rescalendar_day_cells td:not(.disabledDay) {
+    background: #b1bd7d;
+}
+.rescalendar_day_cells td:hover {
+    background: black;
+    cursor: pointer;
+    color: white;
+}

@@ -98,8 +98,16 @@ class Property extends Model
     /**
      * @return HasManyThrough
      */
-    public function bookings(): HasManyThrough
+    public function cleaningRotas(): HasManyThrough
     {
         return $this->hasManyThrough(CleaningRota::class,Booking::class, );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 }

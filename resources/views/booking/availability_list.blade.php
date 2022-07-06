@@ -28,7 +28,18 @@
 
             <div class="card-box mb-30">
                 <div class="pd-20">
-                    <div class="rescalendar"></div>
+                    <div class='row'>
+                        @for($i = 2; $i<=14; $i++)
+                            <div class="row">
+                                <div class="col">
+                                    <input type="hidden" class="selected-range-of-days-input" value="{{$i}}">
+                                    <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}" class="btn-danger multiple-hover selected-range-of-days" style="width: 50px; margin: 2px;">
+                                        {{$i}}
+                                    </button>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
                 </div>
                 <div class="pb-20">
                     <table id="" class="data-table table stripe hover nowrap">
@@ -41,7 +52,7 @@
                         </thead>
                         <tbody id="">
                         @foreach ($availabilityList as $item)
-                            <tr>
+                            <tr class="main-img">
                                 <td>{{$item->name}}</td>
                                 <td><img src="{{asset('images/main/'.$item->main_image)}}" width="100" height="200">
                                 </td>
@@ -63,7 +74,7 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <div class="calendar" id="calendar{{ $item->id }}"></div>
+                                    <div class="rescalendar" id="my_calendar"></div>
                                 </td>
                             </tr>
                         @endforeach
@@ -76,17 +87,65 @@
 @endsection
 
 @section('scripts')
-    <script src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
+    <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
-        var ids = $(".calendar").map(function () {
-            return this.id;
-        }).get();
+        const betweenDate = {!! json_encode($availabilityList[0]->dates, JSON_HEX_TAG) !!};
+        console.log(betweenDate)
+        $('.rescalendar').rescalendar({
+            id: 'my_calendar',
+            format: 'YYYY-MM-DD',
+            dataKeyField: 'name',
+            dataKeyValues: [''],
+            disabledDays: betweenDate,
+        });
 
-        $.each(ids, function (index, id) {
-            new Calendar('#' + id, {
-                style: 'background',
-                minDate: new Date(),
-            });
-        })
+        $(".rescalendar_day_cells").click(function () {
+            alert("hello");
+        });
+
+         $(document).ready(function (){
+             let range = 0;
+             $(".multiple-hover").click(function () {
+                 const getNoofDay = $(this).val();
+                 range = getNoofDay;
+                 $('.selected-range-of-days').removeClass('selected-day-rang')
+                 $(this).addClass('selected-day-rang');
+                 alert(getNoofDay)
+             });
+             $(".rescalendar_day_cells .day_cell").hover(
+                 function () {
+                     $('.multiple-hover')
+                     const from_date = $(this).attr('data-celldate');
+                     $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
+                     $(this).addClass('selected startDate');
+                     // var range=$('selected-day-rang').val();
+                     const netAll = $(this).nextAll();
+                     for (let i = 0; i < range; i++) {
+                          console.log(netAll[i]);
+                      }
+                     // $.each(netAll, function (index, value) {
+                     //     console.log(index)
+                     // });
+                     //$.map( , function(n, i) { /* n.name and $(n).val() */ } );
+
+
+                 },
+                 function () {
+                     $(this).css("background","");
+                 }
+             );
+             $(".move_to_tomorrow").click(function () {
+                 $(".rescalendar_day_cells td").hover(
+                     function () {
+                         let index =$('.rescalendar_day_cells td').index(this);
+
+                     },
+                     function () {
+                         $(this).css("background","");
+                     }
+                 );
+             });
+         });
+
     </script>
 @endsection

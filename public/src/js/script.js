@@ -1464,10 +1464,8 @@ $("#property_id").change(function() {
         url: url,
         method: 'get',
         success: function (response) {
-            $.each(response[0]['bookings'], function (index, value) {
-                console.log(value);
-                $('.cleaning-rota').html('');
-
+            $('.cleaning-rota').html('');
+            $.each(response[0]['cleaning_rotas'], function (index, value) {
                 var html = '';
                 html += '<tr>\n' +
                     '                             <td>'+value.booking_id+'</td>\n' +

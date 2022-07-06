@@ -44,7 +44,18 @@ class AvailabilityController extends Controller
      */
     public function index()
     {
-        $availabilityList = $this->property->all();
+        $dataArray    = [];
+        $finalDate    = [];
+        $betweenDates = [];
+        $availabilityList = $this->property->with('bookings')->get();
+        foreach ($availabilityList as $properties)
+        {
+            foreach ($properties['bookings'] as $property)
+            {
+                $response    = $this->getDatesFromRange($property->from_date, $property->to_date);
+            }
+            $properties->dates= $response;
+        }
 
         return view('booking.availability_list',compact('availabilityList'));
     }

@@ -87,7 +87,7 @@ class BookingController extends Controller
 
     public function getCleaningRota(int $id)
     {
-        $data = $this->property->where('id', $id)->with('bookings')->get();
+        $data = $this->property->where('id', $id)->with('cleaningRotas')->get();
 
         return $data;
     }
