@@ -102,9 +102,8 @@
             disabledDays: betweenDate,
         });
 
-        $(".rescalendar_day_cells").click(function () {
-            var from_date = $('.rescalendar_day_cells').attr('data-celldate');
-            alert(from_date);
+        $(document).on("click", ".day_cell", function(e) {
+            var from_date = $(this).attr('data-celldate');
             $('#availability-modal').modal('show');
         });
 
@@ -117,7 +116,7 @@
                 $(this).addClass('selected-day-rang');
             });
 
-            $(".rescalendar_day_cells .day_cell").mouseenter(function(){
+            $(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function(e) {
                 $('.multiple-hover')
                 const from_date = $(this).attr('data-celldate');
                 $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
@@ -132,62 +131,10 @@
                     }
                 }
             });
-            $(".rescalendar_day_cells .day_cell").mouseleave(function(){
+            $(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function(e) {
                 $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
                 $('.rescalendar_day_cells .day_cell').removeClass('startDate');
                 $('.rescalendar_day_cells .day_cell').removeClass('end_date');
-            });
-
-
-
-
-
-
-
-            $(".move_to_tomorrow").click(function () {
-                $(".rescalendar_day_cells .day_cell").mouseenter(function(){
-                    $('.multiple-hover')
-                    const from_date = $(this).attr('data-celldate');
-                    $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
-                    $(this).addClass('selected startDate');
-                    const netAll = $(this).nextAll();
-                    for (let i = 0; i < range; i++) {
-                        if(i === range.length) {
-                            netAll[i].classList.add("end_date");
-                            netAll[i].classList.remove("rescalendar_day_cells_hover");
-                        } else {
-                            netAll[i].classList.add("rescalendar_day_cells_hover");
-                        }
-                    }
-                });
-                $(".rescalendar_day_cells .day_cell").mouseleave(function(){
-                    $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
-                    $('.rescalendar_day_cells .day_cell').removeClass('startDate');
-                    $('.rescalendar_day_cells .day_cell').removeClass('end_date');
-                });
-            });
-
-            $(".move_to_yesterday").click(function () {
-                $(".rescalendar_day_cells .day_cell").mouseenter(function(){
-                    $('.multiple-hover')
-                    const from_date = $(this).attr('data-celldate');
-                    $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
-                    $(this).addClass('selected startDate');
-                    const netAll = $(this).nextAll();
-                    for (let i = 0; i < range; i++) {
-                        if(i === range.length) {
-                            netAll[i].classList.add("end_date");
-                            netAll[i].classList.remove("rescalendar_day_cells_hover");
-                        } else {
-                            netAll[i].classList.add("rescalendar_day_cells_hover");
-                        }
-                    }
-                });
-                $(".rescalendar_day_cells .day_cell").mouseleave(function(){
-                    $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
-                    $('.rescalendar_day_cells .day_cell').removeClass('startDate');
-                    $('.rescalendar_day_cells .day_cell').removeClass('end_date');
-                });
             });
         });
 
