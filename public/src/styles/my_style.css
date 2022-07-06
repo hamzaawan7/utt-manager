@@ -167,3 +167,8 @@ input.refDate {
     cursor: pointer;
     color: white;
 }
+.rescalendar_day_cells_hover {
+    background: black !important;
+    cursor: pointer;
+    color: white;
+}

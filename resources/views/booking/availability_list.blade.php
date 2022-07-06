@@ -33,7 +33,9 @@
                             <div class="row">
                                 <div class="col">
                                     <input type="hidden" class="selected-range-of-days-input" value="{{$i}}">
-                                    <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}" class="btn-danger multiple-hover selected-range-of-days" style="width: 50px; margin: 2px;">
+                                    <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}"
+                                            class="btn-danger multiple-hover selected-range-of-days"
+                                            style="width: 50px; margin: 2px;">
                                         {{$i}}
                                     </button>
                                 </div>
@@ -103,49 +105,48 @@
             alert("hello");
         });
 
-         $(document).ready(function (){
-             let range = 0;
-             $(".multiple-hover").click(function () {
-                 const getNoofDay = $(this).val();
-                 range = getNoofDay;
-                 $('.selected-range-of-days').removeClass('selected-day-rang')
-                 $(this).addClass('selected-day-rang');
-                 alert(getNoofDay)
-             });
-             $(".rescalendar_day_cells .day_cell").hover(
-                 function () {
-                     $('.multiple-hover')
-                     const from_date = $(this).attr('data-celldate');
-                     $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
-                     $(this).addClass('selected startDate');
-                     // var range=$('selected-day-rang').val();
-                     const netAll = $(this).nextAll();
-                     for (let i = 0; i < range; i++) {
-                          console.log(netAll[i]);
-                      }
-                     // $.each(netAll, function (index, value) {
-                     //     console.log(index)
-                     // });
-                     //$.map( , function(n, i) { /* n.name and $(n).val() */ } );
+        $(document).ready(function () {
+            let range = 0;
+            $(".multiple-hover").click(function () {
+                const getNoofDay = $(this).val();
+                range = getNoofDay;
+                $('.selected-range-of-days').removeClass('selected-day-rang')
+                $(this).addClass('selected-day-rang');
+                alert(getNoofDay)
+            });
+            $(".rescalendar_day_cells .day_cell").hover(function () {
+                    $('.multiple-hover')
+                    const from_date = $(this).attr('data-celldate');
+                    $(".rescalendar_day_cells .day_cell").removeClass('selected-from-date');
+                    $(this).addClass('selected startDate');
+                    // var range=$('selected-day-rang').val();
+                    const netAll = $(this).nextAll();
+                    for (let i = 0; i < range; i++) {
+                        netAll[i].classList.add("rescalendar_day_cells_hover");
+                    }
+                    // $.each(netAll, function (index, value) {
+                    //     console.log(index)
+                    // });
+                    //$.map( , function(n, i) { /* n.name and $(n).val() */ } );
 
 
-                 },
-                 function () {
-                     $(this).css("background","");
-                 }
-             );
-             $(".move_to_tomorrow").click(function () {
-                 $(".rescalendar_day_cells td").hover(
-                     function () {
-                         let index =$('.rescalendar_day_cells td').index(this);
+                },
+                function () {
+                    $(this).css("background", "");
+                }
+            );
+            $(".move_to_tomorrow").click(function () {
+                $(".rescalendar_day_cells td").hover(
+                    function () {
+                        let index = $('.rescalendar_day_cells td').index(this);
 
-                     },
-                     function () {
-                         $(this).css("background","");
-                     }
-                 );
-             });
-         });
+                    },
+                    function () {
+                        $(this).css("background", "");
+                    }
+                );
+            });
+        });
 
     </script>
 @endsection
