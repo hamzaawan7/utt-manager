@@ -72,6 +72,7 @@ class AvailabilityController extends Controller
       $finalDate = [];
       $property = $this->property->where('id', $id)->first();
       $booking  = $this->booking->where('property_id', $id)->get();
+      $property = $this->property->all();
       foreach ($booking as $book)
       {
           $arrayDate = array("fromDate" => $book->from_date, "toDate" => $book->to_date);

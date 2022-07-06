@@ -164,13 +164,27 @@ input.refDate {
 .rescalendar_day_cells td:not(.disabledDay) {
     background: #b1bd7d;
 }
-.rescalendar_day_cells td:hover {
+/*.rescalendar_day_cells td:hover {
     background: black;
     cursor: pointer;
     color: white;
-}
+}*/
 .rescalendar_day_cells_hover {
     background: black !important;
     cursor: pointer;
     color: white;
+}
+
+.startDate {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid black;
+    border-right: 10px solid transparent;
+}
+
+.end_date {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid black;
+    border-right: 10px solid transparent;
 }

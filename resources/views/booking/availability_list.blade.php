@@ -86,6 +86,7 @@
             </div>
         </div>
     </div>
+    @include('booking.availability_modal')
 @endsection
 
 @section('scripts')
@@ -102,11 +103,13 @@
         });
 
         $(".rescalendar_day_cells").click(function () {
-            alert("hello");
+            var from_date = $('.rescalendar_day_cells').attr('data-celldate');
+            alert(from_date);
+            $('#availability-modal').modal('show');
         });
 
         $(document).ready(function () {
-            let range = 3;
+            let range = 2;
             $(".multiple-hover").click(function () {
                 const getNoofDay = $(this).val();
                 range = getNoofDay;
@@ -121,11 +124,18 @@
                 $(this).addClass('selected startDate');
                 const netAll = $(this).nextAll();
                 for (let i = 0; i < range; i++) {
-                    netAll[i].classList.add("rescalendar_day_cells_hover");
+                    if(i === range.length) {
+                        netAll[i].classList.add("end_date");
+                        netAll[i].classList.remove("rescalendar_day_cells_hover");
+                    } else {
+                        netAll[i].classList.add("rescalendar_day_cells_hover");
+                    }
                 }
             });
             $(".rescalendar_day_cells .day_cell").mouseleave(function(){
                 $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
+                $('.rescalendar_day_cells .day_cell').removeClass('startDate');
+                $('.rescalendar_day_cells .day_cell').removeClass('end_date');
             });
 
 
@@ -142,11 +152,18 @@
                     $(this).addClass('selected startDate');
                     const netAll = $(this).nextAll();
                     for (let i = 0; i < range; i++) {
-                        netAll[i].classList.add("rescalendar_day_cells_hover");
+                        if(i === range.length) {
+                            netAll[i].classList.add("end_date");
+                            netAll[i].classList.remove("rescalendar_day_cells_hover");
+                        } else {
+                            netAll[i].classList.add("rescalendar_day_cells_hover");
+                        }
                     }
                 });
                 $(".rescalendar_day_cells .day_cell").mouseleave(function(){
                     $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
+                    $('.rescalendar_day_cells .day_cell').removeClass('startDate');
+                    $('.rescalendar_day_cells .day_cell').removeClass('end_date');
                 });
             });
 
@@ -158,11 +175,18 @@
                     $(this).addClass('selected startDate');
                     const netAll = $(this).nextAll();
                     for (let i = 0; i < range; i++) {
-                        netAll[i].classList.add("rescalendar_day_cells_hover");
+                        if(i === range.length) {
+                            netAll[i].classList.add("end_date");
+                            netAll[i].classList.remove("rescalendar_day_cells_hover");
+                        } else {
+                            netAll[i].classList.add("rescalendar_day_cells_hover");
+                        }
                     }
                 });
                 $(".rescalendar_day_cells .day_cell").mouseleave(function(){
                     $(".rescalendar_day_cells .day_cell").removeClass('rescalendar_day_cells_hover');
+                    $('.rescalendar_day_cells .day_cell').removeClass('startDate');
+                    $('.rescalendar_day_cells .day_cell').removeClass('end_date');
                 });
             });
         });
