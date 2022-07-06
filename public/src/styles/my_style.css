@@ -93,6 +93,8 @@ td.day:not(.disabled) {
 
 
 
+/*Horizontal Calendar*/
+
 .rescalendar_day_cells .dia_semana {
     display: none;
 }
