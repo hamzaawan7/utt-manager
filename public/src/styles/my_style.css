@@ -175,16 +175,60 @@ input.refDate {
     color: white;
 }
 
-.startDate {
-    width: 0;
-    height: 0;
-    border-bottom: 10px solid black;
-    border-right: 10px solid transparent;
-}
+/*.startDate {*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    border-bottom: 10px solid black;*/
+/*    border-right: 10px solid transparent;*/
+/*}*/
 
-.end_date {
-    width: 0;
-    height: 0;
-    border-bottom: 10px solid black;
-    border-right: 10px solid transparent;
+/*.end_date {*/
+/*    width: 0;*/
+/*    height: 0;*/
+/*    border-bottom: 10px solid black;*/
+/*    border-right: 10px solid transparent;*/
+/*}*/
+td.day_cell.selected.startDate:hover {
+    color: white;
+}
+td.day_cell.selected.end_date:hover {
+    color: white;
+}
+td.day_cell.selected.end_date{
+    color: white !important;
+}
+td.day_cell.selected.startDate{
+    color: white !important;
+}
+.startDate::before {
+    content: "";
+    height: 53px;
+    width: 28px;
+    background: #0c0c0c;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-radius: 5px;
+}
+.end_date::before {
+    content: "";
+    height: 53px;
+    width: 28px;
+    background: #0c0c0c;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-radius: 5px;
+}
+td.day_cell.selected.startDate {
+    position: relative;
+}
+td.day_cell.selected.end_date {
+    position: relative;
+}
+td.day_cell.selected.startDate span.dia {
+    position: inherit;
+}
+td.day_cell.selected.end_date span.dia {
+    position: inherit;
 }
