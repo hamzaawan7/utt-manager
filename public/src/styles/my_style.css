@@ -117,11 +117,11 @@ button.move_to_last_month {
     display: none;
 }
 .rescalendar {
-
     overflow: hidden;
     margin-top: 23px;
-
+    max-width: 1000px;
 }
+
 .move_to_tomorrow {
     position: absolute;
     right: 0px;
@@ -156,8 +156,8 @@ input.refDate {
     color: #1d8df1;
 }
 .rescalendar_day_cells td.disabledDay {
-    color: #aaa;
-    background: #762b2b;
+    color: #fff;
+    background: red;
     pointer-events: none;
 }
 

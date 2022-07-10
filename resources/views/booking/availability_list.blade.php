@@ -34,7 +34,7 @@
                         @for($i = 2; $i<=14; $i++)
                             <input type="hidden" class="selected-range-of-days-input" value="{{$i}}">
                             <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}"
-                                    class="btn btn-primary multiple-hover selected-range-of-days"
+                                    class="btn btn- multiple-hover selected-range-of-days"
                                     style="width: 50px; margin: 2px;">
                                 {{$i}}
                             </button>
@@ -91,7 +91,9 @@
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
 			let selectedPropertyId = 0;
-			const betweenDate = {!! json_encode($availabilityList[0]->dates, JSON_HEX_TAG) !!};
+			const betweenDate = '{!! json_encode($availabilityList[0]->dates) !!}';
+
+			console.log(betweenDate);
 
 			$('.rescalendar').rescalendar({
 				id: 'my_calendar',
