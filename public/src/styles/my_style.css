@@ -126,8 +126,8 @@ button.move_to_last_month {
     position: absolute;
     right: 0px;
     top: 2px;
-    background-color: #f39c12;
-    border-color: #e08e0b;
+    background-color: #1b00ff;
+    border-color: #ffffff;
     color: white;
     padding: 7px 10px;
     border-radius: 5px;
@@ -136,8 +136,8 @@ button.move_to_yesterday {
     position: absolute;
     left: 0px;
     top: 2px;
-    background-color: #f39c12;
-    border-color: #e08e0b;
+    background-color: #1b00ff;
+    border-color: #ffffff;
     color: white;
     padding: 7px 10px;
     border-radius: 5px;
@@ -162,15 +162,16 @@ input.refDate {
 }
 
 .rescalendar_day_cells td:not(.disabledDay) {
-    background: #b1bd7d;
+    background: #fff;
 }
 /*.rescalendar_day_cells td:hover {
     background: black;
     cursor: pointer;
     color: white;
 }*/
+
 .rescalendar_day_cells_hover {
-    background: black !important;
+    background: #1b00ff !important;
     cursor: pointer;
     color: white;
 }
@@ -204,7 +205,7 @@ td.day_cell.selected.startDate{
     content: "";
     height: 53px;
     width: 28px;
-    background: #0c0c0c;
+    background: #1b00ff;
     position: absolute;
     top: 0px;
     right: 0px;
@@ -214,7 +215,7 @@ td.day_cell.selected.startDate{
     content: "";
     height: 53px;
     width: 28px;
-    background: #0c0c0c;
+    background: #1b00ff;
     position: absolute;
     top: 0px;
     left: 0px;

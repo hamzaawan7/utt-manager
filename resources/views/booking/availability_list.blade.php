@@ -9,37 +9,35 @@
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="page-header">
                 <div class="row">
-                    <div class="col-md-6 col-sm-6>
-                    <nav aria-label=" breadcrumb role="navigation">
-                        <ol class="breadcrumb float-sm-left">
-                            <li class="breadcrumb-item"><h4><a href="#">Availability List</a></h4></li>
-                        </ol>
+                    <div class="col-md-6 col-sm-6">
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><h4><a href="#">Availability List</a></h4></li>
+                            </ol>
+                        </nav>
                     </div>
 
-                    <div class="col-md-6 col-sm-6>
-             <nav aria-label=" breadcrumb role="navigation">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Availability List</li>
-                        </ol>
+                    <div class="col-md-6 col-sm-6">
+                        <nav aria-label="breadcrumb" role="navigation">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Availability List</li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
             </div>
 
             <div class="card-box mb-30">
                 <div class="pd-20">
-                    <div class='row'>
+                    <div class="row justify-content-center">
                         @for($i = 2; $i<=14; $i++)
-                            <div class="row">
-                                <div class="col">
-                                    <input type="hidden" class="selected-range-of-days-input" value="{{$i}}">
-                                    <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}"
-                                            class="btn-danger multiple-hover selected-range-of-days"
-                                            style="width: 50px; margin: 2px;">
-                                        {{$i}}
-                                    </button>
-                                </div>
-                            </div>
+                            <input type="hidden" class="selected-range-of-days-input" value="{{$i}}">
+                            <button type="button" id="multiple-hover" range="{{$i}}" value="{{$i}}"
+                                    class="btn btn-primary multiple-hover selected-range-of-days"
+                                    style="width: 50px; margin: 2px;">
+                                {{$i}}
+                            </button>
                         @endfor
                     </div>
                 </div>
@@ -105,9 +103,9 @@
 
 			$(document).ready(function () {
 				let range = 2;
+
 				$(".multiple-hover").click(function () {
-					const getNoofDay = $(this).val();
-					range = getNoofDay;
+					range = $(this).val();
 					$('.selected-range-of-days').removeClass('selected-day-rang')
 					$(this).addClass('selected-day-rang');
 				});
@@ -119,15 +117,12 @@
 					$(this).addClass('selected  startDate');
 					const netAll = $(this).nextAll();
 					for (let i = 0; i < range; i++) {
-
-						if (i == range - 1) {
+						if (i === range - 1) {
 							netAll[i].classList.add("selected");
 							netAll[i].classList.add("end_date");
-
 						} else {
 							netAll[i].classList.add("selected");
 							netAll[i].classList.add("rescalendar_day_cells_hover");
-
 						}
 					}
 				});
@@ -137,16 +132,20 @@
 				});
 
 				$(document).on("mouseenter", ".rescalendar", function () {
-					selectedPropertyId = $(this).attr('property');
+					if ($(this).attr('property') !== undefined) {
+						selectedPropertyId = $(this).attr('property');
+					}
 				});
 
 				$(document).on("click", ".day_cell", function () {
-					const from_date = $(this).attr('data-celldate');
+					if (selectedPropertyId) {
+						const from_date = $(this).attr('data-celldate');
 
-					$('#property_id').val(selectedPropertyId);
-					$('#from_date').val(from_date);
+						$('#property_id').val(selectedPropertyId);
+						$('#from_date').val(from_date);
 
-					$('#availability-modal').modal('show');
+						$('#availability-modal').modal('show');
+					}
 				});
 			});
     </script>
