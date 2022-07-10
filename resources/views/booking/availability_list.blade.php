@@ -92,58 +92,62 @@
 @section('scripts')
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
-        const betweenDate = {!! json_encode($availabilityList[0]->dates, JSON_HEX_TAG) !!};
-        console.log(betweenDate)
-        $('.rescalendar').rescalendar({
-            id: 'my_calendar',
-            format: 'YYYY-MM-DD',
-            dataKeyField: 'name',
-            dataKeyValues: [''],
-            disabledDays: betweenDate,
-        });
+			let selectedPropertyId = 0;
+			const betweenDate = {!! json_encode($availabilityList[0]->dates, JSON_HEX_TAG) !!};
 
-        $(document).ready(function () {
-            let range = 2;
-            $(".multiple-hover").click(function () {
-                const getNoofDay = $(this).val();
-                range = getNoofDay;
-                $('.selected-range-of-days').removeClass('selected-day-rang')
-                $(this).addClass('selected-day-rang');
-            });
+			$('.rescalendar').rescalendar({
+				id: 'my_calendar',
+				format: 'YYYY-MM-DD',
+				dataKeyField: 'name',
+				dataKeyValues: [''],
+				disabledDays: betweenDate,
+			});
 
-            $(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function(e) {
-                $('.multiple-hover')
-                const from_date = $(this).attr('data-celldate');
-                $(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
-                $(this).addClass('selected  startDate');
-                const netAll = $(this).nextAll();
-                for (let i = 0; i < range; i++) {
+			$(document).ready(function () {
+				let range = 2;
+				$(".multiple-hover").click(function () {
+					const getNoofDay = $(this).val();
+					range = getNoofDay;
+					$('.selected-range-of-days').removeClass('selected-day-rang')
+					$(this).addClass('selected-day-rang');
+				});
 
-                    if(i == range-1) {
-                        netAll[i].classList.add("selected");
-                        netAll[i].classList.add("end_date");
+				$(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
+					$('.multiple-hover')
+					const from_date = $(this).attr('data-celldate');
+					$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
+					$(this).addClass('selected  startDate');
+					const netAll = $(this).nextAll();
+					for (let i = 0; i < range; i++) {
 
-                    } else {
-                        netAll[i].classList.add("selected");
-                        netAll[i].classList.add("rescalendar_day_cells_hover");
+						if (i == range - 1) {
+							netAll[i].classList.add("selected");
+							netAll[i].classList.add("end_date");
 
-                    }
-                }
-            });
-            $(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function(e) {
-                $(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
+						} else {
+							netAll[i].classList.add("selected");
+							netAll[i].classList.add("rescalendar_day_cells_hover");
 
-            });
+						}
+					}
+				});
 
-            $(document).on("click", ".day_cell", function() {
-                  var parentTable = $('.day_cell').closest('table');
-                  var parentDiv = parentTable.parent();
-                  console.log(parentDiv);
-                  console.log(parentDiv.attr('property'));
+				$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
+					$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
+				});
 
-                 var from_date = $(this).attr('data-celldate');
-            });
-        });
+				$(document).on("mouseenter", ".rescalendar", function () {
+					selectedPropertyId = $(this).attr('property');
+				});
 
+				$(document).on("click", ".day_cell", function () {
+					const from_date = $(this).attr('data-celldate');
+
+					$('#property_id').val(selectedPropertyId);
+					$('#from_date').val(from_date);
+
+					$('#availability-modal').modal('show');
+				});
+			});
     </script>
 @endsection
