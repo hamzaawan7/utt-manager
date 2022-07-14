@@ -47,18 +47,24 @@ class CustomerBookingRepository implements CustomerBookingRepositoryInterface
     {
         if (isset($data['guest_booking'])) {
             try {
-                $user_id              = Auth::id();
-                $booking              = new $this->booking;
-                $booking->user_id     = $user_id;
-                $booking->property_id = $data['guest_booking'];
-                $booking->from_date   = $data['from_date'];
-                $booking->to_date     = $data['to_date'];
-                $booking->first_name  = $data['first_name'];
-                $booking->last_name   = $data['last_name'];
-                $booking->email       = $data['email'];
-                $booking->price       = $data['standrad_price'];
-                $booking->guest       = $data['guest'];
-                $booking->status      = 1;
+                $user_id                  = Auth::id();
+                $booking                  = new $this->booking;
+                $booking->user_id         = $user_id;
+                $booking->property_id     = $data['guest_booking'];
+                $booking->from_date       = $data['from_date'];
+                $booking->to_date         = $data['to_date'];
+                $booking->first_name      = $data['first_name'];
+                $booking->last_name       = $data['last_name'];
+                $booking->email           = $data['email'];
+                $booking->total_price     = $data['pay_amount'];
+                $booking->remaining_price = $data['remaining_amount'];
+                $booking->guest           = $data['guest'];
+                if ($data['remaining_amount'] === 0) {
+                    $booking->status = "Fully Paid";
+                }
+                if ($data['remaining_amount'] > 0) {
+                    $booking->status = "Part Paid";
+                }
                 $booking->save();
                 $bookingId = $booking->id;
                 Mail::send('emails.new_booking_template', $data, function($message) use ($data) {

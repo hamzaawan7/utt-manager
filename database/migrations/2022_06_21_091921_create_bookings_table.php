@@ -23,9 +23,10 @@ class CreateBookingsTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('reason')->nullable();
-            $table->unsignedInteger('price')->nullable();
+            $table->unsignedInteger('total_price')->nullable();
+            $table->unsignedInteger('remaining_price')->nullable();
             $table->integer('guest')->nullable();
-            $table->integer('status');
+            $table->string('status');
 
             $table->timestamps();
 

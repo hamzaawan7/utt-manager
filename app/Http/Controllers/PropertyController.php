@@ -439,7 +439,7 @@ class PropertyController extends Controller
      */
     public function getCategoryPrice($id): JsonResponse
     {
-        $property      = $this->property->find($id);
+        $property      = $this->property->where('id', $id)->with('discounts')->first();
         $seasonId      = $property['season_id'];
         $categoryId    = $property['price_category_id'];
         $categoryDate  = Category::find($categoryId);
@@ -453,6 +453,7 @@ class PropertyController extends Controller
         $categoryName      = explode(' ', $pricecategoryData['category_name']);
         $category          = $categoryName[0];
         $categoryPrice->categoryName = $category;
+        $categoryPrice->discounts    = $property->discounts;
 
         return response()->json($categoryPrice);
     }

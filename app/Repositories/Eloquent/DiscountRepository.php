@@ -114,7 +114,6 @@ class DiscountRepository implements DiscountRepositoryInterface
         $discount->holiday_must_start_by = dateFormat($data['holiday_must_start_by']);
         $discount->email = $data['email'];
         $discount->reason = $data['reason'];
-
         if (isset($data['is_active'])) {
             $isActive = 1;
         }

@@ -39,8 +39,10 @@ class AvailabilityController extends Controller
         $this->property = $property;
         $this->booking  = $booking;
     }
+
     /**
      * @return Application|Factory|View
+     * @throws Exception
      */
     public function index()
     {
@@ -48,14 +50,16 @@ class AvailabilityController extends Controller
         $finalDate    = [];
         $betweenDates = [];
         $availabilityList = $this->property->with('bookings')->get();
-        foreach ($availabilityList as $properties)
-        {
-            foreach ($properties['bookings'] as $property)
+            foreach ($availabilityList as $properties)
             {
-                $response    = $this->getDatesFromRange($property->from_date, $property->to_date);
+                foreach ($properties['bookings'] as $property)
+                {
+                    $response    = $this->getDatesFromRange($property->from_date, $property->to_date);
+                }
+                if (!empty($response)) {
+                    $properties->dates= $response;
+                }
             }
-            $properties->dates= $response;
-        }
 
         return view('booking.availability_list',compact('availabilityList'));
     }

@@ -1182,6 +1182,9 @@ function addDiscount() {
                 getDiscount();
                 toastr.success('' + response.message + '', 'Success');
             }
+            if (response.status === 422) {
+                toastr.warning('' + response.message + '', 'warning');
+            }
         }, error: function (reject) {
             var response = $.parseJSON(reject.responseText);
             $.each(response.errors, function (key, val) {
@@ -1311,7 +1314,6 @@ function addOwnerBooking() {
     var data = $("#owner_booking").serialize();
     var url = $("#owner_booking").attr('action');
     var type = $("#owner_booking").attr('method');
-    alert(url);
 
     $.ajaxSetup({
         headers: {

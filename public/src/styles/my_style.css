@@ -164,35 +164,17 @@ input.refDate {
 .rescalendar_day_cells td:not(.disabledDay) {
     background: #fff;
 }
-/*.rescalendar_day_cells td:hover {
-    background: black;
-    cursor: pointer;
-    color: white;
-}*/
 
-.rescalendar_day_cells_hover {
+.rescalendar_day_cells_hover:not(.disabledDay){
     background: #1b00ff !important;
     cursor: pointer;
     color: white;
 }
 
-/*.startDate {*/
-/*    width: 0;*/
-/*    height: 0;*/
-/*    border-bottom: 10px solid black;*/
-/*    border-right: 10px solid transparent;*/
-/*}*/
-
-/*.end_date {*/
-/*    width: 0;*/
-/*    height: 0;*/
-/*    border-bottom: 10px solid black;*/
-/*    border-right: 10px solid transparent;*/
-/*}*/
-td.day_cell.selected.startDate:hover {
+td.day_cell.selected.startDate:hover:not(.disabledDay) {
     color: white;
 }
-td.day_cell.selected.end_date:hover {
+td.day_cell.selected.end_date:hover:not(.disabledDay) {
     color: white;
 }
 td.day_cell.selected.end_date{
