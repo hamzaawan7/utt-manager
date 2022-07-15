@@ -92,7 +92,6 @@
     <script>
         let selectedPropertyId = 0;
         const betweenDate = '{!! json_encode($availabilityList[0]->dates) !!}';
-
         console.log(betweenDate);
 
         $('.rescalendar').rescalendar({
@@ -118,7 +117,6 @@
                 $(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
                 $(this).addClass('selected  startDate');
                 const netAll = $(this).nextAll();
-
                 for (let i = 0; i < range; i++) {
                     if (i === range - 1) {
                         netAll[i].classList.add("selected");
@@ -141,11 +139,13 @@
             });
 
             $(document).on("click", ".day_cell", function () {
+                const netAll = $(this).nextAll();
                 if (selectedPropertyId) {
                     const from_date = $(this).attr('data-celldate');
                     var days = parseInt(range);
 
                     $('#property_id').val(selectedPropertyId);
+                    $('#owner_property_id').val(selectedPropertyId);
                     $('#from_date').val(from_date);
                     $('#owner_from_date').val(from_date);
                     var date = new Date(Date.parse(from_date));

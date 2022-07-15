@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerBookingSaveRequest;
-use App\Http\Requests\OwnerBookingSaveRequest;
 use App\Models\Booking;
 use App\Models\Property;
 use App\Repositories\CustomerBookingRepositoryInterface;
@@ -35,6 +34,7 @@ class BookingController extends Controller
     /**
      * @param CustomerBookingRepositoryInterface $customerBookingRepository
      * @param Booking $booking
+     * @param Property $property
      */
     public function __construct(
         CustomerBookingRepositoryInterface $customerBookingRepository,
@@ -57,7 +57,9 @@ class BookingController extends Controller
             ->select('properties.*', 'bookings.*')
             ->get();
 
-        return view('booking.booking_detail', compact('bookings'));
+        $payments = $this->booking->where('status', '!=', 'Owner Booking')->get();
+
+        return view('booking.booking_detail', compact('bookings','payments'));
     }
 
     /**
@@ -87,8 +89,6 @@ class BookingController extends Controller
 
     public function getCleaningRota(int $id)
     {
-        $data = $this->property->where('id', $id)->with('cleaningRotas')->get();
-
-        return $data;
+        return $this->property->where('id', $id)->with('cleaningRotas')->get();
     }
 }

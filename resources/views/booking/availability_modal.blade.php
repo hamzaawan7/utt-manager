@@ -122,7 +122,7 @@
                         <div class="tab-pane fade" id="owner" role="tabpanel">
                             <div class="pd-20">
                                 <form method="post" action="{{route('booking-owner-save')}}" id="owner_booking">
-                                   {{-- <input type="hidden" name="owner_booking" value="{{$property->id}}">--}}
+                                    <input type="hidden" id="owner_property_id" name="owner_booking">
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">

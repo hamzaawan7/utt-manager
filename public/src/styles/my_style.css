@@ -91,10 +91,7 @@ td.day:not(.disabled) {
     font-size: 20px;
 }
 
-
-
 /*Horizontal Calendar*/
-
 .rescalendar_day_cells .dia_semana {
     display: none;
 }
@@ -162,19 +159,19 @@ input.refDate {
 }
 
 .rescalendar_day_cells td:not(.disabledDay) {
-    background: #fff;
+    background: #b1bd7d;
 }
 
-.rescalendar_day_cells_hover:not(.disabledDay){
+.rescalendar_day_cells_hover {
     background: #1b00ff !important;
     cursor: pointer;
     color: white;
 }
 
-td.day_cell.selected.startDate:hover:not(.disabledDay) {
+td.day_cell.selected.startDate:hover {
     color: white;
 }
-td.day_cell.selected.end_date:hover:not(.disabledDay) {
+td.day_cell.selected.end_date:hover {
     color: white;
 }
 td.day_cell.selected.end_date{

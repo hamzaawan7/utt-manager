@@ -105,7 +105,7 @@ class CustomerBookingRepository implements CustomerBookingRepositoryInterface
                 $booking->from_date = $data['from_date'];
                 $booking->to_date = $data['to_date'];
                 $booking->reason = $data['reason'];
-                $booking->status = 1;
+                $booking->status = "Owner Booking";
                 $booking->save();
                 return response()->json([
                     'status' => 200,

@@ -65,7 +65,7 @@
                                         <i class="dw dw-more"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{{url('/availability/list')}}">
                                             <i class="icon-copy dw dw-book"></i> Booking Page
                                         </a>
                                     </div>
@@ -78,7 +78,7 @@
             </div>
         </div>
 
-        <div class="card-box mb-30">
+        {{--<div class="card-box mb-30">
             <div class="pd-20">
                 <h5>Holiday Details</h5>
             </div>
@@ -129,9 +129,9 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>--}}
 
-        <div class="card-box mb-30">
+        {{--<div class="card-box mb-30">
             <div class="pd-20">
                 <h5>Booking Details</h5>
             </div>
@@ -173,7 +173,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>--}}
 
         <div class="card-box mb-30">
             <div class="pd-20">
@@ -208,43 +208,35 @@
                 <table id="" class="data-table table stripe hover nowrap">
                     <thead>
                     <tr>
+                        <th>Customer Name</th>
                         <th>Total Price</th>
-                        <th>Price Breakdown</th>
-                        <th>Voucher Value</th>
-                        <th>Discounts Used</th>
-                        <th>Total Paid by customer</th>
-                        <th>Deposit Amount</th>
                         <th>Total Balance Paid</th>
                         <th>Remaining Balance Paid</th>
-                        <th>Balance Due Date</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody id="">
-                    <tr>
-                        <td>1200</td>
-                        <td>Booking</td>
-                        <td>Voucher amount</td>
-                        <td>0033</td>
-                        <td>1500</td>
-                        <td>1200</td>
-                        <td>1200</td>
-                        <td>300</td>
-                        <td>30-05-2022</td>
-                        <td>
-                            <div class="dropdown">
-                                <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                   role="button" data-toggle="dropdown">
-                                    <i class="dw dw-more"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="dw dw-edit2"></i> Edit
+                    @foreach($payments as $item)
+                        <tr>
+                            <td>{{$item->first_name .' '. $item->last_name}}</td>
+                            <td>{{$item->total_price + $item->remaining_price}}</td>
+                            <td>{{$item->total_price}}</td>
+                            <td>{{$item->remaining_price}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
+                                       role="button" data-toggle="dropdown">
+                                        <i class="dw dw-more"></i>
                                     </a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                        <a class="dropdown-item" href="#">
+                                            <i class="dw dw-edit2"></i> Edit
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
