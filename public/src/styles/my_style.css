@@ -159,7 +159,8 @@ input.refDate {
 }
 
 .rescalendar_day_cells td:not(.disabledDay) {
-    background: #b1bd7d;
+    background: #7ab81c;
+    color: #fff;
 }
 
 .rescalendar_day_cells_hover {
