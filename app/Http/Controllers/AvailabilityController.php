@@ -33,11 +33,11 @@ class AvailabilityController extends Controller
      */
     public function __construct(
         Property $property,
-        Booking $booking
+        Booking  $booking
     )
     {
         $this->property = $property;
-        $this->booking  = $booking;
+        $this->booking = $booking;
     }
 
     /**
@@ -46,21 +46,25 @@ class AvailabilityController extends Controller
      */
     public function index()
     {
-        $dataArray        = [];
-        $finalDate        = [];
-        $betweenDates     = [];
+        $dataArray = [];
+        $finalDate = [];
+        $betweenDates = [];
         $availabilityList = [];
         $availabilityList = $this->property->with('bookings')->get();
-            foreach ($availabilityList as $index => $properties)
-            {
-                 foreach ($properties['bookings'] as $property)
-                {
-                    $response = $this->getDatesFromRange($property['from_date'], $property['to_date']);
-                }
-                $availabilityList[$index]['dates'] = $response;
-            }
+        foreach ($availabilityList as $index => $properties) {
+            $response = [];
+            $dateList = [];
+            if ($properties['bookings'] != null) {
+                foreach ($properties['bookings'] as $property) {
+                    $dateList[] = array('from_date' => $property['from_date'], 'to_date' => $property['to_date']);
 
-        return view('booking.availability_list',compact('availabilityList'));
+                    $response = $this->getDatesFromRange($dateList);
+                }
+            }
+            $availabilityList[$index]['dates'] = $response;
+        }
+
+        return view('booking.availability_list', compact('availabilityList'));
     }
 
     /**
@@ -70,47 +74,49 @@ class AvailabilityController extends Controller
      */
     public function individualCalendar($id)
     {
-      $datesArray = [];
-      $betweenDates = [];
-      $finalDate = [];
-      $property = $this->property->where('id', $id)->first();
-      $booking  = $this->booking->where('property_id', $id)->get();
-      $property = $this->property->all();
-      foreach ($booking as $book)
-      {
-          $arrayDate = array("fromDate" => $book->from_date, "toDate" => $book->to_date);
-          $datesArray[] = $arrayDate;
-      }
+        $datesArray = [];
+        $betweenDates = [];
+        $finalDate = [];
+        $property = $this->property->where('id', $id)->first();
+        $booking = $this->booking->where('property_id', $id)->get();
+        $property = $this->property->all();
+        foreach ($booking as $book) {
+            $arrayDate = array("fromDate" => $book->from_date, "toDate" => $book->to_date);
+            $datesArray[] = $arrayDate;
+        }
 
-      foreach ($datesArray as $date)
-      {
-          $response = $this->getDatesFromRange($date['fromDate'], $date['toDate']);
-          $betweenDates[] = $response;
-      }
+        foreach ($datesArray as $date) {
+            $response = $this->getDatesFromRange($date['fromDate'], $date['toDate']);
+            $betweenDates[] = $response;
+        }
 
-      foreach ($betweenDates as $date)
-      {
-          foreach ($date as $dt)
-          {
-              $finalDate[] = date('Y,m,d',strtotime($dt));
-          }
-      }
+        foreach ($betweenDates as $date) {
+            foreach ($date as $dt) {
+                $finalDate[] = date('Y,m,d', strtotime($dt));
+            }
+        }
 
-      return view('booking.individual_calendar',compact('property','finalDate'));
+        return view('booking.individual_calendar', compact('property', 'finalDate'));
     }
 
     /**
      * @throws Exception
      */
-    public function getDatesFromRange($start, $end, $format = 'Y-m-d'): array
+    public function getDatesFromRange($dateList, $format = 'Y-m-d'): array
     {
-        $array = array();
-        $interval = new DateInterval('P1D');
-        $realEnd = new DateTime($end);
-        $realEnd->add($interval);
-        $period = new DatePeriod(new DateTime($start), $interval, $realEnd);
-        foreach($period as $date) {
-            $array[] = $date->format($format);
+        if ($dateList != null) {
+            $array = array();
+            foreach ($dateList as $list) {
+
+                $interval = new DateInterval('P1D');
+                $realEnd = new DateTime($list['to_date']);
+                $realEnd->add($interval);
+                $period = new DatePeriod(new DateTime($list['from_date']), $interval, $realEnd);
+                foreach ($period as $date) {
+                    $array[] = $date->format($format);
+                }
+
+            }
         }
 
         return $array;

@@ -443,7 +443,6 @@ class PropertyController extends Controller
         $seasonId      = $property['season_id'];
         $categoryId    = $property['price_category_id'];
         $categoryDate  = Category::find($categoryId);
-
         $season        = $this->season->find($seasonId);
         $typeId        = $season['type_id'];
         $categoryPrice = $this->priceCategoryType->where('price_category_id',$categoryId)

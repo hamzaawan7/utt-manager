@@ -74,7 +74,7 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <div class="rescalendar" id="my_calendar" property="{{$property->id}}"></div>
+                                    <div class="rescalendar_{{$property->id}} rescalendar" id="my_calendar" property="{{$property->id}}"></div>
                                 </td>
                             </tr>
                         @endforeach
@@ -91,14 +91,28 @@
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
 		let selectedPropertyId = 0;
-		const disabledDates = '{!! json_encode($availabilityList[0]->dates) !!}';
+		var disableAllDates = [];
+		const disabledDates = '{!! json_encode($availabilityList) !!}';
 
-		$('.rescalendar').rescalendar({
-			id: 'my_calendar',
-			format: 'YYYY-MM-DD',
-			dataKeyField: 'name',
-			dataKeyValues: [''],
-			disabledDays: disabledDates,
+		$.each(JSON.parse(disabledDates), function (index, value) {
+			$('.rescalendar_'+value.id).rescalendar({
+				id: 'my_calendar',
+				format: 'YYYY-MM-DD',
+				dataKeyField: 'name',
+				dataKeyValues: [''],
+				disabledDays: value.dates,
+			});
+		})
+
+		$(document).on("mouseenter", ".rescalendar", function () {
+			if ($(this).attr('property') !== undefined) {
+				selectedPropertyId = $(this).attr('property');
+				$.each(JSON.parse(disabledDates), function (index, value) {
+					if(value.id == selectedPropertyId ) {
+						disableAllDates = value.dates
+					}
+				})
+			}
 		});
 
 		$(document).ready(function () {
@@ -123,39 +137,38 @@
 						$(nextAll[i]).addClass("selected rescalendar_day_cells_hover");
 					}
 				}
-
 				for (let i = 0; i < range; i++) {
-					if (disabledDates.includes($(nextAll[i]).attr('data-celldate'))) {
+					if (disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
 						const dNextAll = $(this).nextAll();
-
-						$(this).removeClass("selected end_date");
+						$(this).removeClass("selected end_date startDate");
 						$(this).addClass("disabledDay");
+						$(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
 						for (let j = 0; j < range; j++) {
+							console.log(dNextAll[j])
+							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
 							$(dNextAll[j]).removeClass("selected end_date");
 							$(dNextAll[j]).addClass("disabledDay");
-							console.log(dNextAll[j])
 						}
 					}
 				}
 			});
 
 			$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
-				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
+				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
 
 				$('.day_cell').each(function(index, day_cell) {
-					if (!disabledDates.includes($(day_cell).attr('data-celldate'))) {
+					if (!disableAllDates.includes($(day_cell).attr('data-celldate'))) {
 						$(day_cell).removeClass("disabledDay")
 					}
 				});
 			});
 
-			$(document).on("mouseenter", ".rescalendar", function () {
-				if ($(this).attr('property') !== undefined) {
-					selectedPropertyId = $(this).attr('property');
-				}
-			});
-
 			$(document).on("click", ".day_cell", function () {
+				console.log($(this).attr('class'))
+				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
+					toastr.warning("Dates Not Available", 'warning');
+                   return;
+				}
 				if (selectedPropertyId) {
 					const from_date = $(this).attr('data-celldate');
 					var days = parseInt(range);
@@ -179,13 +192,16 @@
 						url: url,
 						method: 'get',
 						success: function (response) {
-							if (response.discounts[0].code_type === 'One off - Fixed amount') {
-								var discount = response.discounts[0].value;
-								$('#discount_value').val(discount);
+							var arrayName = response.discounts;
+							if (arrayName.length !== 0) {
+								if (response.discounts[0].code_type === 'One off - Fixed amount') {
+									var discount = response.discounts[0].value;
+									$('#discount_value').val(discount);
+								}
 							}
 							$('.discount').html('');
-							if (response.discounts) {
-								var discount = '';
+							var discount = '';
+							if (arrayName.length !== 0) {
 								discount += '<h5>Discount : ' + response.discounts[0].value + '</h5>';
 							}
 							$('.discount').append(discount);

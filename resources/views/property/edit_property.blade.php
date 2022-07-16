@@ -146,7 +146,8 @@
                                        id="main_image"
                                        name="main_image">
                             </div>
-                            @error('main_image') <div class="text-danger">{{$message}}</div> @enderror
+                            @error('main_image')
+                            <div class="text-danger">{{$message}}</div> @enderror
                             <div class="main-images">
                                 <div class="image_div col-lg-4" id="{{$property->id}}">
                                     <img src="{{asset('images/main/'.$property->main_image)}}" width="200px">
@@ -324,24 +325,24 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Luxury</label>
-                                <select class="form-control" name="star_rating_luxury">
-                                    <option>Select Rating</option>
-                                    <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>
-                                        1
-                                    </option>
-                                    <option value="2" {{ $property->starRatings[0]->star_rating_luxury == 2 ? 'selected' : '' }}>
-                                        2
-                                    </option>
-                                    <option value="3" {{ $property->starRatings[0]->star_rating_luxury == 3 ? 'selected' : '' }}>
-                                        3
-                                    </option>
-                                    <option value="4" {{ $property->starRatings[0]->star_rating_luxury == 4 ? 'selected' : '' }}>
-                                        4
-                                    </option>
-                                    <option value="5" {{ $property->starRatings[0]->star_rating_luxury == 5 ? 'selected' : '' }}>
-                                        5
-                                    </option>
-                                </select>
+                                    <select class="form-control" name="star_rating_luxury">
+                                        <option>Select Rating</option>
+                                        <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>
+                                            1
+                                        </option>
+                                        <option value="2" {{ $property->starRatings[0]->star_rating_luxury == 2 ? 'selected' : '' }}>
+                                            2
+                                        </option>
+                                        <option value="3" {{ $property->starRatings[0]->star_rating_luxury == 3 ? 'selected' : '' }}>
+                                            3
+                                        </option>
+                                        <option value="4" {{ $property->starRatings[0]->star_rating_luxury == 4 ? 'selected' : '' }}>
+                                            4
+                                        </option>
+                                        <option value="5" {{ $property->starRatings[0]->star_rating_luxury == 5 ? 'selected' : '' }}>
+                                            5
+                                        </option>
+                                    </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -465,13 +466,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Main Contact Name</label>
-                                <input type="text" name="main_contact_name" value="{{$property->main_contact_name}}" class="form-control">
+                                <input type="text" name="main_contact_name" value="{{$property->main_contact_name}}"
+                                       class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Main Contact Number</label>
-                                <input type="number" name="main_contact_number" value="{{$property->main_contact_number}}"
+                                <input type="number" name="main_contact_number"
+                                       value="{{$property->main_contact_number}}"
                                        class="form-control">
                             </div>
                         </div>
@@ -480,14 +483,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Secondary Contact Name</label>
-                                <input type="text" name="secondary_contact_name" value="{{$property->secondary_contact_name}}"
+                                <input type="text" name="secondary_contact_name"
+                                       value="{{$property->secondary_contact_name}}"
                                        class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Secondary Contact Number</label>
-                                <input type="number" name="secondary_contact_number" value="{{$property->secondary_contact_number}}"
+                                <input type="number" name="secondary_contact_number"
+                                       value="{{$property->secondary_contact_number}}"
                                        class="form-control">
                                 <div class="text-danger clear-error" id="secondary_contact_number_error"></div>
                             </div>
@@ -497,14 +502,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Emergency Contact Name</label>
-                                <input type="text" name="emergency_contact_name" value="{{$property->emergency_contact_name}}"
+                                <input type="text" name="emergency_contact_name"
+                                       value="{{$property->emergency_contact_name}}"
                                        class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Emergency Contact Number</label>
-                                <input type="number" name="emergency_contact_number" value="{{$property->emergency_contact_number}}"
+                                <input type="number" name="emergency_contact_number"
+                                       value="{{$property->emergency_contact_number}}"
                                        class="form-control">
                             </div>
                         </div>
@@ -513,7 +520,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Cleaning Rota Receipts</label>
-                                <input type="text" name="cleaning_rota_receipts" value="{{$property->cleaning_rota_receipts}}"
+                                <input type="text" name="cleaning_rota_receipts"
+                                       value="{{$property->cleaning_rota_receipts}}"
                                        class="form-control">
                             </div>
                         </div>

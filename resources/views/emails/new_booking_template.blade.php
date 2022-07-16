@@ -43,7 +43,7 @@
                    style="width:600px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
                 <tr style="border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;">
                     <td align="left" style="padding:10px 25px;background:#fff; display: flex; align-items: center;">
-                        <span style="font-weight: bold; padding-top: 10px;"> Thank you for booking with Under The Thatch – your booking reference is %%BOOKINGREF%% </span>
+                        <span style="font-weight: bold; padding-top: 10px;"> Thank you for booking with Under The Thatch – your booking reference is {{$booking['id']}} </span>
                     </td>
                 </tr>
                 <tr>
@@ -53,15 +53,15 @@
                             <tr>
                                 <td style="padding:0 0 36px 0;color:#153643;">
                                     <p style="font-weight:bold;margin:0 0 20px 0;font-family:Arial,sans-serif;">
-                                        <h5> Dear %%EMAILNAME%%,</h5> </p>
+                                        <h1> Dear {{$booking['first_name'] .' '. $booking['last_name'] }}</h1> </p>
                                     <p style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
                                         Diolch yn fawr! / Thank you! for booking your holiday with Under the Thatch.
                                     </p>
                                     <p style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
-                                        You have reserved %%ACCOMMODATIONNAME%% from %%STARTDATE%% to %%ENDDATE%%.
+                                        You have reserved {{$booking['name']}} ACCOMMODATIONNAME from {{$booking['from_date']}} to {{$booking['to_date']}}.
                                     </p>
                                     <p style="margin:0 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
-                                        The total price of your holiday is £%% 1200 %%.
+                                        The total price of your holiday is £ {{$booking['pay_amount']}} .
                                     </p>
                                     <p style="margin:10px 0 12px 0;font-size:14px;line-height:24px;font-family:Arial,sans-serif;">
                                         You can reset your password by clicking the button below:

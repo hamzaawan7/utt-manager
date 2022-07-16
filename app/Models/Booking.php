@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property integer number_of_children
  * @property integer number_of_pets
  * @property integer number_of_infants
+ * @property integer total_price
  * @property string note
  */
 class Booking extends Model
@@ -67,5 +68,14 @@ class Booking extends Model
     public function payments(): HasOne
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function updateBooking($id)
+    {
+        return Booking::where("id", $id)->update([
+            "from_date" => null,
+            "to_date" => null,
+            "status" => "Cancel"
+            ]);
     }
 }

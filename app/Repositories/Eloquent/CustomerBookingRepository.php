@@ -2,6 +2,10 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Jobs\CancleBookingIfNotPaid;
+use App\Mail\CustomerBooking;
+use App\Mail\OwnerBooking;
+use App\Mail\RotaBooking;
 use App\Models\Booking;
 use App\Models\CleaningRota;
 use App\Models\Property;
@@ -57,20 +61,47 @@ class CustomerBookingRepository implements CustomerBookingRepositoryInterface
                 $booking->last_name       = $data['last_name'];
                 $booking->email           = $data['email'];
                 $booking->total_price     = $data['pay_amount'];
-                $booking->remaining_price = $data['remaining_amount'];
+                $booking->remaining_price = intval($data['remaining_amount']);
                 $booking->guest           = $data['guest'];
-                if ($data['remaining_amount'] === 0) {
+                if (intval($data['remaining_amount']) === 0) {
                     $booking->status = "Fully Paid";
                 }
-                if ($data['remaining_amount'] > 0) {
+                if (intval($data['remaining_amount']) > 0) {
                     $booking->status = "Part Paid";
                 }
+                if (intval($data['pay_amount']) === 0) {
+                    $booking->status = "Not Paid";
+                }
                 $booking->save();
+                /*dd($data);*/
+                /*$order = Booking::make([
+                    'id' => $request->input('boosting_method'),
+                    'user_id' => $request->input('queue_id'),
+                    'property_id' => $request->input('region_id'),
+                    'from_date' => $request->input('comment'),
+                    'to_date' => $customer->vpn_location,
+                    'first_name' => $request->input('flash_position'),
+                    'last_name' => $request->input('flash_position'),
+                    'email' => $request->input('flash_position'),
+                    'total_price' => $request->input('flash_position'),
+                    'remaining_price' => $request->input('flash_position'),
+                    'guest' => $request->input('flash_position'),
+                    'remaining_amount' => ($data['remaining_amount']),
+                ]);*/
+
+
                 $bookingId = $booking->id;
-                Mail::send('emails.new_booking_template', $data, function($message) use ($data) {
-                    $message->to($data['email'])
-                        ->subject("heloo");
-                });
+                $bookingData = $this->booking->find($bookingId);
+                $bookings  = $this->property->leftJoin('bookings','bookings.property_id','=','properties.id')
+                    ->where('properties.id',$data['guest_booking'])
+                    ->select('properties.*','bookings.*')
+                    ->first();
+
+                Mail::to($bookings['email'])->send(new CustomerBooking($bookings));
+                Mail::to($bookings['email'])->send(new OwnerBooking($bookings));
+                Mail::to($bookings['cleaning_rota_receipts'])->send(new RotaBooking($bookings));
+
+                CancleBookingIfNotPaid::dispatch($bookingData)->delay(now()->addMinute(3));
 
                 $propertyBooking                   = $this->property->where('id', intval($data['guest_booking']))->first();
                 $cleaningRota                      = new $this->cleaningRota;

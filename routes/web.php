@@ -156,6 +156,6 @@ Route::prefix('cleaning')->group(function () {
 
 });
 
-Route::get("/booking/mail", function(){
-    return view("emails.new_booking_template");
+Route::get("/owner/mail", function(){
+    return view("emails.owner_mail_template");
 });
