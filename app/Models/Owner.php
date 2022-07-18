@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 /**
  * Class Owner
@@ -53,7 +55,7 @@ class Owner extends Model
     /**
      * @return HasMany
      */
-    public function properties(): HasMany
+    public function ownerProperties(): HasMany
     {
         return $this->hasMany(OwnerProperty::class);
     }

@@ -107,7 +107,7 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function find(int $id)
     {
-        return $this->owner->where('id', $id)->with('user')->get();
+        return $this->owner->where('id', $id)->with('user')->first();
     }
 
     /**

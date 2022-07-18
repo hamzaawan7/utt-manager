@@ -683,7 +683,7 @@ function deleteUser(id) {
                 response,
                 '',
                 'success'
-            )
+            );
         }
     });
 }

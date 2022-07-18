@@ -22,15 +22,11 @@ class OwnerController extends Controller
 {
     /** @var OwnerRepositoryInterface $ownerRepository */
     private $ownerRepository;
-    /**
-     * @var Owner
-     */
+
+    /** @var Owner $owner */
     private $owner;
 
-    public function __construct(
-        OwnerRepositoryInterface $ownerRepository,
-        Owner $owner
-    )
+    public function __construct(OwnerRepositoryInterface $ownerRepository, Owner $owner)
     {
         $this->ownerRepository = $ownerRepository;
         $this->owner = $owner;
@@ -53,6 +49,7 @@ class OwnerController extends Controller
     {
         if ($request->ajax()) {
             $ownerList = $this->ownerRepository->all();
+
             return Datatables::of($ownerList)
                 ->addIndexColumn()
                 ->addColumn('action', function ($ownerList) {
@@ -119,9 +116,27 @@ class OwnerController extends Controller
         return view('statement.owner_statement',compact('owners'));
     }
 
-    public function OwnerStatementDetail($id)
+    public function ownerStatementDetail(int $id)
     {
-        dd($id);
-        return view('');
+        $owners = $this->owner->where('id',$id)->first();
+
+        foreach($owners->ownerProperties as $ownerProperty) {
+            foreach($ownerProperty->property->bookings as $ownerBooking) {
+                 dd($ownerProperty);
+            }
+        }
+        //return view('statement.owner_statement_detail',compact('owners'));
+        /*$this->owner->where('id',$id)->with('properties')->get()->map(function ($owner)  {
+            $owner->properties->map(function ($property) use ($owner){
+
+                dd($property->with('bookings')->get());
+
+                return  [
+                    "property_id" => $property->id,
+                    "property_name" => $property->name,
+                ];
+            });
+        });*/
+        //return view('');
     }
 }

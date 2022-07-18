@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UserSaveRequest extends FormRequest
 {
@@ -11,11 +12,13 @@ class UserSaveRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'password' => 'required|confirmed',
+            'role' => 'required',
         ];
     }
 
@@ -26,6 +29,7 @@ class UserSaveRequest extends FormRequest
     {
         return [
             'name.required' => 'This field is reuired',
+            'email.required' => 'This field is reuired',
             'password.required' => 'This field is reuired',
         ];
     }

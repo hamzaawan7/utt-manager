@@ -31,13 +31,14 @@
                             <div class="form-group">
                                 <label>Password</label>
                                 <input type="password" id="passwords" class="form-control" name="password">
+                                <div class="text-danger clear-error" id="password_error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Confirm Password</label>
                                 <input type="password" id="confirm_password" class="form-control"
-                                       name="confirm_password">
+                                       name="password_confirmation">
                             </div>
                         </div>
                     </div>
@@ -46,11 +47,12 @@
                             <div class="form-group">
                                 <label>Roles</label>
                                 <select class="form-control" name="role" id="role">
-                                    <option> Select Role</option>
+                                    <option value="">Select Password</option>
                                     @foreach($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}">{{ $role->name}}</option>
                                     @endforeach
                                 </select>
+                                <div class="text-danger clear-error" id="role_error"></div>
                             </div>
                         </div>
                     </div>

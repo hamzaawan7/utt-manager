@@ -26,6 +26,20 @@ Run This Commands for Database Tables
 # insert all table into datbase 
 php artisan migrate
 ```
+Run This Command To Enter Jobs in queue 
+
+```bash
+# create jobs
+php artisan queue:table
+```
+
+Edit Environment File For Jobs
+
+```bash
+# Edit Environment
+QUEUE_CONNECTION=database
+```
+
 Run Commands for seeder 
 
 ```bash

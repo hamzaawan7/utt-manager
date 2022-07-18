@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OwnerProperty extends Model
 {
@@ -11,4 +12,11 @@ class OwnerProperty extends Model
 
     protected $table = 'owner_property';
 
+    /**
+     * @return BelongsTo
+     */
+    public function property(): BelongsTo
+    {
+        return $this->belongsTo(Property::class);
+    }
 }

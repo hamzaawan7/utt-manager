@@ -67,7 +67,7 @@ Route::prefix('owner')->group(function () {
     Route::get('/get', [OwnerController::class, 'getOwner']);
     Route::post('/save', [OwnerController::class, 'save'])->name('owner-save');
     Route::get('/find/{id}', [OwnerController::class, 'find']);
-    Route::get('/statement/detail/{id}', [OwnerController::class, 'OwnerStatementDetail']);
+    Route::get('/statement/detail/{id}', [OwnerController::class, 'ownerStatementDetail']);
     Route::get('/delete/{id}', [OwnerController::class, 'delete']);
 
 });
