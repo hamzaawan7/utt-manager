@@ -21,7 +21,13 @@ toastr.options = {
 $("a[href='#finish']").click(function () {
     $('#property_form').submit();
 });
-
+/*$("a[href='#next']").click(function () {
+ if ($('#name').val() === '' || $('#short_code').val() === '' || $('#phone').val() === '' ||
+    $('#address').val() === '' || $('#post_code').val() === '' ||
+    $('#special_category').val() === '') {
+     toastr.warning('Please Fill The Required Field', 'warning');
+ }
+});*/
 //Empty Customer Forms
 $('.reset-customer-form').click(function () {
     $("#passwords").removeAttr('readonly');

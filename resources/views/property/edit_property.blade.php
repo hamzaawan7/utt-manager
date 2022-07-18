@@ -325,6 +325,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Luxury</label>
+                                 @if(!empty($property->starRatings))
                                     <select class="form-control" name="star_rating_luxury">
                                         <option>Select Rating</option>
                                         <option value="1" {{ $property->starRatings[0]->star_rating_luxury == 1 ? 'selected' : '' }}>
@@ -343,11 +344,13 @@
                                             5
                                         </option>
                                     </select>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Heritage</label>
+                                @if(!empty($property->starRatings))
                                 <select class="form-control" name="star_rating_heritage">
                                     <option>Select Rating</option>
                                     <option value="1" {{ $property->starRatings[0]->star_rating_heritage == 1 ? 'selected' : '' }}>
@@ -366,6 +369,7 @@
                                         5
                                     </option>
                                 </select>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -373,6 +377,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Unique</label>
+                                @if(!empty($property->starRatings))
                                 <select class="form-control" name="star_rating_unique">
                                     <option>Select Rating</option>
                                     <option value="1" {{ $property->starRatings[0]->star_rating_unique == 1 ? 'selected' : '' }}>
@@ -391,11 +396,13 @@
                                         5
                                     </option>
                                 </select>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Star Rating Green</label>
+                                @if(!empty($property->starRatings))
                                 <select class="form-control" name="star_rating_green">
                                     <option>Select Rating</option>
                                     <option value="1" {{ $property->starRatings[0]->star_rating_green == 1 ? 'selected' : '' }}>
@@ -414,6 +421,7 @@
                                         5
                                     </option>
                                 </select>
+                                @endif
                             </div>
                         </div>
                     </div>

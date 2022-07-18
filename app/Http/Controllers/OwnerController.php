@@ -114,8 +114,14 @@ class OwnerController extends Controller
      */
     public function ownerData()
     {
-        $owners = $this->owner->with('user')->get();
+        $owners = $this->owner->join('users', 'owners.user_id','=','users.id')->get();
 
-        return view('statement.owner_statement');
+        return view('statement.owner_statement',compact('owners'));
+    }
+
+    public function OwnerStatementDetail($id)
+    {
+        dd($id);
+        return view('');
     }
 }

@@ -67,6 +67,7 @@ Route::prefix('owner')->group(function () {
     Route::get('/get', [OwnerController::class, 'getOwner']);
     Route::post('/save', [OwnerController::class, 'save'])->name('owner-save');
     Route::get('/find/{id}', [OwnerController::class, 'find']);
+    Route::get('/statement/detail/{id}', [OwnerController::class, 'OwnerStatementDetail']);
     Route::get('/delete/{id}', [OwnerController::class, 'delete']);
 
 });
@@ -161,6 +162,6 @@ Route::prefix('cleaning')->group(function () {
 
 });
 
-Route::get("/owner/mail", function(){
+/*Route::get("/owner/mail", function(){
     return view("emails.owner_mail_template");
-});
+});*/

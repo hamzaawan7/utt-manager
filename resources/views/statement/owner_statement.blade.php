@@ -11,15 +11,17 @@
                 <tr>
                     <th>Owner Name</th>
                     <th>Owner Email</th>
-                    <th>Owner Statement</th>
+                    <th>See Owner Statement</th>
                 </tr>
                 </thead>
                 <tbody id="">
+                @foreach($owners as $item)
                 <tr>
-                    <td>Ajmal Town</td>
-                    <td>1-6-2022</td>
-                    <td><a href="" class="btn btn-info">See Details</a></td>
+                    <td>{{$item->owner_name}}</td>
+                    <td>{{$item->email}}</td>
+                    <td><a href="{{url('/owner/statement/detail',['id' => $item->id])}}" class="btn btn-info">See Details</a></td>
                 </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

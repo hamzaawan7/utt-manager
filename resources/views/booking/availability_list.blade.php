@@ -92,7 +92,7 @@
     <script>
 		let selectedPropertyId = 0;
 		var disableAllDates = [];
-		const disabledDates = '{!! json_encode($availabilityList) !!}';
+			const disabledDates = '{!! json_encode($availabilityList) !!}';
 
 		$.each(JSON.parse(disabledDates), function (index, value) {
 			$('.rescalendar_'+value.id).rescalendar({
