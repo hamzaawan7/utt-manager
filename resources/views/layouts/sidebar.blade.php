@@ -39,7 +39,7 @@
                                 <li><a href="{{route('availability-list')}}">All Availability</a></li>
                                 <li><a href="{{route('booking-list')}}">All Bookings</a></li>
                                 <li><a href="{{route('late-availability-list')}}">Late Availability</a></li>
-                                <li><a href="{{route('cleaningRotaList')}}">Cleaning Rota</a></li>
+                                <li><a href="{{route('cleaningRotaList')}}">Cleaningg Rota</a></li>
                                 <li><a href="{{route('discount-list')}}">Discount Code Manager</a></li>
                             </ul>
                         </li>
@@ -63,7 +63,7 @@
                                 <li><a href="{{route('price-season-list')}}">Set Princing Seasons</a></li>
                                 <li><a href="{{route('price-category-list')}}">Set Pricing Categories</a></li>
                                 {{--<li><a href="{{route('price-type-list')}}">Pricing Types</a></li>--}}
-                                <li><a href="ui-modals.html">Booking Confirmation</a></li>
+                                <li><a href="{{route('booking-confirmation')}}">Booking Confirmation</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -74,7 +74,7 @@
                                 <li><a href="font-awesome.html">Sales Report</a></li>
                                 <li><a href="foundation.html">Property Accounts</a></li>
                                 <li><a href="ionicons.html">Owner Accounts</a></li>
-                                <li><a href="themify.html">Owner Statements</a></li>
+                                <li><a href="{{route('owner-data')}}">Owner Statements</a></li>
                                 <li><a href="custom-icon.html">Annual Report</a></li>
                                 <li><a href="custom-icon.html">Performance Analytics</a></li>
                             </ul>

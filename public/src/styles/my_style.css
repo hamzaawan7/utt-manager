@@ -116,7 +116,13 @@ button.move_to_last_month {
 .rescalendar {
     overflow: hidden;
     margin-top: 23px;
-    width: 2000px;
+    max-width: 1100px;
+}
+
+@media only screen and (max-width: 600px) {
+    .rescalendar {
+        width: 337px;
+    }
 }
 
 .move_to_tomorrow {
@@ -159,8 +165,8 @@ input.refDate {
 }
 
 .rescalendar_day_cells td:not(.disabledDay) {
-    background: #7ab81c;
-    color: #fff;
+    background: white;
+    color: blue;
 }
 
 .rescalendar_day_cells_hover {

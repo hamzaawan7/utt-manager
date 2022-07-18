@@ -47,7 +47,7 @@
                         <tr>
                             <th>Property Name</th>
                             <th>Image</th>
-                            <th>Action</th>
+                            {{--<th>Action</th>--}}
                         </tr>
                         </thead>
                         <tbody id="">
@@ -57,7 +57,7 @@
                                 <td><img src="{{asset('images/main/'.$property->main_image)}}" width="100" height="200">
                                 </td>
                                 <td>
-                                    <div class="dropdown">
+                                    {{--<div class="dropdown">
                                         <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
                                            href="#"
                                            role="button" data-toggle="dropdown">
@@ -69,7 +69,7 @@
                                                 <i class="fa fa-eye"></i> Property Calendar
                                             </a>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                 </td>
                             </tr>
                             <tr>
@@ -302,5 +302,10 @@
 				$('#remaing_price').val(remainingPrice);
 			});
 		}
+
+		$('.day_cell').click(function () {
+			$("#customer_booking")[0].reset();
+			$(".clear-error").html('');
+		});
     </script>
 @endsection

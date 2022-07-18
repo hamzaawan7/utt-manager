@@ -200,48 +200,27 @@
             </div>
         </div>
 
-        <div class="card-box mb-30">
+       {{-- <div class="card-box mb-30">
             <div class="pd-20">
                 <h5>Payment Details</h5>
             </div>
             <div class="pb-20">
-                <table id="" class="data-table table stripe hover nowrap">
+                <table id="" class="get_payment_detail table stripe hover nowrap">
                     <thead>
                     <tr>
-                        <th>Customer Name</th>
-                        <th>Total Price</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Total Balance Paid</th>
                         <th>Remaining Balance Paid</th>
-                        <th>Action</th>
+                        <th>Status</th>
+                       --}}{{-- <th>Action</th>--}}{{--
                     </tr>
                     </thead>
                     <tbody id="">
-                    @foreach($payments as $item)
-                        <tr>
-                            <td>{{$item->first_name .' '. $item->last_name}}</td>
-                            <td>{{$item->total_price + $item->remaining_price}}</td>
-                            <td>{{$item->total_price}}</td>
-                            <td>{{$item->remaining_price}}</td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                                       role="button" data-toggle="dropdown">
-                                        <i class="dw dw-more"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                        <a class="dropdown-item" href="#">
-                                            <i class="dw dw-edit2"></i> Edit
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        @include('customer.costomer_modal')
-    </div>
+            @include('booking.payment_modal')
+        </div>--}}
 @endsection

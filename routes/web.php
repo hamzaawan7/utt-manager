@@ -63,6 +63,7 @@ Route::prefix('property')->group(function () {
 //Owner Route
 Route::prefix('owner')->group(function () {
     Route::get('/list', [OwnerController::class, 'index'])->name('owner-list');
+    Route::get('/statement', [OwnerController::class, 'ownerData'])->name('owner-data');
     Route::get('/get', [OwnerController::class, 'getOwner']);
     Route::post('/save', [OwnerController::class, 'save'])->name('owner-save');
     Route::get('/find/{id}', [OwnerController::class, 'find']);
@@ -132,10 +133,14 @@ Route::prefix('availability')->group(function () {
 //Booking Route
 Route::prefix('booking')->group(function () {
     Route::get('/list', [BookingController::class, 'index'])->name('booking-list');
+    Route::get('/confirmation', [BookingController::class, 'bookingConfiramtion'])->name('booking-confirmation');
     Route::post('/save', [BookingController::class, 'save'])->name('booking-save');
     Route::post('/owner/save', [BookingController::class, 'ownerSave'])->name('booking-owner-save');
     Route::get('/find/{id}', [BookingController::class, 'find']);
     Route::get('/delete/{id}', [BookingController::class, 'delete']);
+    Route::get('/payment/get', [BookingController::class, 'getPaymentDetail']);
+    Route::get('/payment/find/{id}', [BookingController::class, 'findPayment']);
+    Route::get('/payment/delete/{id}', [BookingController::class, 'deletePayment']);
 
 });
 

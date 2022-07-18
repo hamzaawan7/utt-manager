@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OwnerSaveRequest;
+use App\Models\Owner;
 use App\Repositories\OwnerRepositoryInterface;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -21,10 +22,18 @@ class OwnerController extends Controller
 {
     /** @var OwnerRepositoryInterface $ownerRepository */
     private $ownerRepository;
+    /**
+     * @var Owner
+     */
+    private $owner;
 
-    public function __construct(OwnerRepositoryInterface $ownerRepository)
+    public function __construct(
+        OwnerRepositoryInterface $ownerRepository,
+        Owner $owner
+    )
     {
         $this->ownerRepository = $ownerRepository;
+        $this->owner = $owner;
     }
 
     /**
@@ -98,5 +107,15 @@ class OwnerController extends Controller
             'status' => 200,
             'message' => $message
         ]);
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function ownerData()
+    {
+        $owners = $this->owner->with('user')->get();
+
+        return view('statement.owner_statement');
     }
 }

@@ -198,6 +198,7 @@ function getCategory() {
     return $('.get_category').DataTable({
         processing: true,
         serverSide: true,
+        responsive:true,
         ajax: "/category/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -293,6 +294,8 @@ function getFeature() {
     return $('.get_feature').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
+
         ajax: "/property/feature/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -381,6 +384,7 @@ function getReview() {
     return $('.get_review').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         ajax: "/review/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -486,6 +490,7 @@ function getCustomer() {
     return $('.get_customer').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         ajax: "/customer/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -594,6 +599,7 @@ function getOwner() {
     return $('.get_owner').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
         ajax: "/owner/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -758,6 +764,7 @@ function getSeason() {
     return $('.get_season').DataTable({
         processing: true,
         serverSide: true,
+        responsive:true,
         ajax: "/price/season/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -940,6 +947,7 @@ function getPriceCategory() {
     return $('.get_price_category').DataTable({
         processing: true,
         serverSide: true,
+        responsive:true,
         ajax: "/price/category/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -1126,6 +1134,7 @@ $(document).ready(function () {
     getFeature();
     getSeason();
     getPriceCategory();
+    getPaymentDetails();
     getPrice();
     getDiscount();
     getLateAvialability();
@@ -1253,6 +1262,7 @@ function getDiscount() {
     return $('.get_discount').DataTable({
         processing: true,
         serverSide: true,
+        responsive:true,
         ajax: "/discount/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -1362,6 +1372,7 @@ function getLateAvialability() {
     return $('.late_availability').DataTable({
         processing: true,
         serverSide: true,
+        responsive:true,
         ajax: "/late/availability/get",
         columns: [
             {data: 'id', name: 'id'},
@@ -1494,3 +1505,61 @@ $("#property_id").change(function() {
         }
     });
 });
+
+
+//Get Booking Payment Details
+function getPaymentDetails() {
+    $(".get_payment_detail").DataTable().clear().destroy();
+    return $('.get_payment_detail').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive:true,
+        ajax: "/booking/payment/get",
+        columns: [
+            {data: 'first_name', name: 'first_name'},
+            {data: 'last_name', name: 'last_name'},
+            {data: 'total_price', name: 'total_price'},
+            {data: 'remaining_price', name: 'remaining_price'},
+            {data: 'status', name: 'status'},
+            {
+                data: 'action',
+                name: 'action',
+                orderable: true,
+                searchable: true
+            },
+        ]
+    });
+}
+
+//Edit Booking Payment
+function findBookingPayment(url)
+{
+    $.ajax({
+        url: url,
+        method: 'get',
+        success: function (response) {
+
+                $('#first_name').val(response.first_name);
+                $('#last_name').val(response.last_name);
+                $('#total_price').val(response.total_price);
+                $('#remaining_price_hidden').val(response.remaining_price);
+                $('#remaining_price').val(response.remaining_price);
+                 var  originalPrice = response.total_price + response.remaining_price;
+                 $('#original_price').val(originalPrice);
+                $('#booking_payment_id').val(response.id);
+
+            $('#payment-modal').modal('show');
+        }
+    });
+}
+
+/*$("#total_price").keyup(function () {
+    alert($(this).val());
+    var OriginalPrice = parseInt($('#remaining_price').val()) - parseInt($(this).val());
+    alert(OriginalPrice);
+    var paidPrice  = $('#total_price').val();
+    var totalPrice = OriginalPrice - paidPrice;
+    var changePrice = $(this).val();
+    var remainingPrice = totalPrice - changePrice;
+    $('#remaining_price').val(remainingPrice);
+});*/
