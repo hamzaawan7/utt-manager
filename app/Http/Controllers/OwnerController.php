@@ -120,11 +120,7 @@ class OwnerController extends Controller
     {
         $owners = $this->owner->where('id',$id)->first();
 
-        foreach($owners->ownerProperties as $ownerProperty) {
-            foreach($ownerProperty->property->bookings as $ownerBooking) {
-                 dd($ownerProperty);
-            }
-        }
+        return view('statement.owner_statement_detail',compact('owners'));
         //return view('statement.owner_statement_detail',compact('owners'));
         /*$this->owner->where('id',$id)->with('properties')->get()->map(function ($owner)  {
             $owner->properties->map(function ($property) use ($owner){
