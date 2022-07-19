@@ -165,14 +165,14 @@ input.refDate {
 }
 
 .rescalendar_day_cells td:not(.disabledDay) {
-    background: #aaa;
-    color: white;
+    background: #fff;
+    color: #1b00ff;
 }
 
 .rescalendar_day_cells_hover {
     background: #1b00ff !important;
     cursor: pointer;
-    color: #fff;
+    color: #fff !important;
 }
 
 td.day_cell.selected.startDate:hover {

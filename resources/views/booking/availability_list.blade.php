@@ -90,29 +90,32 @@
 
 @section('scripts')
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
-	<script>
+    <script>
 		let selectedPropertyId = 0;
 		var disableAllDates = [];
 		const disabledDates = '{!! json_encode($availabilityList) !!}';
 		$.each(JSON.parse(disabledDates), function (index, value) {
-			$('.rescalendar_'+value.id).rescalendar({
+			$('.rescalendar_' + value.id).rescalendar({
 				id: 'my_calendar',
 				format: 'YYYY-MM-DD',
 				dataKeyField: 'name',
 				dataKeyValues: [''],
 				disabledDays: value.dates,
 			});
-		})
+		});
+
 		$(document).on("mouseenter", ".rescalendar", function () {
 			if ($(this).attr('property') !== undefined) {
 				selectedPropertyId = $(this).attr('property');
+
 				$.each(JSON.parse(disabledDates), function (index, value) {
-					if(value.id == selectedPropertyId ) {
+					if (value.id === selectedPropertyId) {
 						disableAllDates = value.dates
 					}
 				})
 			}
 		});
+
 		$(document).ready(function () {
 			let range = 2;
 			$(".multiple-hover").click(function () {
@@ -139,22 +142,24 @@
 						$(this).addClass("disabledDay");
 						$(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
 						for (let j = 0; j < range; j++) {
-							console.log(dNextAll[j])
 							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
 							$(dNextAll[j]).removeClass("selected end_date");
 							$(dNextAll[j]).addClass("disabledDay");
+							$(dNextAll[j]).addAttribute("data-property", selectedPropertyId);
 						}
 					}
 				}
 			});
+
 			$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
-				$('.day_cell').each(function(index, day_cell) {
-					if (!disableAllDates.includes($(day_cell).attr('data-celldate'))) {
+				$('.day_cell').each(function (index, day_cell) {
+					if (($(day_cell).attr('data-celldate') === selectedPropertyId) && (!disableAllDates.includes($(day_cell).attr('data-celldate')))) {
 						$(day_cell).removeClass("disabledDay")
 					}
 				});
 			});
+
 			$(document).on("click", ".day_cell", function () {
 				console.log($(this).attr('class'))
 				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
@@ -200,73 +205,73 @@
 							if (response.categoryName === 'Standard') {
 								var standrad_price = '';
 								standrad_price += ' <div class="row">\n' +
-										' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
-										' <input type="radio" id="monday_to_fridar" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
-										' <input type="radio" id="friday_to_monday" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <input type="radio" id="s_seven_nights" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-										' \n' +
-										' </div>\n' +
-										' </div>\n' +
-										' </div>';
+									' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
+									' <input type="radio" id="monday_to_fridar" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
+									' <input type="radio" id="friday_to_monday" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <input type="radio" id="s_seven_nights" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+									' \n' +
+									' </div>\n' +
+									' </div>\n' +
+									' </div>';
 								$('.price_main_div').append(standrad_price);
 							}
 							if (response.categoryName === 'Flexible') {
 								var flexible_price = '';
 								flexible_price += ' <div class="row">\n' +
-										' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
-										' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
-										' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
-										' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
-										' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="getPrice();">\n' +
-										' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
-										' </div>\n' +
-										' </div>\n' +
-										' <div class="col-lg-4">\n' +
-										' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-										' <div class="custom-control custom-radio">\n' +
-										' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
-										' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-										' \n' +
-										' </div>\n' +
-										' </div>\n' +
-										' </div>';
+									' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
+									' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
+									' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
+									' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
+									' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="getPrice();">\n' +
+									' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
+									' </div>\n' +
+									' </div>\n' +
+									' <div class="col-lg-4">\n' +
+									' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+									' <div class="custom-control custom-radio">\n' +
+									' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
+									' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+									' \n' +
+									' </div>\n' +
+									' </div>\n' +
+									' </div>';
 								$('.price_main_div').append(flexible_price);
 							}
 						}
@@ -275,6 +280,7 @@
 				}
 			});
 		});
+
 		function getPrice() {
 			var price = $("input[name='standrad_price']:checked").val();
 			$('#price').val(price);
@@ -290,5 +296,5 @@
 				$('#remaing_price').val(remainingPrice);
 			});
 		}
-	</script>
+    </script>
 @endsection
