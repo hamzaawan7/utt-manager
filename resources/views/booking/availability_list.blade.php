@@ -74,7 +74,8 @@
                             </tr>
                             <tr>
                                 <td colspan="3">
-                                    <div class="rescalendar_{{$property->id}} rescalendar" id="my_calendar" property="{{$property->id}}"></div>
+                                    <div class="rescalendar_{{$property->id}} rescalendar" id="my_calendar"
+                                         property="{{$property->id}}"></div>
                                 </td>
                             </tr>
                         @endforeach
@@ -89,9 +90,8 @@
 
 @section('scripts')
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
-    <script>
+	<script>
 		let selectedPropertyId = 0;
-		let categoryName = '';
 		var disableAllDates = [];
 		const disabledDates = '{!! json_encode($availabilityList) !!}';
 		$.each(JSON.parse(disabledDates), function (index, value) {
@@ -107,7 +107,7 @@
 			if ($(this).attr('property') !== undefined) {
 				selectedPropertyId = $(this).attr('property');
 				$.each(JSON.parse(disabledDates), function (index, value) {
-					if(value.id === selectedPropertyId ) {
+					if(value.id == selectedPropertyId ) {
 						disableAllDates = value.dates
 					}
 				})
@@ -121,7 +121,6 @@
 				$(this).addClass('selected-day-rang');
 			});
 			$(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
-				console.log()
 				$('.multiple-hover')
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
 				$(this).addClass('selected  startDate');
@@ -175,7 +174,7 @@
 					var date = d.getDate();
 					var month = d.getMonth() + 1;
 					var year = d.getFullYear();
-					var dateStr = year + "-" + month + "-" + date;)
+					var dateStr = year + "-" + month + "-" + date;
 					$('#to_date').val(dateStr);
 					$('#owner_to_date').val(dateStr);
 					var id = $("#property_id").val();
@@ -185,7 +184,6 @@
 						method: 'get',
 						success: function (response) {
 							var arrayName = response.discounts;
-							categoryName = response.categoryName;
 							if (arrayName.length !== 0) {
 								if (response.discounts[0].code_type === 'One off - Fixed amount') {
 									var discount = response.discounts[0].value;
@@ -273,8 +271,7 @@
 							}
 						}
 					});
-
-						$('#availability-modal').modal('show');
+					$('#availability-modal').modal('show');
 				}
 			});
 		});
@@ -287,27 +284,11 @@
 			$('#total_price').val(originalPrice);
 			$('#remaing_price').val(0);
 			$("#total_price").keyup(function () {
-				var payAmount = $(this).val();
 				var totalPrice = originalPrice;
 				var changePrice = $(this).val();
-				if(!isNaN(parseInt(payAmount))){
-					if(parseInt(payAmount) <= parseInt(totalPrice)){
-						var remainingPrice = totalPrice - changePrice;
-						$('#remaing_price').val(remainingPrice);
-					}
-					else {
-						$('#remaing_price').val(totalPrice);
-					}
-				}
-				else {
-					$(this).val(0);
-					$('#remaing_price').val(totalPrice);
-				}
+				var remainingPrice = totalPrice - changePrice;
+				$('#remaing_price').val(remainingPrice);
 			});
 		}
-		$('.day_cell').click(function () {
-			$("#customer_booking")[0].reset();
-			$(".clear-error").html('');
-		});
-    </script>
+	</script>
 @endsection

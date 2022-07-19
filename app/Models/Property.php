@@ -80,11 +80,11 @@ class Property extends Model
     }
 
     /**
-     * @return BelongsToMany
+     * @return HasMany
      */
-    public function owners(): BelongsToMany
+    public function owners(): HasMany
     {
-        return $this->belongsToMany(Owner::class);
+        return $this->hasMany(OwnerProperty::class);
     }
 
     /**

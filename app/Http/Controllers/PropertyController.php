@@ -366,6 +366,7 @@ class PropertyController extends Controller
         $features   = [];
         $owners     = [];
         $nearbyProperties = [];
+
         if (!empty($property->categories)) {
             foreach ($property->categories as $item) {
                 $categories[] = $item->id;

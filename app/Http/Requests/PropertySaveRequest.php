@@ -14,8 +14,8 @@ class PropertySaveRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
-        $image = 'required';
-        $multiple_image = 'required';
+        $image = 'required|mimes:jpeg,png,jpg';
+        $multiple_image = 'required|mimes:jpeg,png,jpg';
         return [
             'name' => 'required|string|max:255',
             'owner_name' => 'required',
@@ -26,8 +26,8 @@ class PropertySaveRequest extends FormRequest
             'address' => 'required|string|max:255',
             'post_code' => 'required|numeric',
             'special_category' => 'required',
-            'main_image' => $request->property_id ? '' : $image,
-            'images' => $request->property_id ? '' : $multiple_image,
+            'main_image' => $request->property_id ? 'mimes:jpeg,png,jpg' : $image,
+            'images' => $request->property_id ? 'mimes:jpeg,png,jpg' : $multiple_image,
             'standard_guests' => 'required|numeric',
             'minimum_guest' => 'required|numeric',
             'room_layouts' => 'required',

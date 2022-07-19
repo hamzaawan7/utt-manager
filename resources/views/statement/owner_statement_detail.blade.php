@@ -29,7 +29,7 @@
                                 @endphp
                                 <tr>
                                     <td>{{$ownerBooking->id}}</td>
-                                    <td>{{$ownerBooking->first_name . $ownerBooking->first_name}}</td>
+                                    <td>{{$ownerBooking->first_name . $ownerBooking->last_name}}</td>
                                     <td>{{$ownerBooking->from_date}}</td>
                                     <td>{{$ownerBooking->total_price}}</td>
                                 </tr>
