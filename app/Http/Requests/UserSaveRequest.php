@@ -14,10 +14,15 @@ class UserSaveRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
+        $pass='required|confirmed';
+        if($request->user_id)
+        {
+            $pass='';
+        }
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'required|confirmed',
+            'password' => $pass,
             'role' => 'required',
         ];
     }

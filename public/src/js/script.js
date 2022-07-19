@@ -1547,11 +1547,9 @@ function findBookingPayment(url)
 
                 $('#first_name').val(response.first_name);
                 $('#last_name').val(response.last_name);
-                $('#total_price').val(response.total_price);
+                /*$('#total_price').val(response.total_price);*/
                 $('#remaining_price_hidden').val(response.remaining_price);
                 $('#remaining_price').val(response.remaining_price);
-                 var  originalPrice = response.total_price + response.remaining_price;
-                 $('#original_price').val(originalPrice);
                 $('#booking_payment_id').val(response.id);
 
             $('#payment-modal').modal('show');
@@ -1559,13 +1557,45 @@ function findBookingPayment(url)
     });
 }
 
-/*$("#total_price").keyup(function () {
-    alert($(this).val());
-    var OriginalPrice = parseInt($('#remaining_price').val()) - parseInt($(this).val());
-    alert(OriginalPrice);
-    var paidPrice  = $('#total_price').val();
-    var totalPrice = OriginalPrice - paidPrice;
-    var changePrice = $(this).val();
-    var remainingPrice = totalPrice - changePrice;
-    $('#remaining_price').val(remainingPrice);
-});*/
+$("#total_price").keyup(function () {
+    // console.log($(this).val());
+    var payAmount=parseInt($(this).val());
+    var remainAmount=parseInt($('#remaining_price_hidden').val());
+    console.log(remainAmount);
+    if(!isNaN(payAmount)){
+        if(remainAmount > 0 && payAmount<=remainAmount){
+            $('#remaining_price').val(remainAmount-payAmount);
+        }else{
+            $(this).val(0);
+            $('#remaining_price').val(remainAmount);
+        }
+    }else{
+        $('#remaining_price').val(remainAmount);
+    }
+});
+//Up-
+function updateBookingPayment() {
+    var data = $("#booking-payment-form").serialize();
+    var url = $("#booking-payment-form").attr('action');
+    var type = $("#booking-payment-form").attr('method');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: url,
+        method: type,
+        data: data,
+        success: function (response) {
+            if (response.status === 200) {
+                toastr.success('' + response.message + '', 'Success');
+                $('#booking-payment-form')[0].reset();
+                $('#payment-modal').modal('hide');
+                getPaymentDetails();
+            } else {
+                toastr.warning('' + response.message + '', 'warning');
+            }
+        }
+    });
+}

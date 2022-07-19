@@ -141,4 +141,31 @@ class BookingController extends Controller
 
         return view('booking.booking_confirmation',compact('bookingConsirmation'));
     }
+
+    public function updateBookingPayment(Request $request)
+    {
+        $bookingPayment = $this->booking->find($request->booking_payment_id);
+        $totalPayAmount = $bookingPayment->total_price;
+        $totalRemainingAmount = $bookingPayment->remaining_price;
+        if ($request->total_price <= $totalRemainingAmount) {
+            $totalRemainingAmount -= $request->total_price;
+            $totalPayAmount += $request->total_price;
+            if ($totalRemainingAmount == 0) {
+                $bookingPayment->status = "Fully Paid";
+            }
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Payment Not Correct'
+            ]);
+        }
+
+        $bookingPayment->total_price = $totalPayAmount;
+        $bookingPayment->remaining_price = $totalRemainingAmount;
+        $bookingPayment->update();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data Updated Successfully'
+        ]);
+    }
 }

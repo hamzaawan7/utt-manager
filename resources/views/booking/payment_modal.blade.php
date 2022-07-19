@@ -6,10 +6,9 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Update Booking Payment</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form id="owner-form" method="post" action="#">
-                <input type="text" name="booking_payment_id" id="booking_payment_id">
-                <input type="text" name="original_price" id="original_price">
-                <input type="text" name="remaining_price_hidden" id="remaining_price_hidden">
+            <form id="booking-payment-form" method="post" action="{{route('update-booking')}}">
+                <input type="hidden" name="booking_payment_id" id="booking_payment_id">
+                <input type="hidden" name="remaining_price_hidden" id="remaining_price_hidden">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">

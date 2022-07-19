@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Yajra\DataTables\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
 
 /**
  * Class OwnerController
@@ -134,5 +135,15 @@ class OwnerController extends Controller
             });
         });*/
         //return view('');
+    }
+
+    public function ownerStatementPrint(int $id)
+    {
+        $owners = $this->owner->where('id',$id)->first();
+
+        $pdf = PDF::loadView('reports.owner.owner_report', compact('owners'));
+
+        return $pdf->stream('owner_report.pdf');
+
     }
 }

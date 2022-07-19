@@ -219,3 +219,7 @@ td.day_cell.selected.startDate span.dia {
 td.day_cell.selected.end_date span.dia {
     position: inherit;
 }
+.print-btn {
+    text-align: right;
+    margin-bottom: 10px;
+}

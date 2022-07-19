@@ -68,6 +68,7 @@ Route::prefix('owner')->group(function () {
     Route::post('/save', [OwnerController::class, 'save'])->name('owner-save');
     Route::get('/find/{id}', [OwnerController::class, 'find']);
     Route::get('/statement/detail/{id}', [OwnerController::class, 'ownerStatementDetail']);
+    Route::get('/statement/print/{id}', [OwnerController::class, 'ownerStatementPrint']);
     Route::get('/delete/{id}', [OwnerController::class, 'delete']);
 
 });
@@ -142,6 +143,7 @@ Route::prefix('booking')->group(function () {
     Route::get('/payment/get', [BookingController::class, 'getPaymentDetail']);
     Route::get('/payment/find/{id}', [BookingController::class, 'findPayment']);
     Route::get('/payment/delete/{id}', [BookingController::class, 'deletePayment']);
+    Route::post('/payment/update', [BookingController::class, 'updateBookingPayment'])->name('update-booking');
 
 });
 

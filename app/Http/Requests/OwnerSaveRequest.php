@@ -14,11 +14,17 @@ class OwnerSaveRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
+        $pass='required|confirmed';
+        if($request->owner_id)
+        {
+            $pass='';
+        }
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|unique:users,email,' .$request->owner_id,
             'address' => 'required',
             'phone' => 'required|numeric',
+            'password' => $pass,
         ];
     }
 

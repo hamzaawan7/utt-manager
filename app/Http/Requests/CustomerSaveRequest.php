@@ -14,6 +14,11 @@ class CustomerSaveRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
+        $pass='required';
+        if($request->customer_id)
+        {
+            $pass='';
+        }
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|unique:users,email,' .$request->customer_id,
@@ -22,6 +27,7 @@ class CustomerSaveRequest extends FormRequest
             'post_code' => 'required|numeric',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
+            'password' => $pass,
         ];
     }
 

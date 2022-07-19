@@ -200,7 +200,7 @@
             </div>
         </div>
 
-       {{-- <div class="card-box mb-30">
+        <div class="card-box mb-30">
             <div class="pd-20">
                 <h5>Payment Details</h5>
             </div>
@@ -213,7 +213,7 @@
                         <th>Total Balance Paid</th>
                         <th>Remaining Balance Paid</th>
                         <th>Status</th>
-                       --}}{{-- <th>Action</th>--}}{{--
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody id="">
@@ -222,5 +222,5 @@
                 </table>
             </div>
             @include('booking.payment_modal')
-        </div>--}}
+        </div>
 @endsection

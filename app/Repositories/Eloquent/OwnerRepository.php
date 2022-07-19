@@ -132,7 +132,7 @@ class OwnerRepository implements OwnerRepositoryInterface
 
             return "Data Deleted Successfully";
         }catch (\Exception $e){
-            return $e->getMessage();
+            return catchException($e->getMessage());
         }
     }
 }

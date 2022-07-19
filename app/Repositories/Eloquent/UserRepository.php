@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Owner;
 use App\Models\Customer;
+use App\Models\Enums\UserRoles;
 
 /**
  * Class UserRepository
@@ -100,6 +101,16 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete(int $id)
     {
+        $roleName = User::find($id)->getRoleNames();
+        if ($roleName[0] == UserRoles::OWNER) {
+            $this->owner->where('user_id',$id)->delete();
+            return $this->user->find($id)->delete();
+        }
+        if ($roleName[0] == UserRoles::CUSTOMER) {
+            $this->user->where('user_id',$id)->delete();
+            return $this->user->find($id)->delete();
+        }
+
         return $this->user->find($id)->delete();
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
+use App\Models\Enums\UserRoles;
 use Illuminate\Database\Seeder;
 
 /**
@@ -20,23 +21,23 @@ class RoleSeeder extends Seeder
     {
         $role =  [
             [
-                'name' => 'super-admin',
+                'name' => UserRoles::SUPER_ADMIN,
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'admin',
+                'name' => UserRoles::ADMIN,
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'owner',
+                'name' => UserRoles::OWNER,
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'customer',
+                'name' => UserRoles::CUSTOMER,
                 'guard_name' => 'web',
             ],
             [
-                'name' => 'user',
+                'name' => UserRoles::USER,
                 'guard_name' => 'web',
             ],
         ];
