@@ -127,6 +127,7 @@
 				$('.multiple-hover')
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
 				$(this).addClass('selected  startDate');
+				$(this).attr("data-property", selectedPropertyId);
 				const nextAll = $(this).nextAll();
 				for (let i = 0; i < range; i++) {
 					if (i === range - 1) {
@@ -134,18 +135,22 @@
 					} else {
 						$(nextAll[i]).addClass("selected rescalendar_day_cells_hover");
 					}
+
+					$(nextAll[i]).attr("data-property", selectedPropertyId);
 				}
+
 				for (let i = 0; i < range; i++) {
-					if (disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
+					console.log(selectedPropertyId, $(this).attr('data-property'), disableAllDates, $(this).attr('data-celldate'));
+					if (($(this).attr('data-property') === selectedPropertyId) && disableAllDates.includes($(this).attr('data-celldate'))) {
+						console.log(123);
 						const dNextAll = $(this).nextAll();
 						$(this).removeClass("selected end_date startDate");
-						$(this).addClass("disabledDay");
 						$(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
+						$(this).addClass("disabledDay");
 						for (let j = 0; j < range; j++) {
 							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
 							$(dNextAll[j]).removeClass("selected end_date");
 							$(dNextAll[j]).addClass("disabledDay");
-							$(dNextAll[j]).addAttribute("data-property", selectedPropertyId);
 						}
 					}
 				}
@@ -154,7 +159,7 @@
 			$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
 				$('.day_cell').each(function (index, day_cell) {
-					if (($(day_cell).attr('data-celldate') === selectedPropertyId) && (!disableAllDates.includes($(day_cell).attr('data-celldate')))) {
+					if (($(day_cell).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(day_cell).attr('data-celldate')))) {
 						$(day_cell).removeClass("disabledDay")
 					}
 				});
