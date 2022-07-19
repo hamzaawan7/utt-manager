@@ -92,7 +92,7 @@
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
 		let selectedPropertyId = 0;
-		var disableAllDates = [];
+		let disableAllDates = [];
 		const disabledDates = '{!! json_encode($availabilityList) !!}';
 		$.each(JSON.parse(disabledDates), function (index, value) {
 			$('.rescalendar_' + value.id).rescalendar({
@@ -107,9 +107,8 @@
 		$(document).on("mouseenter", ".rescalendar", function () {
 			if ($(this).attr('property') !== undefined) {
 				selectedPropertyId = $(this).attr('property');
-
 				$.each(JSON.parse(disabledDates), function (index, value) {
-					if (value.id === selectedPropertyId) {
+					if (value.id == selectedPropertyId) {
 						disableAllDates = value.dates
 					}
 				})
@@ -145,7 +144,7 @@
 							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
 							$(dNextAll[j]).removeClass("selected end_date");
 							$(dNextAll[j]).addClass("disabledDay");
-							$(dNextAll[j]).addAttribute("data-property", selectedPropertyId);
+							$(dNextAll[j]).attr("data-property", selectedPropertyId);
 						}
 					}
 				}
