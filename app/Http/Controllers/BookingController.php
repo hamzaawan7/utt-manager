@@ -148,8 +148,8 @@ class BookingController extends Controller
         $totalPayAmount = $bookingPayment->total_price;
         $totalRemainingAmount = $bookingPayment->remaining_price;
         if ($request->total_price <= $totalRemainingAmount) {
-            $totalRemainingAmount -= $request->total_price;
-            $totalPayAmount += $request->total_price;
+            $totalRemainingAmount -= $request->total_price_pay;
+            $totalPayAmount += $request->total_price_pay;
             if ($totalRemainingAmount == 0) {
                 $bookingPayment->status = "Fully Paid";
             }

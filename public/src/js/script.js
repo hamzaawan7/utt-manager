@@ -1549,7 +1549,7 @@ function findBookingPayment(url)
                 $('#last_name').val(response.last_name);
                 /*$('#total_price').val(response.total_price);*/
                 $('#remaining_price_hidden').val(response.remaining_price);
-                $('#remaining_price').val(response.remaining_price);
+                $('#remaining_price_pay').val(response.remaining_price);
                 $('#booking_payment_id').val(response.id);
 
             $('#payment-modal').modal('show');
@@ -1557,20 +1557,20 @@ function findBookingPayment(url)
     });
 }
 
-$("#total_price").keyup(function () {
+$("#total_price_pay").keyup(function () {
     // console.log($(this).val());
     var payAmount=parseInt($(this).val());
     var remainAmount=parseInt($('#remaining_price_hidden').val());
     console.log(remainAmount);
     if(!isNaN(payAmount)){
         if(remainAmount > 0 && payAmount<=remainAmount){
-            $('#remaining_price').val(remainAmount-payAmount);
+            $('#remaining_price_pay').val(remainAmount-payAmount);
         }else{
             $(this).val(0);
-            $('#remaining_price').val(remainAmount);
+            $('#remaining_price_pay').val(remainAmount);
         }
     }else{
-        $('#remaining_price').val(remainAmount);
+        $('#remaining_price_pay').val(remainAmount);
     }
 });
 //Up-

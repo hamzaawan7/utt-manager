@@ -173,6 +173,7 @@ input.refDate {
     background: #1b00ff !important;
     cursor: pointer;
     color: white;
+
 }
 
 td.day_cell.selected.startDate:hover {
