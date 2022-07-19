@@ -14,8 +14,8 @@
             <div class="sidebar-menu">
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-house-1"></span><span class="mtext">Dashbord</span>
+                        <a href="{{route('dashboard')}}" class="dropdown-toggle no-arrow" >
+                            <span class="micon dw dw-house-1"></span><span class="mtext">Dashbord </span>
                         </a>
                     </li>
                     @role('owner')
