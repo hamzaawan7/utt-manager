@@ -16,6 +16,10 @@ yarn-error.log
 # IDE Helper for code completion
 _ide_helper.php
 .phpstorm.meta.php
-public/images/main/*
+public/images/main/*.jpeg
+public/images/main/*.png
+public/images/main/*.jpg
 
-public/images/multiple/*
+public/images/multiple/*.jpeg
+public/images/multiple/*.png
+public/images/multiple/*.jpg
