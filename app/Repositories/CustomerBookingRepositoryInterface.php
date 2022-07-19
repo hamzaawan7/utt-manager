@@ -8,7 +8,7 @@ interface CustomerBookingRepositoryInterface
 {
     /**
      * @param $data
-     * @return JsonResponse|void
+     * @return JsonResponse|null
      */
     public function save($data);
 

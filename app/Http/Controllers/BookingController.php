@@ -65,9 +65,9 @@ class BookingController extends Controller
 
     /**
      * @param CustomerBookingSaveRequest $request
-     * @return JsonResponse
+     * @return JsonResponse|null
      */
-    public function save(CustomerBookingSaveRequest $request): JsonResponse
+    public function save(CustomerBookingSaveRequest $request): ?JsonResponse
     {
         return $this->customerBookingRepository->save($request->input());
     }

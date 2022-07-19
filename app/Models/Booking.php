@@ -72,10 +72,12 @@ class Booking extends Model
 
     public function updateBooking($id)
     {
-        return Booking::where("id", $id)->update([
-            "from_date" => null,
-            "to_date" => null,
-            "status" => "Cancel"
-            ]);
+        return Booking::where("id", $id)->update(
+            [
+                "from_date" => null,
+                "to_date"   => null,
+                "status"    => "Cancel"
+            ]
+        );
     }
 }
