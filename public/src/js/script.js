@@ -86,7 +86,9 @@ $('.reset_season').click(function () {
 //Empty Season Form
 $('.reset_discount').click(function () {
     $("#discount_form")[0].reset();
+    $('.disable-select').prop('disabled', false);
     $("#discount_id_id").val('');
+    $('#property_id').val(null).trigger('change');
     $('#property_id').val(null).trigger('change');
     $(".clear-error").html('');
 });
@@ -1219,7 +1221,6 @@ function findDiscount(url) {
             if (response[0].is_active === 1) {
                 $("#is_active").prop("checked", true);
             }
-            console.log(response);
             $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
@@ -1431,7 +1432,6 @@ function findlateAvailability(url) {
         url: url,
         method: 'get',
         success: function (response) {
-            console.log(response);
             $.each(response[0], function (index, value) {
                 $('#' + index).val(value);
 
@@ -1558,10 +1558,8 @@ function findBookingPayment(url)
 }
 
 $("#total_price_pay").keyup(function () {
-    // console.log($(this).val());
     var payAmount=parseInt($(this).val());
     var remainAmount=parseInt($('#remaining_price_hidden').val());
-    console.log(remainAmount);
     if(!isNaN(payAmount)){
         if(remainAmount > 0 && payAmount<=remainAmount){
             $('#remaining_price_pay').val(remainAmount-payAmount);
@@ -1573,7 +1571,7 @@ $("#total_price_pay").keyup(function () {
         $('#remaining_price_pay').val(remainAmount);
     }
 });
-//Up-
+
 function updateBookingPayment() {
     var data = $("#booking-payment-form").serialize();
     var url = $("#booking-payment-form").attr('action');
@@ -1599,3 +1597,12 @@ function updateBookingPayment() {
         }
     });
 }
+
+$('#all_property').click(function() {
+    if ($(this).prop("checked") === true) {
+        $('.disable-select').prop('disabled', true);
+    }
+    if ($(this).prop("checked") === false) {
+        $('.disable-select').prop('disabled', false);
+    }
+});

@@ -30,14 +30,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Total Balance Paid</label>
-                                <input type="number" name="total_price" id="total_price_pay" class="form-control">
+                                <input type="number" name="total_price_pay" id="total_price_pay" class="form-control">
                                 <div class="text-danger clear-error" id="total_price_error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Remaining Balance Paid</label>
-                                <input type="number" name="remaining_price" id="remaining_price_pay"
+                                <input type="number" name="remaining_price_pay" id="remaining_price_pay"
                                        class="form-control" readonly>
                                 <div class="text-danger clear-error" id="remaining_price_error"></div>
                             </div>

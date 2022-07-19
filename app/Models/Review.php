@@ -31,4 +31,11 @@ class Review extends Model
         'is_show',
         ];
 
+    /**
+     * @return BelongsTo
+     */
+    public function property(): BelongsTo
+    {
+        return $this->belongsTo(Property::class);
+    }
 }

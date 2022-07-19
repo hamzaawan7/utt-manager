@@ -53,7 +53,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Select Property</label>
-                                <select class="custom-select2 form-control" id="property_id"
+                                <select class="custom-select2 disable-select form-control" id="property_id"
                                         name="property_id[]"
                                         multiple="multiple" style="width: 100%;">
                                     @foreach($property as $item)
