@@ -91,210 +91,297 @@
 @section('scripts')
     <script src="{{asset('src/js/rescalendar.js')}}"></script>
     <script>
-		let selectedPropertyId = 0;
-		let disableAllDates = [];
-		const disabledDates = '{!! json_encode($availabilityList) !!}';
-		$.each(JSON.parse(disabledDates), function (index, value) {
-			$('.rescalendar_' + value.id).rescalendar({
-				id: 'my_calendar',
-				format: 'YYYY-MM-DD',
-				dataKeyField: 'name',
-				dataKeyValues: [''],
-				disabledDays: value.dates,
-			});
-		});
+        let selectedPropertyId = 0;
+        let startDateCheck = 0;
+        let disableAllDates = [];
+        const disabledDates = '{!! json_encode($availabilityList) !!}';
+        $.each(JSON.parse(disabledDates), function (index, value) {
+            $('.rescalendar_' + value.id).rescalendar({
+                id: 'my_calendar',
+                format: 'YYYY-MM-DD',
+                dataKeyField: 'name',
+                dataKeyValues: [''],
+                disabledDays: value.dates,
+            });
+        });
 
-		$(document).on("mouseenter", ".rescalendar", function () {
-			if ($(this).attr('property') !== undefined) {
-				selectedPropertyId = $(this).attr('property');
-				$.each(JSON.parse(disabledDates), function (index, value) {
-					if (value.id == selectedPropertyId) {
-						disableAllDates = value.dates
-					}
-				})
-			}
-		});
+        $(document).on("mouseenter", ".rescalendar", function () {
+            if ($(this).attr('property') !== undefined) {
+                selectedPropertyId = $(this).attr('property');
+                $.each(JSON.parse(disabledDates), function (index, value) {
+                    if (value.id == selectedPropertyId) {
+                        disableAllDates = value.dates
+                    }
+                })
+            }
+        });
 
-		$(document).ready(function () {
-			let range = 2;
-			$(".multiple-hover").click(function () {
-				range = $(this).val();
-				$('.selected-range-of-days').removeClass('selected-day-rang')
-				$(this).addClass('selected-day-rang');
-			});
-			$(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
-				$('.multiple-hover')
-				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
-				$(this).addClass('selected  startDate');
-				$(this).attr("data-property", selectedPropertyId);
-				const nextAll = $(this).nextAll();
-				for (let i = 0; i < range; i++) {
-					if (i === range - 1) {
-						$(nextAll[i]).addClass("selected end_date");
-					} else {
-						$(nextAll[i]).addClass("selected rescalendar_day_cells_hover");
-					}
-				}
-				for (let i = 0; i < range; i++) {
-					if (disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
-						const dNextAll = $(this).nextAll();
-						$(this).removeClass("selected end_date startDate");
-						$(this).addClass("disabledDay");
-						$(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
-						for (let j = 0; j < range; j++) {
-							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
-							$(dNextAll[j]).removeClass("selected end_date");
-							$(dNextAll[j]).addClass("disabledDay");
-							$(dNextAll[j]).attr("data-property", selectedPropertyId);
-						}
-					}
-				}
-			});
+        $(document).ready(function () {
+            let range = 2;
+            $(".multiple-hover").click(function () {
+                range = $(this).val();
+                $('.selected-range-of-days').removeClass('selected-day-rang')
+                $(this).addClass('selected-day-rang');
+            });
+            $(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
+                const startDateCheck = $(this).attr('data-celldate');
+                $('.multiple-hover')
+                $(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
+                $(this).addClass('selected  startDate');
+                $(this).attr("data-property", selectedPropertyId);
+                const nextAll = $(this).nextAll();
+                for (let i = 0; i < range; i++) {
+                    if (i === range - 1) {
+                        $(nextAll[i]).addClass("selected end_date");
+                    } else {
+                        $(nextAll[i]).addClass("selected rescalendar_day_cells_hover");
+                    }
+                }
+                for (let i = 0; i < range; i++) {
+                    if (disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
+                        const dNextAll = $(this).nextAll();
+                        $(this).removeClass("selected end_date startDate");
+                        $(this).addClass("disabledDay");
+                        $(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
+                        for (let j = 0; j < range; j++) {
+                            $(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
+                            $(dNextAll[j]).removeClass("selected end_date");
+                            $(dNextAll[j]).addClass("disabledDay");
+                            $(dNextAll[j]).attr("data-property", selectedPropertyId);
+                        }
+                    }
+                }
 
-			$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
-				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
-				$('.day_cell').each(function (index, day_cell) {
-					if (($(this).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(this).attr('data-celldate')))) {
-						$(this).removeClass("disabledDay")
-					}
-				});
-			});
+                var url = '/property/price/get/' + selectedPropertyId + '';
+                $.ajax({
+                    url: url,
+                    method: 'get',
+                    success: function (response) {
+                        var categoryName = response.categoryName;
+                        if (categoryName === 'Standard') {
+                            $('#property_id').val(selectedPropertyId);
+                            $('#owner_property_id').val(selectedPropertyId);
+                            if (range == 3 || range  == 5 || range == 7) {
+                                var fromDate = startDateCheck;
+                                var fromDay = getDayName(new Date(fromDate))
+                                console.log(fromDay)
+                                var date = new Date(Date.parse(startDateCheck));
+                                date.setDate(date.getDate() + parseInt(range));
+                                var d = date;
+                                var date = d.getDate();
+                                var month = d.getMonth() + 1;
+                                var year = d.getFullYear();
+                                var toDate = year + "-" + month + "-" + date;
+                                var toDay = getDayName(new Date(toDate));
+                                console.log(toDay)
+                                if (range == 3 && fromDay == 'Friday' && toDay == 'Monday') {
+                                    $(document).on("click", ".day_cell", function () {
+                                        console.log(response)
+                                        $('#availability-modal').modal('show');
+                                        $('#total_price').val(response.price_friday_to_monday)
+                                        $('#price').val(response.price_friday_to_monday)
+                                        $('#from_date').val(fromDate);
+                                        $('#to_date').val(toDate);
+                                        $('#owner_from_date').val(fromDate);
+                                        $('#owner_to_date').val(toDate);
+                                    });
+                                }
+                                if (range == 5 && fromDay == 'Monday' && toDay == 'Saturday') {
+                                    $(document).on("click", ".day_cell", function () {
+                                        $('#availability-modal').modal('show');
+                                        $('#price').val(response.price_monday_to_friday)
+                                        $('#total_price').val(response.price_monday_to_friday)
+                                        $('#from_date').val(fromDate);
+                                        $('#to_date').val(toDate);
+                                        $('#owner_from_date').val(fromDate);
+                                        $('#owner_to_date').val(toDate);
+                                    });
+                                }
 
-			$(document).on("click", ".day_cell", function () {
-				console.log($(this).attr('class'))
-				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
-					toastr.warning("Dates Not Available", 'warning');
-					return;
-				}
-				if (selectedPropertyId) {
-					const from_date = $(this).attr('data-celldate');
-					var days = parseInt(range);
-					$('#property_id').val(selectedPropertyId);
-					$('#owner_property_id').val(selectedPropertyId);
-					$('#from_date').val(from_date);
-					$('#owner_from_date').val(from_date);
-					var date = new Date(Date.parse(from_date));
-					date.setDate(date.getDate() + parseInt(range));
-					var d = date;
-					var date = d.getDate();
-					var month = d.getMonth() + 1;
-					var year = d.getFullYear();
-					var dateStr = year + "-" + month + "-" + date;
-					$('#to_date').val(dateStr);
-					$('#owner_to_date').val(dateStr);
-					var id = $("#property_id").val();
-					var url = '/property/price/get/' + id + '';
-					$.ajax({
-						url: url,
-						method: 'get',
-						success: function (response) {
-							var arrayName = response.discounts;
-							if (arrayName.length !== 0) {
-								if (response.discounts[0].code_type === 'One off - Fixed amount') {
-									var discount = response.discounts[0].value;
-									$('#discount_value').val(discount);
-								}
-							}
-							$('.discount').html('');
-							var discount = '';
-							if (arrayName.length !== 0) {
-								discount += '<h5>Discount : ' + response.discounts[0].value + '</h5>';
-							}
-							$('.discount').append(discount);
-							$('.price_main_div').html('');
-							if (response.categoryName === 'Standard') {
-								var standrad_price = '';
-								standrad_price += ' <div class="row">\n' +
-									' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
-									' <input type="radio" id="monday_to_fridar" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
-									' <input type="radio" id="friday_to_monday" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <input type="radio" id="s_seven_nights" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-									' \n' +
-									' </div>\n' +
-									' </div>\n' +
-									' </div>';
-								$('.price_main_div').append(standrad_price);
-							}
-							if (response.categoryName === 'Flexible') {
-								var flexible_price = '';
-								flexible_price += ' <div class="row">\n' +
-									' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
-									' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
-									' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
-									' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
-									' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="getPrice();">\n' +
-									' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
-									' </div>\n' +
-									' </div>\n' +
-									' <div class="col-lg-4">\n' +
-									' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
-									' <div class="custom-control custom-radio">\n' +
-									' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
-									' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
-									' \n' +
-									' </div>\n' +
-									' </div>\n' +
-									' </div>';
-								$('.price_main_div').append(flexible_price);
-							}
-						}
-					});
-					$('#availability-modal').modal('show');
-				}
-			});
-		});
+                                if (range == 7 && fromDay == 'Monday' && toDay == 'Monday') {
+                                    $(document).on("click", ".day_cell", function () {
+                                        $('#availability-modal').modal('show');
+                                        $('#total_price').val(response.price_seven_night);
+                                        $('#price').val(response.price_seven_night);
+                                        $('#from_date').val(fromDate);
+                                        $('#to_date').val(toDate);
+                                        $('#owner_from_date').val(fromDate);
+                                        $('#owner_to_date').val(toDate);
+                                    });
+                                }
+                            }
+                            else {
+                                toastr.warning('This Property is Standard Please Select Range Between 3 and 5 and 7', 'warning');
+                            }
+                        } else {
+                            toastr.warning('This Property is not Standard', 'warning');
+                        }
+                    }
+                });
+            });
 
-		function getPrice() {
-			var price = $("input[name='standrad_price']:checked").val();
-			$('#price').val(price);
-			var discount = $('#discount_value').val();
-			var selectedPrice = $('#price').val();
-			var originalPrice = selectedPrice - discount;
-			$('#total_price').val(originalPrice);
-			$('#remaing_price').val(0);
-			$("#total_price").keyup(function () {
-				var totalPrice = originalPrice;
-				var changePrice = $(this).val();
-				var remainingPrice = totalPrice - changePrice;
-				$('#remaing_price').val(remainingPrice);
-			});
-		}
+            function getDayName(date = new Date(), locale = 'en-US') {
+                return date.toLocaleDateString(locale, {weekday: 'long'});
+            }
+
+            $(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
+                $(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
+                $('.day_cell').each(function (index, day_cell) {
+                    if (($(this).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(this).attr('data-celldate')))) {
+                        $(this).removeClass("disabledDay")
+                    }
+                });
+            });
+
+            $(document).on("click", ".day_cell", function () {
+                if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
+                    toastr.warning("Dates Not Available", 'warning');
+                    return;
+                }
+                /*if (selectedPropertyId) {
+                    const from_date = $(this).attr('data-celldate');
+                    var days = parseInt(range);
+                    $('#property_id').val(selectedPropertyId);
+                    $('#owner_property_id').val(selectedPropertyId);
+                    $('#from_date').val(from_date);
+                    $('#owner_from_date').val(from_date);
+                    var date = new Date(Date.parse(from_date));
+                    date.setDate(date.getDate() + parseInt(range));
+                    var d = date;
+                    var date = d.getDate();
+                    var month = d.getMonth() + 1;
+                    var year = d.getFullYear();
+                    var dateStr = year + "-" + month + "-" + date;
+                    $('#to_date').val(dateStr);
+                    $('#owner_to_date').val(dateStr);
+                    var id = $("#property_id").val();
+                    var url = '/property/price/get/' + id + '';
+                    $.ajax({
+                        url: url,
+                        method: 'get',
+                        success: function (response) {
+                            var arrayName = response.discounts;
+                            if (arrayName.length !== 0) {
+                                if (response.discounts[0].code_type === 'One off - Fixed amount') {
+                                    var discount = response.discounts[0].value;
+                                    $('#discount_value').val(discount);
+                                }
+                            }
+                            $('.discount').html('');
+                            var discount = '';
+                            if (arrayName.length !== 0) {
+                                discount += '<h5>Discount : ' + response.discounts[0].value + '</h5>';
+                            }
+                            $('.discount').append(discount);
+                            $('.price_main_div').html('');
+                            if (response.categoryName === 'Standard') {
+                                var standrad_price = '';
+                                standrad_price += ' <div class="row">\n' +
+                                    ' <input type="hidden" name="standrad" value="' + response.categoryName + '">\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Mon To Fri">Monday to Friday</label></div>\n' +
+                                    ' <input type="radio" id="monday_to_fridar" name="standrad_price" value="' + response.price_monday_to_friday + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_monday_to_friday + '">' + response.price_monday_to_friday + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Mon To Fri">Friday to Monday</label></div>\n' +
+                                    ' <input type="radio" id="friday_to_monday" name="standrad_price" value="' + response.price_friday_to_monday + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_friday_to_monday + '">' + response.price_friday_to_monday + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <input type="radio" id="s_seven_nights" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+                                    ' \n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' </div>';
+                                $('.price_main_div').append(standrad_price);
+                            }
+                            if (response.categoryName === 'Flexible') {
+                                var flexible_price = '';
+                                flexible_price += ' <div class="row">\n' +
+                                    ' <input type="hidden" name="flexible" value="' + response.categoryName + '">\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Fri To Sat">Friday to Saturday</label></div>\n' +
+                                    ' <input type="radio" id="monday_to_fridar" dateSelect="1" name="standrad_price" value="' + response.price_friday_to_saturday + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_friday_to_saturday + '">' + response.price_friday_to_saturday + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Standing Charge">Standing Charge</label></div>\n' +
+                                    ' <input type="radio" id="standing_charge" dateSelect="1" name="standrad_price" value="' + response.price_standing_charge + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_standing_charge + '">' + response.price_standing_charge + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Sunday To Thursday">Sunday to Thursday</label></div>\n' +
+                                    ' <input type="radio" id="standing_charge" dateSelect="4" name="standrad_price" value="' + response.price_sunday_to_thursday + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_sunday_to_thursday + '">' + response.price_sunday_to_thursday + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <div><label for="Friday to Monday">Friday to Monday</label></div>\n' +
+                                    ' <input type="radio" id="standing_charge" dateSelect="3" name="standrad_price" value="' + response.weekend_friday_to_monday + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.weekend_friday_to_monday + '">' + response.weekend_friday_to_monday + '</label>\n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' <div class="col-lg-4">\n' +
+                                    ' <div><label for="Mon To Fri">Seven Nihgts</label></div>\n' +
+                                    ' <div class="custom-control custom-radio">\n' +
+                                    ' <input type="radio" id="s_seven_nights" dateSelect="7" name="standrad_price" value="' + response.price_seven_night + '" onclick="getPrice();">\n' +
+                                    ' <label for="' + response.price_seven_night + '">' + response.price_seven_night + '</label>\n' +
+                                    ' \n' +
+                                    ' </div>\n' +
+                                    ' </div>\n' +
+                                    ' </div>';
+                                $('.price_main_div').append(flexible_price);
+                            }
+                        }
+                    });
+                    $('#availability-modal').modal('show');
+                }*/
+            });
+        });
+
+        function getPrice() {
+            var price = $("input[name='standrad_price']:checked").val();
+            $('#price').val(price);
+            var discount = $('#discount_value').val();
+            var selectedPrice = $('#price').val();
+            var originalPrice = selectedPrice - discount;
+            $('#total_price').val(originalPrice);
+            $('#remaing_price').val(0);
+        }
+
+        $("#total_price").keyup(function () {
+
+                var price = $('#price').val();
+                var payAmount = parseInt($(this).val());
+                var totalPrice = parseInt(price);
+                var changePrice = parseInt($(this).val());
+                if (!isNaN(payAmount)) {
+                    if (payAmount <= totalPrice) {
+                        var remainingPrice = totalPrice - changePrice;
+                        $('#remaing_price').val(remainingPrice);
+                    } else {
+                        $(this).val(0);
+                        $('#remaing_price').val(totalPrice);
+                    }
+                } else {
+                    $('#remaing_price').val(totalPrice);
+                }
+            }
+        );
+
     </script>
 @endsection
