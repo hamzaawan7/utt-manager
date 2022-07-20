@@ -170,7 +170,7 @@
 							$('#property_id').val(selectedPropertyId);
 							$('#owner_property_id').val(selectedPropertyId);
 							var fromDate = startDateCheck;
-							var fromDay = getDayName(new Date(fromDate))
+							fromDay = getDayName(new Date(fromDate))
 							var date = new Date(Date.parse(startDateCheck));
 							date.setDate(date.getDate() + parseInt(range));
 							var d = date;
@@ -178,12 +178,14 @@
 							var month = d.getMonth() + 1;
 							var year = d.getFullYear();
 							var toDate = year + "-" + month + "-" + date;
-							var toDay = getDayName(new Date(toDate));
+							toDay = getDayName(new Date(toDate));
+							console.log(fromDay)
 							if (range == 3 || range  == 5 || range == 7) {
-								if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
+								/*if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
 									console.log(range)
 									$(document).on("click", ".day_cell", function () {
 										$('#availability-modal').modal('show');
+										range = 0;
 										$('#total_price').val(response.price_friday_to_monday)
 										$('#price').val(response.price_friday_to_monday)
 										$('#from_date').val(fromDate);
@@ -191,8 +193,8 @@
 										$('#owner_from_date').val(fromDate);
 										$('#owner_to_date').val(toDate);
 									});
-								}
-								if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
+								}*/
+								/*if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
 									$(document).on("click", ".day_cell", function () {
 										$('#availability-modal').modal('show');
 										$('#price').val(response.price_monday_to_friday)
@@ -202,9 +204,9 @@
 										$('#owner_from_date').val(fromDate);
 										$('#owner_to_date').val(toDate);
 									});
-								}
+								}*/
 
-								if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
+								/*if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
 									$(document).on("click", ".day_cell", function () {
 										$('#availability-modal').modal('show');
 										$('#total_price').val(response.price_seven_night);
@@ -214,7 +216,7 @@
 										$('#owner_from_date').val(fromDate);
 										$('#owner_to_date').val(toDate);
 									});
-								}
+								}*/
 							}
 							else {
 								toastr.warning('This Property is Standard Please Select Range Between 3 and 5 and 7', 'warning');
@@ -224,6 +226,18 @@
 						}
 					}
 				});
+			});
+
+			$(document).on("click", ".day_cell", function () {
+				if (range == 3 || range  == 5 || range == 7) {
+					$('#availability-modal').modal('show');
+				}
+				/*$('#total_price').val(response.price_friday_to_monday)
+				$('#price').val(response.price_friday_to_monday)
+				$('#from_date').val(fromDate);
+				$('#to_date').val(toDate);
+				$('#owner_from_date').val(fromDate);
+				$('#owner_to_date').val(toDate);*/
 			});
 
 			function getDayName(date = new Date(), locale = 'en-US') {
