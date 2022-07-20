@@ -33,6 +33,20 @@ Run This Command To Enter Jobs in queue
 php artisan queue:table
 ```
 
+Note For Create Booking
+
+```bash
+# You Need to Add Credential in Environment File For Sending Email After Create Booking 
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=2b5b536ef6e29e
+MAIL_PASSWORD=e141285ceedf62
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=3amigos@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
 Edit Environment File For Jobs
 
 ```bash
@@ -46,3 +60,4 @@ Run Commands for seeder
 # insert data into database 
 php artisan db:seed
 ```
+
