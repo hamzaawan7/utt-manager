@@ -126,6 +126,7 @@
 				$('.multiple-hover')
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
 				$(this).addClass('selected  startDate');
+				$(this).attr("data-property", selectedPropertyId);
 				const nextAll = $(this).nextAll();
 				for (let i = 0; i < range; i++) {
 					if (i === range - 1) {
@@ -153,8 +154,8 @@
 			$(document).on("mouseleave", ".rescalendar_day_cells .day_cell", function (e) {
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
 				$('.day_cell').each(function (index, day_cell) {
-					if (($(day_cell).attr('data-celldate') === selectedPropertyId) && (!disableAllDates.includes($(day_cell).attr('data-celldate')))) {
-						$(day_cell).removeClass("disabledDay")
+					if (($(this).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(this).attr('data-celldate')))) {
+						$(this).removeClass("disabledDay")
 					}
 				});
 			});
