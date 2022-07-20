@@ -93,8 +93,13 @@
 	<script>
 		let selectedPropertyId = 0;
 		let startDateCheck = 0;
-		let fromDay = '';
-		let toDay = '';
+		let responseFromDate = 0;
+		let responseToDate = 0;
+		let priceSevenNights = 0;
+		let priceModayToFriday = 0;
+		let priceFridayToMonday = 0;
+		let fromDay = 0;
+		let toDay = 0;
 		let disableAllDates = [];
 		const disabledDates = '{!! json_encode($availabilityList) !!}';
 		$.each(JSON.parse(disabledDates), function (index, value) {
@@ -179,48 +184,41 @@
 							var year = d.getFullYear();
 							var toDate = year + "-" + month + "-" + date;
 							toDay = getDayName(new Date(toDate));
-							console.log(fromDay)
-							if (range == 3 || range  == 5 || range == 7) {
-								/*if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
+							/*responseFromDate = fromDate;
+							responseToDate = toDate;
+							PriceSevenNights = response.price_seven_night;
+							PriceFridayToMonday = response.price_friday_to_monday;
+							PriceModayToFriday = response.price_monday_to_friday;*/
+								if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
 									console.log(range)
-									$(document).on("click", ".day_cell", function () {
-										$('#availability-modal').modal('show');
-										range = 0;
-										$('#total_price').val(response.price_friday_to_monday)
-										$('#price').val(response.price_friday_to_monday)
+									priceFridayToMonday = response.price_friday_to_monday;
+									console.log(priceFridayToMonday)
+										/*$('#price').val(response.price_friday_to_monday)
 										$('#from_date').val(fromDate);
 										$('#to_date').val(toDate);
 										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);
-									});
-								}*/
-								/*if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
-									$(document).on("click", ".day_cell", function () {
-										$('#availability-modal').modal('show');
-										$('#price').val(response.price_monday_to_friday)
-										$('#total_price').val(response.price_monday_to_friday)
+										$('#owner_to_date').val(toDate);*/
+								}
+								if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
+										priceModayToFriday = response.price_monday_to_friday;
+										/*$('#total_price').val(response.price_monday_to_friday)
 										$('#from_date').val(fromDate);
 										$('#to_date').val(toDate);
 										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);
-									});
-								}*/
+										$('#owner_to_date').val(toDate);*/
+								}
 
-								/*if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
-									$(document).on("click", ".day_cell", function () {
-										$('#availability-modal').modal('show');
-										$('#total_price').val(response.price_seven_night);
-										$('#price').val(response.price_seven_night);
+								if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
+									priceSevenNights = response.price_seven_night;
+										/*$('#price').val(response.price_seven_night);
 										$('#from_date').val(fromDate);
 										$('#to_date').val(toDate);
 										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);
-									});
-								}*/
-							}
-							else {
+										$('#owner_to_date').val(toDate);*/
+								}
+							/*else {
 								toastr.warning('This Property is Standard Please Select Range Between 3 and 5 and 7', 'warning');
-							}
+							}*/
 						} else {
 							toastr.warning('This Property is not Standard', 'warning');
 						}
@@ -229,9 +227,12 @@
 			});
 
 			$(document).on("click", ".day_cell", function () {
-				if (range == 3 || range  == 5 || range == 7) {
+				if ((fromDay == 'Friday' && toDay == 'Monday' && range == 3)
+				|| (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) || (fromDay == 'Monday' && toDay == 'Saturday' && range == 5)) {
+					$('#total_price').val(priceModayToFriday);
 					$('#availability-modal').modal('show');
 				}
+
 				/*$('#total_price').val(response.price_friday_to_monday)
 				$('#price').val(response.price_friday_to_monday)
 				$('#from_date').val(fromDate);
