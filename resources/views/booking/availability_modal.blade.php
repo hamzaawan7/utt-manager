@@ -95,7 +95,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Pay Amount</label>
-                                                <input type="number" name="pay_amount" min="0" id="total_price" class="form-control">
+                                                <input type="number" name="pay_amount" id="total_price" class="form-control">
                                                 <div class="text-danger clear-error" id="guest_error"></div>
                                             </div>
                                         </div>
