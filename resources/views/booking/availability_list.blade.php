@@ -89,43 +89,42 @@
 @endsection
 
 @section('scripts')
-	<script src="{{asset('src/js/rescalendar.js')}}"></script>
-	<script>
-		let selectedPropertyId = 0;
-		let startDateCheck = 0;
-		let responseFromDate = 0;
-		let responseToDate = 0;
-		let priceSevenNights = 0;
-		let priceModayToFriday = 0;
-		let priceFridayToMonday = 0;
-		let fromDay = 0;
-		let toDay = 0;
-		let disableAllDates = [];
-		const disabledDates = '{!! json_encode($availabilityList) !!}';
-		$.each(JSON.parse(disabledDates), function (index, value) {
-			$('.rescalendar_' + value.id).rescalendar({
-				id: 'my_calendar',
-				format: 'YYYY-MM-DD',
-				dataKeyField: 'name',
-				dataKeyValues: [''],
-				jumpSize: 2,
-				disabledDays: value.dates,
-			});
-		});
-
-		$(document).on("mouseenter", ".rescalendar", function () {
-			if ($(this).attr('property') !== undefined) {
-				selectedPropertyId = $(this).attr('property');
-				$.each(JSON.parse(disabledDates), function (index, value) {
-					if (value.id == selectedPropertyId) {
-						disableAllDates = value.dates
-					}
-				})
-			}
-		});
-
+    <script src="{{asset('src/js/rescalendar.js')}}"></script>
+    <script>
 		$(document).ready(function () {
+			let selectedPropertyId = 0;
+			let totalPrice = 0;
+			let price = 0;
 			let range = 2;
+			let fromDate = 0;
+			let fromDay = 0;
+			let toDate = 0;
+			let toDay = 0;
+			let disableAllDates = [];
+			const disabledDates = '{!! json_encode($availabilityList) !!}';
+
+			$.each(JSON.parse(disabledDates), function (index, value) {
+				$('.rescalendar_' + value.id).rescalendar({
+					id: 'my_calendar',
+					format: 'YYYY-MM-DD',
+					dataKeyField: 'name',
+					dataKeyValues: [''],
+					jumpSize: 2,
+					disabledDays: value.dates,
+				});
+			});
+
+			$(document).on("mouseenter", ".rescalendar", function () {
+				if ($(this).attr('property') !== undefined) {
+					selectedPropertyId = $(this).attr('property');
+					$.each(JSON.parse(disabledDates), function (index, value) {
+						if (value.id == selectedPropertyId) {
+							disableAllDates = value.dates
+						}
+					})
+				}
+			});
+
 			$(".multiple-hover").click(function () {
 				range = $(this).val();
 				$('.selected-range-of-days').removeClass('selected-day-rang')
@@ -133,8 +132,6 @@
 			});
 			$(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
 				$("#customer_booking")[0].reset();
-				$('#from_date').val('');
-				$('#to_date').val('');
 				fromDay = '';
 				toDay = '';
 				const startDateCheck = $(this).attr('data-celldate');
@@ -151,14 +148,13 @@
 					}
 				}
 				for (let i = 0; i < range; i++) {
-					if (disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
+					if (disableAllDates.includes($(this).attr('data-celldate'))
+						|| disableAllDates.includes($(nextAll[i]).attr('data-celldate'))) {
 						const dNextAll = $(this).nextAll();
-						$(this).removeClass("selected end_date startDate");
+						$(this).removeClass("selected end_date startDate rescalendar_day_cells_hover");
 						$(this).addClass("disabledDay");
-						$(dNextAll[i]).removeClass("rescalendar_day_cells_hover");
 						for (let j = 0; j < range; j++) {
-							$(dNextAll[j]).removeClass("rescalendar_day_cells_hover");
-							$(dNextAll[j]).removeClass("selected end_date");
+							$(dNextAll[j]).removeClass("selected end_date rescalendar_day_cells_hover");
 							$(dNextAll[j]).addClass("disabledDay");
 							$(dNextAll[j]).attr("data-property", selectedPropertyId);
 						}
@@ -174,7 +170,7 @@
 						if (categoryName === 'Standard') {
 							$('#property_id').val(selectedPropertyId);
 							$('#owner_property_id').val(selectedPropertyId);
-							var fromDate = startDateCheck;
+							fromDate = startDateCheck;
 							fromDay = getDayName(new Date(fromDate))
 							var date = new Date(Date.parse(startDateCheck));
 							date.setDate(date.getDate() + parseInt(range));
@@ -182,40 +178,26 @@
 							var date = d.getDate();
 							var month = d.getMonth() + 1;
 							var year = d.getFullYear();
-							var toDate = year + "-" + month + "-" + date;
+							toDate = year + "-" + month + "-" + date;
 							toDay = getDayName(new Date(toDate));
 							/*responseFromDate = fromDate;
 							responseToDate = toDate;
 							PriceSevenNights = response.price_seven_night;
 							PriceFridayToMonday = response.price_friday_to_monday;
 							PriceModayToFriday = response.price_monday_to_friday;*/
-								if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
-									console.log(range)
-									priceFridayToMonday = response.price_friday_to_monday;
-									console.log(priceFridayToMonday)
-										/*$('#price').val(response.price_friday_to_monday)
-										$('#from_date').val(fromDate);
-										$('#to_date').val(toDate);
-										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);*/
-								}
-								if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
-										priceModayToFriday = response.price_monday_to_friday;
-										/*$('#total_price').val(response.price_monday_to_friday)
-										$('#from_date').val(fromDate);
-										$('#to_date').val(toDate);
-										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);*/
-								}
+							if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
+								totalPrice = response.price_friday_to_monday;
+								price = response.price_friday_to_monday;
+							}
+							if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
+								totalPrice = response.price_monday_to_friday;
+								price = response.price_monday_to_friday;
+							}
 
-								if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
-									priceSevenNights = response.price_seven_night;
-										/*$('#price').val(response.price_seven_night);
-										$('#from_date').val(fromDate);
-										$('#to_date').val(toDate);
-										$('#owner_from_date').val(fromDate);
-										$('#owner_to_date').val(toDate);*/
-								}
+							if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
+								totalPrice = response.price_seven_night;
+								price = response.price_seven_night;
+							}
 							/*else {
 								toastr.warning('This Property is Standard Please Select Range Between 3 and 5 and 7', 'warning');
 							}*/
@@ -228,17 +210,23 @@
 
 			$(document).on("click", ".day_cell", function () {
 				if ((fromDay == 'Friday' && toDay == 'Monday' && range == 3)
-				|| (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) || (fromDay == 'Monday' && toDay == 'Saturday' && range == 5)) {
-					$('#total_price').val(priceModayToFriday);
+					|| (fromDay == 'Monday' && toDay == 'Saturday' && range == 5)
+					|| (fromDay == 'Monday' && toDay == 'Saturday' && range == 5)) {
 					$('#availability-modal').modal('show');
+
+					$('#total_price').attr('value', totalPrice);
+					$('#price').attr('value', totalPrice);
+					$('#from_date').val(fromDate);
+					$('#to_date').val(toDate);
+					$('#owner_from_date').val(fromDate);
+					$('#owner_to_date').val(toDate);
 				}
 
-				/*$('#total_price').val(response.price_friday_to_monday)
-				$('#price').val(response.price_friday_to_monday)
-				$('#from_date').val(fromDate);
-				$('#to_date').val(toDate);
-				$('#owner_from_date').val(fromDate);
-				$('#owner_to_date').val(toDate);*/
+				$(this).attr('data-celldate', '');
+				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
+					toastr.warning("Dates Not Available", 'warning');
+					return;
+				}
 			});
 
 			function getDayName(date = new Date(), locale = 'en-US') {
@@ -249,38 +237,22 @@
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover  startDate end_date');
 				$('.day_cell').each(function (index, day_cell) {
 					if (($(this).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(this).attr('data-celldate')))) {
-						$(this).removeClass("disabledDay")
-						fromDay = '';
-						toDay   = '';
+						$(this).removeClass("disabledDay");
 					}
 				});
 			});
 
-			$(document).on("click", ".day_cell", function () {
-				$("#customer_booking")[0].reset();
-				$('#from_date').val('');
-				$('#to_date').val('');
-				 fromDay = '';
-				toDay = '';
-				$(this).attr('data-celldate','');
-				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
-					toastr.warning("Dates Not Available", 'warning');
-					return;
-				}
-			});
-		});
+			function getPrice() {
+				var price = $("input[name='standrad_price']:checked").val();
+				$('#price').val(price);
+				var discount = $('#discount_value').val();
+				var selectedPrice = $('#price').val();
+				var originalPrice = selectedPrice - discount;
+				$('#total_price').val(originalPrice);
+				$('#remaing_price').val(0);
+			}
 
-		function getPrice() {
-			var price = $("input[name='standrad_price']:checked").val();
-			$('#price').val(price);
-			var discount = $('#discount_value').val();
-			var selectedPrice = $('#price').val();
-			var originalPrice = selectedPrice - discount;
-			$('#total_price').val(originalPrice);
-			$('#remaing_price').val(0);
-		}
-
-		$("#total_price").keyup(function () {
+			$("#total_price").keyup(function () {
 
 					var price = $('#price').val();
 					var payAmount = parseInt($(this).val());
@@ -298,7 +270,7 @@
 						$('#remaing_price').val(totalPrice);
 					}
 				}
-		);
-
-	</script>
+			);
+		});
+    </script>
 @endsection
