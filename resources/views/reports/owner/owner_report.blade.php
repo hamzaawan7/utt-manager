@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
 @if($owners->ownerProperties)
     <div class="container-fluid print-btn">
         <a href="{{url('/owner/statement/print',['id' => $owners->id])}}" target="_blank"><i
@@ -8,7 +14,7 @@
             <div class="col-sm-12 col-md-12 mb-30">
                 <div class="card card-box">
                     <h5 class="card-header weight-500">{{$ownerProperty->property->name}}</h5>
-                    <table class="table">
+                    <table  width="757" border="1" >
                         <thead>
                         <tr>
                             <th>#</th>
@@ -43,3 +49,5 @@
         @endif
     @endforeach
 @endif
+</body>
+</html>

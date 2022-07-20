@@ -93,6 +93,8 @@
 	<script>
 		let selectedPropertyId = 0;
 		let startDateCheck = 0;
+		let fromDay = '';
+		let toDay = '';
 		let disableAllDates = [];
 		const disabledDates = '{!! json_encode($availabilityList) !!}';
 		$.each(JSON.parse(disabledDates), function (index, value) {
@@ -125,6 +127,11 @@
 				$(this).addClass('selected-day-rang');
 			});
 			$(document).on("mouseenter", ".rescalendar_day_cells .day_cell", function (e) {
+				$("#customer_booking")[0].reset();
+				$('#from_date').val('');
+				$('#to_date').val('');
+				fromDay = '';
+				toDay = '';
 				const startDateCheck = $(this).attr('data-celldate');
 				$('.multiple-hover')
 				$(".rescalendar_day_cells .day_cell").removeClass('selected rescalendar_day_cells_hover startDate end_date');
@@ -162,7 +169,6 @@
 						if (categoryName === 'Standard') {
 							$('#property_id').val(selectedPropertyId);
 							$('#owner_property_id').val(selectedPropertyId);
-							console.log(range)
 							var fromDate = startDateCheck;
 							var fromDay = getDayName(new Date(fromDate))
 							var date = new Date(Date.parse(startDateCheck));
@@ -174,10 +180,9 @@
 							var toDate = year + "-" + month + "-" + date;
 							var toDay = getDayName(new Date(toDate));
 							if (range == 3 || range  == 5 || range == 7) {
-								if (range == 3 && fromDay == 'Friday' && toDay == 'Monday') {
+								if (fromDay == 'Friday' && toDay == 'Monday' && range == 3) {
 									console.log(range)
 									$(document).on("click", ".day_cell", function () {
-										console.log(response)
 										$('#availability-modal').modal('show');
 										$('#total_price').val(response.price_friday_to_monday)
 										$('#price').val(response.price_friday_to_monday)
@@ -187,7 +192,7 @@
 										$('#owner_to_date').val(toDate);
 									});
 								}
-								if (range == 5 && fromDay == 'Monday' && toDay == 'Saturday') {
+								if (fromDay == 'Monday' && toDay == 'Saturday' && range == 5) {
 									$(document).on("click", ".day_cell", function () {
 										$('#availability-modal').modal('show');
 										$('#price').val(response.price_monday_to_friday)
@@ -199,8 +204,7 @@
 									});
 								}
 
-								if (range == 7 && fromDay == 'Monday' && toDay == 'Monday') {
-									console.log(range)
+								if (fromDay == 'Monday' && toDay == 'Monday' && range == 7) {
 									$(document).on("click", ".day_cell", function () {
 										$('#availability-modal').modal('show');
 										$('#total_price').val(response.price_seven_night);
@@ -231,12 +235,18 @@
 				$('.day_cell').each(function (index, day_cell) {
 					if (($(this).attr('data-property') === selectedPropertyId) && (!disableAllDates.includes($(this).attr('data-celldate')))) {
 						$(this).removeClass("disabledDay")
+						fromDay = '';
+						toDay   = '';
 					}
 				});
 			});
 
 			$(document).on("click", ".day_cell", function () {
 				$("#customer_booking")[0].reset();
+				$('#from_date').val('');
+				$('#to_date').val('');
+				 fromDay = '';
+				toDay = '';
 				$(this).attr('data-celldate','');
 				if ($(this).attr('class') === 'day_cell middleDay disabledDay' || $(this).attr('class') === 'day_cell disabledDay') {
 					toastr.warning("Dates Not Available", 'warning');
