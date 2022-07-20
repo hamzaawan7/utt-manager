@@ -223,6 +223,10 @@ td.day_cell.selected.end_date span.dia {
     text-align: right;
     margin-bottom: 10px;
 }
+.selected-day-rang{
+    background-color: #0400ffad;
+    border-radius: 15px;
+}
 
 
 /*Reports Table css*/
