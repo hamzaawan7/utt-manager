@@ -1,9 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-    @if($owners->ownerProperties)
+    @if(@$owners->ownerProperties)
         <div class="container-fluid print-btn">
-            <a href="{{url('/owner/statement/print',['id' => $owners->id])}}" target="_blank"><i class="micon fa fa-print fa-2x" aria-hidden="true"></i></a>
+            <a href="{{url('/owner/statement/print',['id' => $owners->id])}}" target="_blank"><i
+                        class="micon fa fa-print fa-2x" aria-hidden="true"></i></a>
         </div>
         @foreach($owners->ownerProperties as $ownerProperty)
             @if($ownerProperty->property->bookings)
@@ -42,7 +43,11 @@
                         </table>
                     </div>
                 </div>
+            @else
+                <h4 style="text-align: center; margin-top: 20px;">No Record Found</h4>
             @endif
         @endforeach
+    @else
+        <h4 style="text-align: center; margin-top: 20px;">No Record Found</h4>
     @endif
 @endsection

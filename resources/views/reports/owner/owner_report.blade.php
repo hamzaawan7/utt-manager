@@ -21,13 +21,13 @@
             background-color: #ddd;
         }
 
-        #ownerPdf th {
+        /*#ownerPdf th {
             padding-top: 12px;
             padding-bottom: 12px;
             text-align: left;
             background-color: #96b4a9;
             color: white;
-        }
+        }*/
     </style>
 </head>
 <body>
@@ -52,9 +52,9 @@
                         $total_income+=$ownerBooking->total_price;
                     @endphp
                     <tr>
-                        <td>{{$ownerBooking->id}}</td>
+                        <td>{{$ownerProperty->property->id}}</td>
                         <td>{{$ownerProperty->property->name}}</td>
-                        <td>{{$ownerProperty->property->name}}</td>
+                        <td>{{$ownerProperty->property->bank_account_number}}</td>
                         <td>{{$ownerBooking->total_price}}</td>
                     </tr>
                 @endforeach
